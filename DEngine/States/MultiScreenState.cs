@@ -2,7 +2,7 @@
 
 namespace DEngine.States
 {
-    abstract class MultiScreenState : GameState
+    public abstract class MultiScreenState : GameState
     {
         protected List<Screen> Screens;
 
