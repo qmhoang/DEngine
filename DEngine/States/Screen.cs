@@ -3,9 +3,9 @@ using libtcod;
 
 namespace DEngine.States
 {
-    abstract class Screen
+    public abstract class Screen
     {
-        public Point ScreenPosition { get; private set; }
+        public Point ScreenPos { get; private set; }
         protected readonly TCODConsole screen;        
 
         public int Height {
@@ -20,7 +20,7 @@ namespace DEngine.States
         }
 
         protected Screen(Point screenPos, TCODConsole screen) {
-            this.ScreenPosition = screenPos;
+            this.ScreenPos = screenPos;
             this.screen = screen;
         }
 

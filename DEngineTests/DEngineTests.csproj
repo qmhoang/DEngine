@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FAA2CEF2-1844-4043-A582-AD4CDE346ADD}</ProjectGuid>
+    <ProjectGuid>{DC0F2469-35B0-4757-B6EB-970C3078754F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DEngine</RootNamespace>
-    <AssemblyName>DEngine</AssemblyName>
+    <RootNamespace>DEngineTests</RootNamespace>
+    <AssemblyName>DEngineTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -34,9 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libtcod-net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="nunit.framework, Version=2.5.7.10213, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\libtcod-net.dll</HintPath>
+      <HintPath>..\..\..\Code Libraries\NUnit-2.5.7.10213\bin\net-2.0\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,44 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\Actor.cs" />
-    <Compile Include="Actor\Traits\ActorAttribute.cs" />
-    <Compile Include="Core\Bresenham.cs" />
-    <Compile Include="Core\Calendar.cs" />
-    <Compile Include="Core\EventArgs.cs" />
-    <Compile Include="Core\GuidFactory.cs" />
-    <Compile Include="Core\Interfaces\IDead.cs" />
-    <Compile Include="Core\Interfaces\IDrawable.cs" />
-    <Compile Include="Core\Interfaces\IRefId.cs" />
-    <Compile Include="Core\Interfaces\IGuid.cs" />
-    <Compile Include="Core\Interfaces\IMoveable.cs" />
-    <Compile Include="Core\Interfaces\INoticeable.cs" />
-    <Compile Include="Core\Interfaces\ISeeable.cs" />
-    <Compile Include="Core\Interfaces\IUpdateable.cs" />
-    <Compile Include="Core\Interfaces\IStackable.cs" />
-    <Compile Include="Core\World.cs" />
-    <Compile Include="Extensions\RandomExtentions.cs" />
-    <Compile Include="Extensions\ColorExtensions.cs" />
-    <Compile Include="Extensions\ConsoleExtensions.cs" />
-    <Compile Include="Core\DeepCloneable.cs" />
-    <Compile Include="Core\Dice.cs" />
-    <Compile Include="Core\Pair.cs" />
-    <Compile Include="Core\Point.cs" />
+    <Compile Include="DiceTests.cs" />
+    <Compile Include="PointTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="States\Screen.cs" />
-    <Compile Include="States\Menus\MenuScreen.cs" />
-    <Compile Include="States\MultiScreenState.cs" />
-    <Compile Include="States\StateManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="libtcod-net-unmanaged.dll" />
-    <Content Include="libtcod-net.dll" />
-    <Content Include="libtcod-VS.dll" />
-    <Content Include="SDL.dll" />
-    <Content Include="zlib1.dll" />
+    <ProjectReference Include="..\DEngine\DEngine.csproj">
+      <Project>{FAA2CEF2-1844-4043-A582-AD4CDE346ADD}</Project>
+      <Name>DEngine</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

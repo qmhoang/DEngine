@@ -1,4 +1,4 @@
-﻿namespace Roguelike.Utility
+﻿namespace DEngine.Core
 {
     public class Pair<G, H>
     {

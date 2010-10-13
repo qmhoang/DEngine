@@ -1,7 +1,7 @@
 ﻿using System;
 using DEngine.Extensions;
 
-namespace Roguelike.Utility {
+namespace DEngine.Core {
     public struct Dice {
         public static Dice Invalid = new Dice(-1, -1, -1, -1);
 

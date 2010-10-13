@@ -2,7 +2,6 @@
 using System.Text;
 using DEngine.Core;
 using libtcod;
-using Roguelike.Utility;
 
 namespace DEngine.Extensions
 {
