@@ -52,22 +52,21 @@
     <Compile Include="Core\Bresenham.cs" />
     <Compile Include="Core\Calendar.cs" />
     <Compile Include="Core\EventArgs.cs" />
-    <Compile Include="Core\GuidFactory.cs" />
-    <Compile Include="Core\Interfaces\IDead.cs" />
-    <Compile Include="Core\Interfaces\IDrawable.cs" />
-    <Compile Include="Core\Interfaces\IRefId.cs" />
-    <Compile Include="Core\Interfaces\IGuid.cs" />
-    <Compile Include="Core\Interfaces\IMoveable.cs" />
-    <Compile Include="Core\Interfaces\INoticeable.cs" />
-    <Compile Include="Core\Interfaces\ISeeable.cs" />
-    <Compile Include="Core\Interfaces\IUpdateable.cs" />
-    <Compile Include="Core\Interfaces\IStackable.cs" />
+    <Compile Include="Core\RefIdFactory.cs" />
+    <Compile Include="Actor\ICopy.cs" />
+    <Compile Include="Actor\IDead.cs" />
+    <Compile Include="Actor\ITCODDrawable.cs" />
+    <Compile Include="Actor\IRefId.cs" />
+    <Compile Include="Actor\IGuid.cs" />
+    <Compile Include="Actor\IMoveable.cs" />
+    <Compile Include="Actor\IVisible.cs" />
+    <Compile Include="Actor\ISpot.cs" />
+    <Compile Include="Actor\IUpdateable.cs" />
     <Compile Include="Core\World.cs" />
     <Compile Include="Extensions\RandomExtentions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\ConsoleExtensions.cs" />
-    <Compile Include="Core\DeepCloneable.cs" />
-    <Compile Include="Core\Dice.cs" />
+    <Compile Include="Core\Range.cs" />
     <Compile Include="Core\Pair.cs" />
     <Compile Include="Core\Point.cs" />
     <Compile Include="Program.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="States\StateManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="artemis.dll" />
     <Content Include="libtcod-net-unmanaged.dll" />
     <Content Include="libtcod-net.dll" />
     <Content Include="libtcod-VS.dll" />

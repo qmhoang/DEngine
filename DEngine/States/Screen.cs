@@ -5,23 +5,23 @@ namespace DEngine.States
 {
     public abstract class Screen
     {
-        public Point ScreenPos { get; private set; }
-        protected readonly TCODConsole screen;        
+        public Point ConsolePosition { get; private set; }
+        protected readonly TCODConsole Console;        
 
         public int Height {
             get {
-                return screen.getHeight();
+                return Console.getHeight();
             }
         }
         public int Width { 
             get {
-                return screen.getWidth();    
+                return Console.getWidth();    
             } 
         }
 
-        protected Screen(Point screenPos, TCODConsole screen) {
-            this.ScreenPos = screenPos;
-            this.screen = screen;
+        protected Screen(Point screenPos, TCODConsole console) {
+            this.ConsolePosition = screenPos;
+            this.Console = console;
         }
 
         public abstract void Update();

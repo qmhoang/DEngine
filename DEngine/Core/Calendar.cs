@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DEngine.Core.Interfaces;
+using DEngine.Actor;
 
 namespace DEngine.Core {
     public class Calendar : IUpdateable {
