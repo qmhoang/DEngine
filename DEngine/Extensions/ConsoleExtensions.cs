@@ -3,10 +3,8 @@ using System.Text;
 using DEngine.Core;
 using libtcod;
 
-namespace DEngine.Extensions
-{
-    public static class ConsoleExtensions
-    {
+namespace DEngine.Extensions {
+    public static class ConsoleExtensions {
         public static void DrawColorChar(this TCODConsole console, Point p, char c, TCODColor color) {
             console.putCharEx(p.X, p.Y, c, color, console.getBackgroundColor());
         }
@@ -26,8 +24,8 @@ namespace DEngine.Extensions
 
         public static void PrintColorString(this TCODConsole console, string str, int x, int y, TCODColor fg, TCODColor bg,
                                             TCODAlignment alignment) {
-            var ofg = console.getForegroundColor();
-            var obg = console.getBackgroundColor();
+            TCODColor ofg = console.getForegroundColor();
+            TCODColor obg = console.getBackgroundColor();
             console.setForegroundColor(fg);
             console.setBackgroundColor(bg);
             console.printEx(x, y, TCODBackgroundFlag.None, alignment, str);
@@ -58,14 +56,16 @@ namespace DEngine.Extensions
         //TODO add escape chars
         public static void PrintColorFormattedString(this TCODConsole console, string str, int x, int y, TCODAlignment alignment,
                                                      params object[] args) {
-            StringBuilder sb = new StringBuilder(str);
+            var sb = new StringBuilder(str);
             sb.Replace("{", "");
             sb.Replace("}", "");
             console.printEx(x, y, TCODBackgroundFlag.None, alignment, sb.ToString());
 
             // reset x accounting for the missing { and } so that it starts from the leftmost position
-            if (alignment == TCODAlignment.RightAlignment) x = x - sb.Length + 1;
-            else if (alignment == TCODAlignment.CenterAlignment) x = x - sb.Length / 2;
+            if (alignment == TCODAlignment.RightAlignment)
+                x = x - sb.Length + 1;
+            else if (alignment == TCODAlignment.CenterAlignment)
+                x = x - sb.Length / 2;
 
             int start = 0, counter = 0;
             while (true) {
@@ -79,10 +79,10 @@ namespace DEngine.Extensions
                     int xpos = x + ptr - counter * 2 - 2;
                     if (args[counter] is Pair<TCODColor, TCODColor>) {
                         console.setCharForeground(xpos, y,
-                                                  ((Pair<TCODColor, TCODColor>)args[counter]).First);
-                        console.setCharBackground(xpos, y, ((Pair<TCODColor, TCODColor>)args[counter]).Second);
+                                                  ((Pair<TCODColor, TCODColor>) args[counter]).First);
+                        console.setCharBackground(xpos, y, ((Pair<TCODColor, TCODColor>) args[counter]).Second);
                     } else if (args[counter] is TCODColor)
-                        console.setCharForeground(xpos, y, (TCODColor)args[counter]);
+                        console.setCharForeground(xpos, y, (TCODColor) args[counter]);
                 }
                 counter++;
             }
@@ -90,14 +90,16 @@ namespace DEngine.Extensions
 
         public static void PrintColorFormattedString(this TCODConsole console, string str, int x, int y, TCODAlignment alignment,
                                                      params Tuple<TCODColor, TCODColor>[] args) {
-            StringBuilder sb = new StringBuilder(str);
+            var sb = new StringBuilder(str);
             sb.Replace("{", "");
             sb.Replace("}", "");
             console.printEx(x, y, TCODBackgroundFlag.None, alignment, sb.ToString());
 
             // reset x accounting for the missing { and } so that it starts from the leftmost position
-            if (alignment == TCODAlignment.RightAlignment) x = x - sb.Length + 1;
-            else if (alignment == TCODAlignment.CenterAlignment) x = x - sb.Length / 2;
+            if (alignment == TCODAlignment.RightAlignment)
+                x = x - sb.Length + 1;
+            else if (alignment == TCODAlignment.CenterAlignment)
+                x = x - sb.Length / 2;
 
             int start = 0, counter = 0;
             while (true) {
@@ -124,8 +126,6 @@ namespace DEngine.Extensions
         }
 
         public static void PrintColorFormattedStringRect(TCODConsole console, string str, int x, int y, TCODAlignment alignment,
-                                                     params object[] args) {
-
-        }
+                                                         params object[] args) {}
     }
 }

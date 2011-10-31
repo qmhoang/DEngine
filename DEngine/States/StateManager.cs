@@ -18,7 +18,7 @@ namespace DEngine.States {
     }
 
     public class StateManager {
-        private Stack<GameState> stateStack;
+        private readonly Stack<GameState> stateStack;
 
         public GameState CurrentState
         {
@@ -61,7 +61,7 @@ namespace DEngine.States {
                 foreach (var state in stateStack)
                 {
                     state.Update();
-                    if (state.HasFocus)
+                    if (state.HasFocus)     // if we have focus, the other states do not update
                         break;
                 }
             }
