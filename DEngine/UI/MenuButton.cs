@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Engine.Base;
+using DEngine.Core;
 
-namespace Engine.UI {
+namespace DEngine.UI {
     public class MenuButtonTemplate : ButtonTemplate {
 
         public List<string> Items { get; set; }

@@ -21,10 +21,10 @@
 
 using System;
 using System.Collections.Generic;
-using Engine.Base;
+using DEngine.Core;
 using libtcod;
 
-namespace Engine.UI {
+namespace DEngine.UI {
     /// <summary>
     /// Base class used for Entry template classes.
     /// </summary>

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Engine.Base;
+using DEngine.Core;
 using libtcod;
 
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     #region ListBox Helper Classes
     /// <summary>

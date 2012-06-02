@@ -1,7 +1,7 @@
 using System;
 using libtcod;
 
-namespace Engine.UI {
+namespace DEngine.UI {
     public class SolidProgressBar : ProgressBar {
         private libtcod.TCODSpecialCharacter block;
 

@@ -20,11 +20,11 @@
 //
 
 using System;
-using Engine.Base;
+using DEngine.Core;
 using libtcod;
 
 
-namespace Engine.UI {
+namespace DEngine.UI {
 
     #region Layout Direction Enum
 

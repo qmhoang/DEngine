@@ -20,10 +20,10 @@
 //
 
 using System;
-using Engine.Base;
+using DEngine.Core;
 using libtcod;
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     /// <summary>
     /// Contains the data needed to construct a CheckBox object.  A CheckBox will, by default, automatically

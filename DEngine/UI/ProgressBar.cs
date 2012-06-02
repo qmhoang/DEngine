@@ -1,6 +1,6 @@
-using Engine.Base;
+using DEngine.Core;
 
-namespace Engine.UI {
+namespace DEngine.UI {
     /// <summary>
     /// Base abstract class for all progress bars
     /// </summary>

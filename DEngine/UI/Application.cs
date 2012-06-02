@@ -1,12 +1,11 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Engine;
-using Engine.Base;
+using DEngine.Core;
 using libtcod;
 
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     #region ApplicationInfo
     /// <summary>

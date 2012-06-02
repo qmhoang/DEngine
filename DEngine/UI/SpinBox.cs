@@ -20,9 +20,9 @@
 //
 
 using System;
-using Engine.Base;
+using DEngine.Core;
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     public class SpinBoxTemplate : ControlTemplate
     {

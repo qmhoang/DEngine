@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Engine.Base;
-using Engine.Utility;
+using DEngine.Core;
 using libtcod;
 
 
-namespace Engine.UI {
+namespace DEngine.UI {
     #region ListBox Helper Classes
     /// <summary>
     /// Contains the label and tooltip text for each Listitem that will be added

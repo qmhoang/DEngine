@@ -21,10 +21,10 @@
 
 using System;
 using System.Collections.Generic;
-using Engine.Base;
+using DEngine.Core;
 using Engine.Utility;
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     /// <summary>
     /// The various UI Pigment types used by the framework.

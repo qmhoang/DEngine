@@ -21,11 +21,11 @@
 
 using System;
 using System.Collections.Generic;
-using Engine.Base;
+using DEngine.Core;
 using libtcod;
 
 
-namespace Engine.UI {
+namespace DEngine.UI {
     /// <summary>
     /// A callback method for the Schedule object must conform to this delegate.
     /// </summary>
