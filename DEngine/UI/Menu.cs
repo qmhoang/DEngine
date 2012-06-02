@@ -21,9 +21,9 @@
 
 using System;
 using System.Collections.Generic;
-using Engine.Base;
+using DEngine.Core;
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     #region Menu Helper Classes
     /// <summary>

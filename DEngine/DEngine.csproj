@@ -49,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\Actor.cs" />
-    <Compile Include="Actor\Traits\ActorAttribute.cs" />
     <Compile Include="Utility\AlternativeDictionary.cs" />
     <Compile Include="Utility\Factory.cs" />
     <Compile Include="Utility\Gaussian.cs" />
@@ -58,7 +57,7 @@
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Canvas.cs" />
     <Compile Include="UI\CheckBox.cs" />
-    <Compile Include="UI\Color.cs" />
+    <Compile Include="UI\Pigment.cs" />
     <Compile Include="UI\Component.cs" />
     <Compile Include="UI\Control.cs" />
     <Compile Include="Core\Bresenham.cs" />
@@ -115,7 +114,9 @@
     <Content Include="SDL.dll" />
     <Content Include="zlib1.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Actor\Traits\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

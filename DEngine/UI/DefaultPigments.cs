@@ -23,7 +23,7 @@ using System;
 using System.Collections.Generic;
 using Engine.Utility;
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     class DefaultPigments : StaticDictionary<PigmentType, Pigment>
     {

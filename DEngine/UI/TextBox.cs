@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Engine.Base;
+using DEngine.Core;
+using DEngine.UI;
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     public class TextBoxTemplate : PanelTemplate
     {

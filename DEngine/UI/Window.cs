@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Engine.Base;
-using Engine.Utility;
+using DEngine.Core;
 using libtcod;
 using System.Collections.ObjectModel;
 
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     #region Window Template Class
     /// <summary>

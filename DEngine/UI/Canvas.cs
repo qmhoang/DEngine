@@ -21,11 +21,11 @@
 
 using System;
 using System.Collections.Generic;
-using Engine.Base;
+using DEngine.Core;
 using libtcod;
 using System.Text;
 
-namespace Engine.UI
+namespace DEngine.UI
 {
     #region Enums
     /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DEngine.Actor.Traits;
 using DEngine.Core;
 using libtcod;
 

@@ -1,8 +1,8 @@
 using System;
-using Engine.Base;
+using DEngine.Core;
 using libtcod;
 
-namespace Engine.UI
+namespace DEngine.UI
 {
 	/// <summary>
 	/// Handles all the input polling and message dispatch to the attached
