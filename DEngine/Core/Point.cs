@@ -1,8 +1,12 @@
 ﻿using System;
 
 namespace DEngine.Core {
+    /// <summary>
+    /// Pair of ints (x, y) representing 2d coordinates position
+    /// </summary>
     public struct Point {
         public static readonly Point Zero = new Point(0, 0);
+        public static readonly Point Origin = new Point(0, 0);
         public static readonly Point One = new Point(1, 1);
         public static readonly Point North = new Point(0, -1);
         public static readonly Point South = new Point(0, 1);
@@ -12,7 +16,8 @@ namespace DEngine.Core {
         public static readonly Point Northeast = North + East;
         public static readonly Point Southwest = South + West;
         public static readonly Point Southeast = South + East;
-        public int X, Y;
+
+        readonly public int X, Y;
 
         public Point(Point v) : this(v.X, v.Y) { }
 
@@ -49,6 +54,10 @@ namespace DEngine.Core {
             return new Point(v.X * scalar, v.Y * scalar);
         }
 
+        public static Point operator /(Point v, int scalar) {
+            return new Point(v.X / scalar, v.Y / scalar);
+        }
+
         public static bool operator ==(Point v1, Point v2) {
             return v1.X == v2.X && v1.Y == v2.Y;
         }
@@ -69,11 +78,28 @@ namespace DEngine.Core {
             return Distance(this, p);
         }
 
-        public bool IsInCircle(Point centerOfCircle, int r) {
+        /// <summary>
+        /// Returns a new Point instance by adding dx to this.X and dy to this.Y.  This method
+        /// does not modify this Point instance.
+        /// </summary>
+        /// <param name="dx"></param>
+        /// <param name="dy"></param>
+        /// <returns></returns>
+        public Point Shift(int dx, int dy) {
+            return new Point(X + dx, Y + dy);
+        }
+
+        /// <summary>
+        /// Is current point within the circle
+        /// </summary>
+        /// <param name="centerOfCircle"></param>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        public bool IsInCircle(Point centerOfCircle, double r) {
             return IsInCircle(centerOfCircle.X, centerOfCircle.Y, r);
         }
 
-        public bool IsInCircle(int x, int y, int r) {
+        public bool IsInCircle(int x, int y, double r) {
             if (this.X < x - r || this.X > x + r)
                 return false;
             if (this.Y < y - r || this.Y > y + r)
@@ -105,7 +131,7 @@ namespace DEngine.Core {
             return X ^ Y;
         }
 
-        public new string ToString() {
+        public override string ToString() {
             return String.Format("({0}, {1})", X, Y);
         }
     }

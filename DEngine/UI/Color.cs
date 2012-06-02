@@ -1,0 +1,571 @@
+﻿using System;
+using libtcod;
+
+namespace Engine.UI
+{
+//    #region Color Class
+//    /// <summary>
+//    /// This class wraps a TCODColor in an immutable data type.  Provides nearly identical
+//    /// functionality as TCODColor.
+//    /// </summary>
+//    public class Color : IDisposable
+//    {
+//        #region Constructors
+//        // /////////////////////////////////////////////////////////////////////////////////
+//        /// <summary>
+//        /// Constructs a Color from specified tcodColor.  Makes a copy of the tcodColor instead
+//        /// of keeping a reference.
+//        /// </summary>
+//        /// <param name="tcodColor"></param>
+//        public Color(TCODColor tcodColor)
+//        {
+//            if (tcodColor == null)
+//            {
+//                throw new ArgumentNullException("tcodColor");
+//            }
+//
+//            red = tcodColor.Red;
+//            green = tcodColor.Green;
+//            blue = tcodColor.Blue;
+//
+//            color = new TCODColor(red, green, blue);
+//        }
+//        // /////////////////////////////////////////////////////////////////////////////////
+//
+//        // /////////////////////////////////////////////////////////////////////////////////
+//        /// <summary>
+//        /// Constructs a Color from the provided reg, green and blue values (0-255 for each)
+//        /// </summary>
+//        /// <param name="red"></param>
+//        /// <param name="green"></param>
+//        /// <param name="blue"></param>
+//        public Color(byte red, byte green, byte blue)
+//        {
+//            this.red = red;
+//            this.green = green;
+//            this.blue = blue;
+//
+//            color = new TCODColor(red, green, blue);
+//        }
+//        // /////////////////////////////////////////////////////////////////////////////////
+//
+//        // /////////////////////////////////////////////////////////////////////////////////
+//        /// <summary>
+//        /// Construct color given 3 byte integer (ex. 0xFFFFFF = white)
+//        /// </summary>
+//        /// <param name="packedColor"></param>
+//        public Color(long packedColor)
+//        {
+//            long r, g, b;
+//
+//            r = packedColor & 0xff0000;
+//            g = packedColor & 0x00ff00;
+//            b = packedColor & 0x0000ff;
+//
+//            r = r >> 16;
+//            g = g >> 8;
+//
+//
+//            this.red = (byte)r;
+//            this.green = (byte)g;
+//            this.blue = (byte)b;
+//
+//            color = new TCODColor(red, green, blue);
+//        }
+//        #endregion
+//        #region Public Properties
+//        /// <summary>
+//        /// Get the red value of color, 0-255
+//        /// </summary>
+//        public byte Red
+//        {
+//            get { return red; }
+//        }
+//        /// <summary>
+//        /// Get the green value of color, 0-255
+//        /// </summary>
+//        public byte Green
+//        {
+//            get { return green; }
+//        }
+//        /// <summary>
+//        /// Get the blue value of the color, 0-255
+//        /// </summary>
+//        public byte Blue
+//        {
+//            get { return blue; }
+//        }
+//        #endregion
+//        #region Public Methods
+//        /// <summary>
+//        /// Scales saturation by given amount (0.0 --> 1.0)
+//        /// Returns new instance - original instance is unchanged
+//        /// </summary>
+//        public Color ScaleSaturation(float scale)
+//        {
+//            TCODColor ret = new TCODColor();
+//
+//            float h, s, v;
+//            color.getHSV(out h, out s, out v);
+//
+//            ret.setHSV(h, s * scale, v);
+//
+//            return new Color(ret);
+//        }
+//        /// <summary>
+//        /// Scales value (brightness) by given amount (0.0 --> 1.0)
+//        /// Returns new instance - original instance is unchanged
+//        /// </summary>
+//        /// <param name="scale"></param>
+//        /// <returns></returns>
+//        public Color ScaleValue(float scale)
+//        {
+//            TCODColor ret = new TCODColor();
+//
+//            float h, s, v;
+//            color.getHSV(out h, out s, out v);
+//
+//            ret.setHSV(h, s, v * scale);
+//
+//            return new Color(ret);
+//        }
+//
+//        /// <summary>
+//        /// Replaces hue with given hue (0.0 --> 360.0)
+//        /// Returns new instance - original instance is unchanged
+//        /// </summary>
+//        /// <param name="hue"></param>
+//        /// <returns></returns>
+//        public Color ReplaceHue(float hue)
+//        {
+//            TCODColor ret = new TCODColor();
+//
+//            float h, s, v;
+//            color.getHSV(out h, out s, out v);
+//
+//            ret.setHSV(hue, s, v);
+//
+//            return new Color(ret);
+//        }
+//
+//        /// <summary>
+//        /// Replaces saturation with given saturation (0.0 --> 1.0)
+//        /// Returns new instance - original instance is unchanged
+//        /// </summary>
+//        /// <param name="saturation"></param>
+//        /// <returns></returns>
+//        public Color ReplaceSaturation(float saturation)
+//        {
+//            TCODColor ret = new TCODColor();
+//
+//            float h, s, v;
+//            color.getHSV(out h, out s, out v);
+//
+//            ret.setHSV(h, saturation, v);
+//
+//            return new Color(ret);
+//        }
+//
+//        /// <summary>
+//        /// Replaces value (brightness) with given value (0.0 --> 1.0)
+//        /// Returns new instance - original instance is unchanged
+//        /// </summary>
+//        /// <param name="value"></param>
+//        /// <returns></returns>
+//        public Color ReplaceValue(float value)
+//        {
+//            TCODColor ret = new TCODColor();
+//
+//            float h, s, v;
+//            color.getHSV(out h, out s, out v);
+//
+//            ret.setHSV(h, s, value);
+//
+//            return new Color(ret);
+//        }
+//
+//        /// <summary>
+//        /// Returns hue (0.0 --> 360.0)
+//        /// </summary>
+//        /// <returns></returns>
+//        public float GetHue()
+//        {
+//            float h, s, v;
+//            color.getHSV(out h, out s, out v);
+//
+//            return h;
+//        }
+//
+//        /// <summary>
+//        /// Returns saturation (0.0 --> 1.0)
+//        /// </summary>
+//        /// <returns></returns>
+//        public float GetSaturation()
+//        {
+//            float h, s, v;
+//            color.getHSV(out h, out s, out v);
+//
+//            return s;
+//        }
+//
+//        /// <summary>
+//        /// Returns value (brightness) (0.0 --> 1.0)
+//        /// </summary>
+//        /// <returns></returns>
+//        public float GetValue()
+//        {
+//            float h, s, v;
+//            color.getHSV(out h, out s, out v);
+//
+//            return v;
+//        }
+//
+//        /// <summary>
+//        /// Converts to a new instance of TCODColor
+//        /// </summary>
+//        /// <returns></returns>
+//        public TCODColor GetTCODColor()
+//        {
+//            return new TCODColor(color.Red, color.Green, color.Blue);
+//        }
+//
+//        /// <summary>
+//        /// Returns a string that will change the foreground color of the text to this color.
+//        /// </summary>
+//        /// <returns></returns>
+//        public string DoForegroundCode()
+//        {
+//            return CodeForeground + GetCode();
+//        }
+//
+//        /// <summary>
+//        /// Returns a string that will change the background color of the text to this color.
+//        /// </summary>
+//        /// <returns></returns>
+//        public string DoBackgroundCode()
+//        {
+//            return CodeBackground + GetCode();
+//        }
+//
+//        /// <summary>
+//        /// Returns a string that will set the colors of the text back to default
+//        /// </summary>
+//        /// <returns></returns>
+//        public string DoDefaultColors()
+//        {
+//            return Color.StopColorCode;
+//        }
+//
+//        private string GetCode()
+//        {
+//            char r = (char)(Math.Max(this.red, (byte)1));
+//            char g = (char)(Math.Max(this.green, (byte)1));
+//            char b = (char)(Math.Max(this.blue, (byte)1));
+//
+//            string str = r.ToString() + g.ToString() + b.ToString();
+//
+//            return str;
+//        }
+//
+//        /// <summary>
+//        /// Returns the foreground color code string.
+//        /// </summary>
+//        public static string CodeForeground
+//        {
+//            get
+//            {
+//                return colorCodeFore;
+//            }
+//        }
+//        static readonly string colorCodeFore = "\x06";
+//
+//        /// <summary>
+//        /// Returns the background color code string.
+//        /// </summary>
+//        public static string CodeBackground
+//        {
+//            get
+//            {
+//                return colorCodeBack;
+//            }
+//        }
+//        static readonly string colorCodeBack = "\x07";
+//
+//        /// <summary>
+//        /// Returns the stop color code string.
+//        /// </summary>
+//        public static string StopColorCode
+//        {
+//            get
+//            {
+//                return colorCodeStop;
+//            }
+//        }
+//        static readonly string colorCodeStop = "\x08";
+//
+//        public override string ToString()
+//        {
+//            return red.ToString("x2") + green.ToString("x2") + blue.ToString("x2");
+//        }
+//        #endregion
+//        #region Private Fields
+//
+//        private readonly byte red, green, blue;
+//        private readonly TCODColor color;
+//
+//        #endregion
+//        #region Public Static
+//
+//        /// <summary>
+//        /// Wrapper around TCODColor.Interpolate
+//        /// </summary>
+//        /// <param name="sourceColor"></param>
+//        /// <param name="destinationColor"></param>
+//        /// <param name="coefficient"></param>
+//        /// <returns></returns>
+//        public static Color Lerp(Color sourceColor, Color destinationColor, float coefficient)
+//        {
+//            TCODColor color = TCODColor.Interpolate(sourceColor.GetTCODColor(),
+//                destinationColor.GetTCODColor(), coefficient);
+//
+//            return new Color(color);
+//        }
+//
+//
+//        #endregion
+//        #region Dispose
+//        private bool _alreadyDisposed;
+//
+//        /// <summary>
+//        /// Default finalizer calls Dispose.
+//        /// </summary>
+//        ~Color()
+//        {
+//            Dispose(false);
+//        }
+//
+//        /// <summary>
+//        /// Safely dispose this object and all of its contents.
+//        /// </summary>
+//        public void Dispose()
+//        {
+//            Dispose(true);
+//            GC.SuppressFinalize(this);
+//        }
+//
+//        /// <summary>
+//        /// Override to add custom disposing code.
+//        /// </summary>
+//        /// <param name="isDisposing"></param>
+//        protected virtual void Dispose(bool isDisposing)
+//        {
+//            if (_alreadyDisposed)
+//                return;
+//            if (isDisposing)
+//            {
+//                color.Dispose();
+//            }
+//            _alreadyDisposed = true;
+//        }
+//
+//        #endregion
+//    }
+//    #endregion
+
+
+    #region Pigment Class
+    /// <summary>
+    /// Stores forground color, background color, and background flag in a convenient
+    /// single immutable data type
+    /// </summary>
+    public class Pigment : IDisposable
+    {
+        #region Constructors
+        // /////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Construct a Pigment given foreground and background colors and background flag
+        /// </summary>
+        /// <param name="foreground"></param>
+        /// <param name="background"></param>
+        /// <param name="bgFlag"></param>
+        public Pigment(Color foreground, Color background, TCODBackgroundFlag bgFlag)
+        {
+            fgColor = foreground;
+            bgColor = background;
+            this.bgFlag = bgFlag;
+        }
+        // /////////////////////////////////////////////////////////////////////////////////
+
+        // /////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// BGFlag defaults to TCODBackgroundFlag.Set
+        /// </summary>
+        public Pigment(Color foreground, Color background)
+            : this(foreground, background, TCODBackgroundFlag.Set)
+        {
+        }
+        // /////////////////////////////////////////////////////////////////////////////////
+
+        // /////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Construct a Pigment given foreground and background colors and background flag.
+        /// </summary>
+        public Pigment(long foreground, long background, TCODBackgroundFlag bgFlag)
+            : this(new Color(foreground), new Color(background), bgFlag)
+        {
+        }
+        // /////////////////////////////////////////////////////////////////////////////////
+
+        // /////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// BGFlag defaults to TCODBackgroundFlag.Set
+        /// </summary>
+        public Pigment(long foreground, long background)
+            : this(foreground, background, TCODBackgroundFlag.Set)
+        {
+        }
+        // /////////////////////////////////////////////////////////////////////////////////
+        #endregion
+        #region Public Properties
+        // /////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Get the foreground color
+        /// </summary>
+        public Color Foreground
+        {
+            get { return fgColor; }
+        }
+        // /////////////////////////////////////////////////////////////////////////////////
+
+        // /////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Get the background color
+        /// </summary>
+        public Color Background
+        {
+            get { return bgColor; }
+        }
+        // /////////////////////////////////////////////////////////////////////////////////
+
+        // /////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Get the background flag;
+        /// </summary>
+        public TCODBackgroundFlag BackgroundFlag
+        {
+            get { return bgFlag; }
+        }
+        // /////////////////////////////////////////////////////////////////////////////////
+        #endregion
+        #region Public Methods
+        // /////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Swaps a Pigments's foreground and background.  Returns a new Pigment instance,
+        /// this instance is unchanged.
+        /// </summary>
+        /// <returns></returns>
+        public Pigment Invert()
+        {
+            return new Pigment(Background, Foreground);
+        }
+
+        /// <summary>
+        /// Returns a new Pigment by replacing the foreground color.  This isntance remains
+        /// unchanged.
+        /// </summary>
+        /// <param name="newFGColor"></param>
+        /// <returns></returns>
+        public Pigment ReplaceForeground(Color newFGColor)
+        {
+            return new Pigment(newFGColor, Background);
+        }
+
+        /// <summary>
+        /// Returns a new Pigment by replacing the background color.  This isntance remains
+        /// unchanged.
+        /// </summary>
+        /// <param name="newBGColor"></param>
+        /// <returns></returns>
+        public Pigment ReplaceBackground(Color newBGColor)
+        {
+            return new Pigment(Foreground, newBGColor);
+        }
+
+        /// <summary>
+        /// Returns a new Pigment by replacing the background flag.  This isntance remains
+        /// unchanged.
+        /// </summary>
+        /// <param name="newBGFlag"></param>
+        /// <returns></returns>
+        public Pigment ReplaceBGFlag(TCODBackgroundFlag newBGFlag)
+        {
+            return new Pigment(Foreground, Background, newBGFlag);
+        }
+        // /////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns the embedded string code for this color.
+        /// <note>Embedded colors are currently not working correctly</note>
+        /// </summary>
+        /// <returns></returns>
+        public string GetCode()
+        {
+            string str = string.Format("{0}{1}",
+                Foreground.DoForegroundCode(),
+                Background.DoBackgroundCode());
+
+            return str;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0},{1}", Foreground.ToString(), Background.ToString());
+        }
+        #endregion
+        #region Private Fields
+        // /////////////////////////////////////////////////////////////////////////////////
+        private readonly Color fgColor;
+        private readonly Color bgColor;
+        private readonly TCODBackgroundFlag bgFlag;
+        // /////////////////////////////////////////////////////////////////////////////////
+        #endregion
+        #region Dispose
+        private bool _alreadyDisposed;
+
+        /// <summary>
+        /// Default finalizer calls Dispose.
+        /// </summary>
+        ~Pigment()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Safely dispose this object and its contents.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Override to add custom disposing code.
+        /// </summary>
+        /// <param name="isDisposing"></param>
+        protected virtual void Dispose(bool isDisposing)
+        {
+            if (_alreadyDisposed)
+                return;
+            if (isDisposing)
+            {
+                bgColor.Dispose();
+                fgColor.Dispose();
+            }
+            _alreadyDisposed = true;
+        }
+        #endregion
+
+    }
+    #endregion
+}

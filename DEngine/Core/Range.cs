@@ -2,84 +2,89 @@
 using DEngine.Extensions;
 
 namespace DEngine.Core {
-    public struct Range {
-        public static Range Invalid = new Range(-1, -1, -1, -1);
+    public interface IRand {
+        int Roll();
+    }
 
-        public int Min;
-        public int ExclusiveMax;
+    public struct Range : IRand {
+        public readonly int Min;
+        public readonly int Max;
+        public int InclusiveMax { get { return Max - 1; } }
 
-        public Range(int nums, int diceFaces)
-            : this((short)nums, (short)diceFaces, (short)0, (short)1) { }
+        public Range(int min, int max) {
+            if (min > max)
+                throw new ArgumentOutOfRangeException();
 
-        public Range(int nums, int diceFaces, int toAdd)
-            : this((short)nums, (short)diceFaces, (short)toAdd, (short)1) { }
-
-        public Range(int nums, int diceFaces, int toAdd, int multiplier)
-            : this((short)nums, (short)diceFaces, (short)toAdd, (short)multiplier) { }
-
-        public Range(short nums, short diceFaces)
-            : this(nums, diceFaces, (short)0, (short)1) { }
-
-        public Range(short nums, short diceFaces, short toAdd)
-            : this(nums, diceFaces, toAdd, (short)1) { }
-
-        public Range(short nums, short diceFaces, short toAdd, short multiplier) {
-            Min = (nums + toAdd) * multiplier;
-            ExclusiveMax = (nums * diceFaces + toAdd) * multiplier + 1;
+            Max = max;
+            Min = min;
         }
 
-        public Range(int inclusiveMax) {
-            Min = 0;
-            ExclusiveMax = inclusiveMax + 1;
-        }
-
-        public static bool operator ==(Range d1, Range d2) {
-            return d1.Min == d2.Min && d1.ExclusiveMax == d2.ExclusiveMax;
-        }
-
-        public static bool operator !=(Range d1, Range d2) {
-            return !(d1 == d2);
-        }
-
-        // 1d4, 1d8 + 1, 3d20 + 2 * 2, [4-16], 
-        public static Range ParseDice(string s) {
-            int dices, faces, add, mult;
-
-            if (s.Contains("-")) {
-                string[] s4 = s.Split('-');
-                int min = Int32.Parse(s4[0]);
-                int max = Int32.Parse(s4[1]);
-
-                return new Range(1, max - min + 1, min - 1);
-            }
-
-            string[] s1 = s.Split('*');
-            mult = s1.Length == 1 ? 1 : Int32.Parse(s1[1]);
-            string[] s2 = s1[0].Split('+');
-            add = s2.Length == 1 ? 0 : Int32.Parse(s2[1]);
-
-            string[] s3 = s2[0].Split('d');
-            if (s3.Length == 1) {
-                dices = 1;
-                faces = 1;
-                add = Int32.Parse(s3[0]);
-            } else {
-                dices = Int32.Parse(s3[0]);
-                faces = Int32.Parse(s3[1]);
-            }
-
-            return new Range(dices, faces, add, mult);
-        }
-
-        /// <summary>
-        /// Inclusive max
-        /// </summary>
-        public int InclusiveMax {
-            get { return ExclusiveMax - 1; }
+        public bool IsInRange(int value) {
+            return (Min <= value) && (value <= Max);
         }
 
         public int Roll() {
-            return RandomExtentions.Random.Next(Min, ExclusiveMax);
+            return RandomExtentions.Random.Next(Min, Max);
+        }
+    }
+
+    public struct Dice : IRand {
+        public static Dice Invalid = new Dice(-1, -1, -1, -1);
+
+        readonly public int Nums, DiceFaces, Modifier, Multiplier;
+
+        public Dice(int nums, int diceFaces)
+            : this(nums, diceFaces, 0, 1) { }
+
+        public Dice(int nums, int diceFaces, int modifier)
+            : this(nums, diceFaces, modifier, 1) { }
+
+        public Dice(int nums, int diceFaces, int modifier, int multiplier) {
+            Nums = nums;
+            DiceFaces = diceFaces;
+            Modifier = modifier;
+            Multiplier = multiplier;
+        }
+
+        // 1d4, 1d8 + 1, 3d20 + 2 * 2, 
+        public Dice(string s) {
+            int nums, diceFaces, modifier, multiplier;
+
+            //            if (s.Contains("-")) {
+            //                string[] s4 = s.Split('-');
+            //                int min = Int32.Parse(s4[0]);
+            //                int max = Int32.Parse(s4[1]);
+            //
+            //                return new Dice(1, max - min + 1, min - 1);
+            //            }
+
+            string[] s1 = s.Split('*');
+            multiplier = s1.Length == 1 ? 1 : Int32.Parse(s1[1]);
+            string[] s2 = s1[0].Split(new char[] { '+', '-' });
+            modifier = s2.Length == 1 ? 0 : Int32.Parse(s2[1]);
+
+            string[] s3 = s2[0].Split('d');
+            if (s3.Length == 1) {
+                nums = 1;
+                diceFaces = 1;
+                modifier = Int32.Parse(s3[0]);
+            } else {
+                nums = Int32.Parse(s3[0]);
+                diceFaces = Int32.Parse(s3[1]);
+            }
+
+            Nums = nums;
+            DiceFaces = diceFaces;
+            Modifier = s.Contains("-") ? -modifier : modifier;
+            Multiplier = multiplier;
+        }
+
+        public int Roll() {
+            short total = 0;
+            for (short i = 0; i < Nums; i++) {
+                total += (short)(RandomExtentions.Random.Next(DiceFaces) + 1);
+            }
+            return Multiplier * (total + Modifier);
         }
 
         // ReSharper disable InconsistentNaming
@@ -113,28 +118,37 @@ namespace DEngine.Core {
         }
 
         public int RollMax() {
-            return InclusiveMax;
+            if (Multiplier != 0)
+                return (int)Math.Round((double)(Multiplier * (DiceFaces * Nums)) + Modifier);
+            else
+                return (DiceFaces * Nums) + Modifier;
         }
 
         public override string ToString() {
-            return string.Format("{0}-{1}", Min, InclusiveMax);
-        }
+            bool hasMult = Multiplier != 1;
+            bool hasConstant = Modifier != 0;
 
-        public bool Equals(Range other) {
-            return other.Min == Min && other.ExclusiveMax == ExclusiveMax;
-        }
+            string multiplierFrontString = hasMult ? Multiplier + "*" : String.Empty;
+            string frontParen = hasMult || hasConstant ? "(" : String.Empty;
+            string endParen = hasMult || hasConstant ? ")" : String.Empty;
+            string constantSign = Modifier >= 0 ? "+" : String.Empty; // Minus will come with number
+            string constantEnd = hasConstant ? constantSign + Modifier : String.Empty;
 
-        public override bool Equals(object obj) {
-            if (ReferenceEquals(null, obj))
-                return false;
-            if (obj.GetType() != typeof(Range))
-                return false;
-            return Equals((Range)obj);
+            // 1d1 doesn't look nice
+            if (!hasMult && !hasConstant && Nums == 1 && DiceFaces == 1)
+                return "1";
+
+            return string.Format("{0}{1}{2}d{3}{4}{5}", multiplierFrontString, frontParen, Nums,
+                                 DiceFaces, constantEnd, endParen);
         }
 
         public override int GetHashCode() {
             unchecked {
-                return (Min * 397) ^ ExclusiveMax;
+                int result = Nums.GetHashCode();
+                result = (result * 397) ^ DiceFaces.GetHashCode();
+                result = (result * 397) ^ Modifier.GetHashCode();
+                result = (result * 397) ^ Multiplier.GetHashCode();
+                return result;
             }
         }
     }

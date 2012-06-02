@@ -5,7 +5,7 @@ using System.Text;
 using DEngine.Actor;
 
 namespace DEngine.Core {
-    public class Calendar : IUpdateable {
+    public class Calendar : IEntity {
         public int Second { get; private set; }
         public int Minute { get; private set; }
         public int Hour { get; private set; }
