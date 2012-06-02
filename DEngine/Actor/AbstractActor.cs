@@ -11,7 +11,7 @@ namespace DEngine.Actor {
     }
 
 
-    public abstract class Actor : IGuid, IEntity, IObject {
+    public abstract class AbstractActor : IGuid, IEntity, IObject {
         public const int DefaultActionCost = 100;
         public abstract string Name { get; }
 
