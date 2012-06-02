@@ -13,9 +13,9 @@ namespace DEngine.Core {
 
         public List<string> MessageBuffer { get; private set; }
 
-        private readonly List<IUpdateable> updateables;
-        private readonly List<IUpdateable> toAdds;
-        private readonly List<IUpdateable> toRemove;
+        private readonly List<IEntity> updateables;
+        private readonly List<IEntity> toAdds;
+        private readonly List<IEntity> toRemove;
 
         public Calendar Calendar { get; private set; }
 
@@ -30,18 +30,18 @@ namespace DEngine.Core {
         public World() {
             Calendar = new Calendar();
 
-            updateables = new List<IUpdateable> { Calendar };
-            toAdds = new List<IUpdateable>();
-            toRemove = new List<IUpdateable>();
+            updateables = new List<IEntity> { Calendar };
+            toAdds = new List<IEntity>();
+            toRemove = new List<IEntity>();
             MessageBuffer = new List<string>();
 
         }
 
-        public void AddUpdateableObject(IUpdateable i) {
+        public void AddUpdateableObject(IEntity i) {
             toAdds.Add(i);
         }
 
-        public void RemoveUpdateableOjects(IUpdateable i) {
+        public void RemoveUpdateableOjects(IEntity i) {
             toRemove.Add(i);
         }
 
