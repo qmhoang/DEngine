@@ -147,9 +147,6 @@ namespace DEngine.UI
 
             Run();
 
-            foreach (var window in windowStack) {
-                
-            }
             while (windowStack.Count > 0) {
                 windowStack.ForEach(w =>
                                         {
