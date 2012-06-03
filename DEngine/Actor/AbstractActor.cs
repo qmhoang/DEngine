@@ -28,20 +28,27 @@ namespace DEngine.Actor {
         
 
         public Point Position { get; set; }
-        public abstract bool IsVisibleTo(IObject @object);
+
+        public bool IsVisibleTo(AbstractActor actor) {
+            return actor.Spot(this);
+        }
         
 
         public abstract int SightRadius { get; }
-        public abstract bool Spot(IObject @object);
+
+        public bool Spot(IObject @object) {
+            return Spot(@object.Position);
+        }
         public abstract bool Spot(Point position);
 
         public abstract char Ascii { get; }
-        public abstract TCODColor Color { get; }
+        public abstract Color Color { get; }
 
         public int ActionPoints { get; set; }
         public abstract int Speed { get; }
         public abstract void Update();
         public abstract bool Dead { get; }
         public abstract void OnDeath();
+
     }
 }
