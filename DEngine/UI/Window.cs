@@ -80,6 +80,8 @@ namespace DEngine.UI
     /// </summary>
     public class Window : Widget
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         #region Constructors
         
         /// <summary>
@@ -488,7 +490,7 @@ namespace DEngine.UI
         /// <summary>
         /// Quit current window, removing it from the application's window stack
         /// </summary>
-        protected void Quit() {
+        protected void Quit() {            
             ParentApplication.RemoveWindow(this);
         }
         

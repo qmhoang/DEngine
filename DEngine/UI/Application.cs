@@ -88,6 +88,8 @@ namespace DEngine.UI
     /// </summary>
     public class Application : IDisposable
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         #region Events
         
         /// <summary>
@@ -205,6 +207,7 @@ namespace DEngine.UI
         /// </summary>
         /// <param name="win"></param>
         public void Push(Window win) {
+            Logger.InfoFormat("Pushing window {0}", win.GetType());            
             if (win == null) {
                 throw new ArgumentNullException("win");
             } if (windowStack.Contains(win))
@@ -224,6 +227,7 @@ namespace DEngine.UI
         }
 
         public void RemoveWindow(Window window) {
+            Logger.InfoFormat("Removing {0}", window.GetType());
             windowStack.Remove(window);
             window.OnRemoved();            
         }
@@ -233,8 +237,7 @@ namespace DEngine.UI
         /// </summary>
         /// <param name="newState"></param>
         public void ChangeState(Window newState) {
-//            CurrentState.
-//            CurrentState.Shutdown();
+            Logger.InfoFormat("Changing current window to {0}", newState.GetType());            
             RemoveWindow(CurrentWindow);
             Push(newState);
         }
