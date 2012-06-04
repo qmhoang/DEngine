@@ -226,21 +226,21 @@ namespace DEngine.UI
             win.OnAdded();
         }
 
-        public void RemoveWindow(Window window) {
-            Logger.InfoFormat("Removing {0}", window.GetType());
-            windowStack.Remove(window);
-            window.OnRemoved();            
-        }
-
-        /// <summary>
-        /// Pop the current state and change into another one
-        /// </summary>
-        /// <param name="newState"></param>
-        public void ChangeState(Window newState) {
-            Logger.InfoFormat("Changing current window to {0}", newState.GetType());            
-            RemoveWindow(CurrentWindow);
-            Push(newState);
-        }
+//        private void RemoveWindow(Window window) {
+//            Logger.InfoFormat("Removing {0}", window.GetType());
+//            windowStack.Remove(window);
+//            window.OnRemoved();            
+//        }
+//
+//        /// <summary>
+//        /// Pop the current state and change into another one
+//        /// </summary>
+//        /// <param name="newState"></param>
+//        private void ChangeState(Window newState) {
+//            Logger.InfoFormat("Changing current window to {0}", newState.GetType());            
+//            RemoveWindow(CurrentWindow);
+//            Push(newState);
+//        }
 
         public int StateCount { get { return windowStack.Count; } }
 
@@ -292,6 +292,11 @@ namespace DEngine.UI
         /// Override and add specific logic update code after calling base method.
         /// </summary>
         protected virtual void Update() {
+            foreach (var window in windowStack.Where(window => window.WindowState == WindowState.Quitting)) {
+                Logger.InfoFormat("Removing {0}", window.GetType());
+                window.OnRemoved();
+            }
+
             windowStack.RemoveAll(win => win.WindowState == WindowState.Quitting);
 
             if (UpdateEventHandler != null)
