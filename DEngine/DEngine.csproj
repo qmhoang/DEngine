@@ -77,11 +77,10 @@
     <Compile Include="Core\EventArgs.cs" />
     <Compile Include="Core\Pigment.cs" />
     <Compile Include="Core\Rect.cs" />
-    <Compile Include="Core\RefIdFactory.cs" />
     <Compile Include="Actor\ICopy.cs" />
     <Compile Include="Actor\IObject.cs" />
-    <Compile Include="Actor\IRefId.cs" />
-    <Compile Include="Actor\IUniqueId.cs" />
+    <Compile Include="Actor\RefId.cs" />
+    <Compile Include="Actor\UniqueId.cs" />
     <Compile Include="Actor\IEntity.cs" />
     <Compile Include="Core\Size.cs" />
     <Compile Include="UI\DefaultPigments.cs" />
@@ -90,7 +89,6 @@
     <Compile Include="Extensions\RandomExtentions.cs" />
     <Compile Include="Extensions\ColorPresets.cs" />
     <Compile Include="Core\Range.cs" />
-    <Compile Include="Core\Pair.cs" />
     <Compile Include="Core\Point.cs" />
     <Compile Include="UI\InputManager.cs" />
     <Compile Include="UI\ListBox.cs" />

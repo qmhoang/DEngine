@@ -11,11 +11,11 @@ namespace DEngine.Actor {
     }
 
 
-    public abstract class Actor : IUniqueId, IEntity, IObject {
+    public abstract class Actor : IEntity, IObject {
         public const int DefaultActionCost = 100;
 
         public abstract string Name { get; }
-        public long UniqueId { get; protected set; }
+        public UniqueId Uid { get; protected set; }
         public abstract ActionResult Move(int dx, int dy);
         public virtual ActionResult Move(Point p) {
             return Move(p.X, p.Y);
