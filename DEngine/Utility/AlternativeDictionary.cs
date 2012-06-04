@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 
-namespace Engine.Utility
+namespace DEngine.Utility
 {
     /// <summary>
     /// Represents a collection of default items that can be selectively overriden with

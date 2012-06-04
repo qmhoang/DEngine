@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\AbstractActor.cs" />
+    <Compile Include="Actor\Actor.cs" />
     <Compile Include="Utility\AlternativeDictionary.cs" />
     <Compile Include="Utility\Factory.cs" />
     <Compile Include="Utility\Gaussian.cs" />
@@ -81,7 +81,7 @@
     <Compile Include="Actor\ICopy.cs" />
     <Compile Include="Actor\IObject.cs" />
     <Compile Include="Actor\IRefId.cs" />
-    <Compile Include="Actor\IGuid.cs" />
+    <Compile Include="Actor\IUniqueId.cs" />
     <Compile Include="Actor\IEntity.cs" />
     <Compile Include="Core\Size.cs" />
     <Compile Include="UI\DefaultPigments.cs" />

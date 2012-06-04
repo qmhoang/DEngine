@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 
-namespace Engine.Utility
+namespace DEngine.Utility
 {
     /// <summary>
     /// Represents a type of Dictionary that, after construction, has a static number of

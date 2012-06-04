@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Engine.Utility {
+namespace DEngine.Utility {
     public class GaussianDistribution {
         // Intentionally, we're not going to derive related things, but set them all at once
         // to get around some NaN issues

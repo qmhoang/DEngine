@@ -29,5 +29,10 @@
         /// Do something when entity dies
         /// </summary>
         void OnDeath();
+
+        /// <summary>
+        /// Can entity call update right now?
+        /// </summary>
+        bool Updateable { get; }
     }
 }

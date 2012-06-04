@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Engine.Utility {   
+namespace DEngine.Utility {   
     abstract public class Factory<TKey, TBase> {
         protected readonly Dictionary<TKey, TBase> products = new Dictionary<TKey, TBase>();
 
