@@ -291,8 +291,9 @@ namespace DEngine.UI
         /// Called each iteration of the main loop (each frame).  
         /// Override and add specific logic update code after calling base method.
         /// </summary>
-        protected virtual void Update()
-        {
+        protected virtual void Update() {
+            windowStack.RemoveAll(win => win.WindowState == WindowState.Quitting);
+
             if (UpdateEventHandler != null)
             {
                 UpdateEventHandler(this, EventArgs.Empty);

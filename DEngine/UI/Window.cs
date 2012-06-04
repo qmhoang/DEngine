@@ -54,6 +54,11 @@ namespace DEngine.UI
         public Point TopLeftPos { get; set; }
 
         /// <summary>
+        /// If set to true, window will not obscure windows below it.
+        /// </summary>
+        public bool IsPopup { get; set; }
+
+        /// <summary>
         /// Returns the screen size.
         /// </summary>
         /// <returns></returns>
@@ -68,6 +73,7 @@ namespace DEngine.UI
     public enum WindowState {
         Active,
         Hidden,
+        Quitting,
     }
 
     #region Window Class
@@ -80,7 +86,7 @@ namespace DEngine.UI
     /// </summary>
     public class Window : Widget
     {
-        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        protected static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Constructors
         
@@ -99,6 +105,7 @@ namespace DEngine.UI
             TooltipFGAlpha = template.TooltipFGAlpha;
 
             ActualScreenPosition = template.TopLeftPos;
+            IsPopup = template.IsPopup;
 
             Input = new InputManager(this);
         }
@@ -491,7 +498,7 @@ namespace DEngine.UI
         /// Quit current window, removing it from the application's window stack
         /// </summary>
         protected void Quit() {            
-            ParentApplication.RemoveWindow(this);
+            WindowState = WindowState.Quitting;
         }
         
         /// <summary>
@@ -892,9 +899,7 @@ namespace DEngine.UI
         /// </summary>
         protected internal override void OnSettingUp()
         {
-            base.OnSettingUp();
-            
-            
+            base.OnSettingUp();                        
         }
         
         #endregion
