@@ -11,25 +11,18 @@ namespace DEngine.Actor {
     }
 
 
-    public abstract class Actor : IEntity, IObject {
-        public const int DefaultActionCost = 100;
-
+    public abstract class Actor : IEntity {
         public abstract string Name { get; }
+        public RefId RefId { get; protected set; }
         public UniqueId Uid { get; protected set; }
-        public abstract ActionResult Move(int dx, int dy);
+        public Point Position { get; set; }
+
         public virtual ActionResult Move(Point p) {
             return Move(p.X, p.Y);
         }
-        public virtual ActionResult Wait() {
-            ActionPoints += DefaultActionCost;
-            return ActionResult.Success;
-        }
-        
-        public Point Position { get; set; }
 
-        public bool IsVisibleTo(Actor actor) {
-            return actor.CanSpot(this);
-        }
+        public abstract ActionResult Move(int dx, int dy);
+        public abstract ActionResult Wait();
 
         public bool IsNear(int x, int y, int radius) {
             return IsNear(new Point(x, y), radius);
@@ -41,15 +34,14 @@ namespace DEngine.Actor {
 
         public abstract int SightRadius { get; }
 
-        public bool HasLineOfSight(IObject @object) {
-            return HasLineOfSight(@object.Position);
+        public bool IsVisibleTo(Actor actor) {
+            return actor.CanSpot(this);
+        }
+        public bool HasLineOfSight(Actor target) {
+            return HasLineOfSight(target.Position);
         }
         public abstract bool HasLineOfSight(Point position);
-
-        public abstract bool CanSpot(IObject @object);
-
-        public abstract char Ascii { get; }
-        public abstract Color Color { get; }
+        public abstract bool CanSpot(Actor target);
 
         public bool Updateable { get { return ActionPoints > 0; } }        
         public int ActionPoints { get; set; }
