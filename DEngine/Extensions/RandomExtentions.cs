@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace DEngine.Extensions {
-    class RandomExtentions {
+    public class RandomExtentions {
         public static readonly Random Random = new Random(0);
 
         /// <summary>

@@ -5,7 +5,7 @@ namespace DEngine.Actor {
     /// <summary>
     /// Interfaces for all entities that can be drawn in the game
     /// </summary>
-    public interface IObject {
+    public interface IObject {        
         Color Color { get; }
         char Ascii { get; }
         Point Position { get; set; }
