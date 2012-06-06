@@ -62,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\Actor.cs" />
+    <Compile Include="Actor\Components\Graphics\IGraphicsTransformer.cs" />
+    <Compile Include="Actor\Components\Graphics\IObjectImage.cs" />
     <Compile Include="Utility\AlternativeDictionary.cs" />
     <Compile Include="Utility\Factory.cs" />
     <Compile Include="Utility\Gaussian.cs" />
@@ -79,7 +81,6 @@
     <Compile Include="Core\Rect.cs" />
     <Compile Include="Actor\ICopy.cs" />
     <Compile Include="Actor\IObject.cs" />
-    <Compile Include="Actor\RefId.cs" />
     <Compile Include="Actor\UniqueId.cs" />
     <Compile Include="Actor\IEntity.cs" />
     <Compile Include="Core\Size.cs" />
@@ -116,6 +117,7 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="UI\UI.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
