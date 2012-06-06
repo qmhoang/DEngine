@@ -1,4 +1,5 @@
-﻿using DEngine.Core;
+﻿using DEngine.Actor.Components.Graphics;
+using DEngine.Core;
 using libtcod;
 
 namespace DEngine.Actor {
@@ -6,8 +7,6 @@ namespace DEngine.Actor {
     /// Interfaces for all entities that can be drawn in the game
     /// </summary>
     public interface IObject {        
-        Color Color { get; }
-        char Ascii { get; }
         Point Position { get; set; }
     }
 }

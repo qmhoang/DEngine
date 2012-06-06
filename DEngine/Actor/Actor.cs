@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DEngine.Actor.Components.Graphics;
 using DEngine.Core;
 using libtcod;
 
@@ -11,10 +12,12 @@ namespace DEngine.Actor {
     }
 
 
-    public abstract class Actor : IEntity {
+    public abstract class Actor : IEntity, IObject {
         public abstract string Name { get; }
-        public RefId RefId { get; protected set; }
+        public string RefId { get; protected set; }
         public UniqueId Uid { get; protected set; }
+
+        public abstract Image Image { get; set; }
         public Point Position { get; set; }
 
         public virtual ActionResult Move(Point p) {
