@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\Actor.cs" />
+    <Compile Include="Actor\Entity.cs" />
     <Compile Include="Actor\Components\Graphics\IGraphicsTransformer.cs" />
     <Compile Include="Actor\Components\Graphics\IObjectImage.cs" />
     <Compile Include="Utility\AlternativeDictionary.cs" />

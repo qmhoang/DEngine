@@ -12,12 +12,11 @@ namespace DEngine.Actor {
     }
 
 
-    public abstract class Actor : IEntity, IObject {
+    public abstract class Entity : IEntity, IObject {
         public abstract string Name { get; }
         public string RefId { get; protected set; }
         public UniqueId Uid { get; protected set; }
-
-        public abstract Image Image { get; set; }
+        
         public Point Position { get; set; }
 
         public virtual ActionResult Move(Point p) {
@@ -37,14 +36,14 @@ namespace DEngine.Actor {
 
         public abstract int SightRadius { get; }
 
-        public bool IsVisibleTo(Actor actor) {
+        public bool IsVisibleTo(Entity actor) {
             return actor.CanSpot(this);
         }
-        public bool HasLineOfSight(Actor target) {
+        public bool HasLineOfSight(Entity target) {
             return HasLineOfSight(target.Position);
         }
         public abstract bool HasLineOfSight(Point position);
-        public abstract bool CanSpot(Actor target);
+        public abstract bool CanSpot(Entity target);
 
         public bool Updateable { get { return ActionPoints > 0; } }        
         public int ActionPoints { get; set; }
