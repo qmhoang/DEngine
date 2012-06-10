@@ -8,6 +8,6 @@ namespace DEngine.Actor {
     /// </summary>
     public interface IObject {        
         Point Position { get; set; }
-        string RefId { get; }
+        RefId RefId { get; }
     }
 }
