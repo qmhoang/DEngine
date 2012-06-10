@@ -14,7 +14,7 @@ namespace DEngine.Actor {
 
     public abstract class Entity : IEntity, IObject {
         public abstract string Name { get; }
-        public string RefId { get; protected set; }
+        public RefId RefId { get; protected set; }
         public UniqueId Uid { get; protected set; }
         
         public Point Position { get; set; }
