@@ -62,8 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\Entity.cs" />
-    <Compile Include="Actor\Components\Graphics\IGraphicsTransformer.cs" />
-    <Compile Include="Actor\Components\Graphics\IObjectImage.cs" />
+    <Compile Include="Actor\Components\Graphics\IImage.cs" />
+    <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Utility\AlternativeDictionary.cs" />
     <Compile Include="Utility\Factory.cs" />
     <Compile Include="Utility\Gaussian.cs" />

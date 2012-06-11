@@ -12,10 +12,15 @@ namespace DEngine.Actor {
     }
 
 
-    public abstract class Entity : IEntity, IObject {
-        public abstract string Name { get; }
-        public RefId RefId { get; protected set; }
+
+
+    public abstract class Entity : IEntity {
+        public string Name { get; set; }
+
+        public string RefId { get; protected set; }
         public UniqueId Uid { get; protected set; }
+
+        public string Asset { get; set; }
         
         public Point Position { get; set; }
 
