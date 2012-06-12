@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DEngine.Actor.Components.Graphics;
 using DEngine.Core;
 using libtcod;
 
@@ -10,9 +9,6 @@ namespace DEngine.Actor {
         Success,
         SuccessNoTime
     }
-
-
-
 
     public abstract class Entity : IEntity {
         public string Name { get; set; }

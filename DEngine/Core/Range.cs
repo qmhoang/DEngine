@@ -6,6 +6,18 @@ namespace DEngine.Core {
         int Roll();
     }
 
+    public struct Constant : IRand {
+        public readonly int Value;
+
+        public int Roll() {
+            return Value;
+        }
+
+        public Constant(int value) {
+            Value = value;
+        }
+    }
+
     public struct Range : IRand {
         public readonly int Min;
         public readonly int Max;

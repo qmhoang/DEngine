@@ -62,12 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\Entity.cs" />
-    <Compile Include="Actor\Components\Graphics\IImage.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />
-    <Compile Include="Utility\AlternativeDictionary.cs" />
-    <Compile Include="Utility\Factory.cs" />
-    <Compile Include="Utility\Gaussian.cs" />
-    <Compile Include="Utility\StaticDictionary.cs" />
+    <Compile Include="Core\AlternativeDictionary.cs" />
+    <Compile Include="Core\Factory.cs" />
+    <Compile Include="Core\Gaussian.cs" />
+    <Compile Include="Core\StaticDictionary.cs" />
     <Compile Include="UI\Application.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Canvas.cs" />
@@ -114,7 +113,9 @@
     <Compile Include="UI\Widget.cs" />
     <Compile Include="UI\Window.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Actor\Components\Graphics\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
     <None Include="UI\UI.cd" />
