@@ -266,7 +266,7 @@ namespace DEngine.UI
             if (!string.IsNullOrEmpty(info.Font))
             {
                 TCODConsole.setCustomFont(info.Font,
-                    (int)(TCODFontFlags.LayoutTCOD | TCODFontFlags.Grayscale));
+                    (int) info.FontFlags);
             }
 
             TCODConsole.initRoot(info.ScreenSize.Width, info.ScreenSize.Height, info.Title,
