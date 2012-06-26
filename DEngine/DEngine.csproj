@@ -67,6 +67,7 @@
     <Compile Include="Core\Factory.cs" />
     <Compile Include="Core\Gaussian.cs" />
     <Compile Include="Core\StaticDictionary.cs" />
+    <Compile Include="Core\Rng.cs" />
     <Compile Include="UI\Application.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Canvas.cs" />
@@ -86,9 +87,7 @@
     <Compile Include="UI\DefaultPigments.cs" />
     <Compile Include="UI\EmitterButton.cs" />
     <Compile Include="UI\Entry.cs" />
-    <Compile Include="Extensions\RandomExtentions.cs" />
     <Compile Include="Extensions\ColorPresets.cs" />
-    <Compile Include="Core\Range.cs" />
     <Compile Include="Core\Point.cs" />
     <Compile Include="UI\InputManager.cs" />
     <Compile Include="UI\ListBox.cs" />

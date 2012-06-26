@@ -127,7 +127,7 @@ namespace DEngine.Core {
             double expPart = Math.Exp((-1.0 * Math.Pow(x - mean, 2.0)) / (2 * (standardDeviation * standardDeviation)));
             double result = multiplier * expPart;
             return result;
-        }
+        }        
 
         public static double CumulativeTo(double x, double mean, double standardDeviation) {            
             return 0.5 * ErrorFunctionCumulativeTo((-x + mean) / (Math.Sqrt(2) * standardDeviation));
