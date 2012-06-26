@@ -104,7 +104,7 @@ namespace DEngine.UI
             TooltipBGAlpha = template.TooltipBGAlpha;
             TooltipFGAlpha = template.TooltipFGAlpha;
 
-            ActualScreenPosition = template.TopLeftPos;
+            ScreenPosition = template.TopLeftPos;
             IsPopup = template.IsPopup;
 
             Input = new InputManager(this);
