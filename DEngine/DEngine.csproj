@@ -68,56 +68,17 @@
     <Compile Include="Core\Gaussian.cs" />
     <Compile Include="Core\StaticDictionary.cs" />
     <Compile Include="Core\Rng.cs" />
-    <Compile Include="UI\Application.cs" />
-    <Compile Include="UI\Button.cs" />
-    <Compile Include="UI\Canvas.cs" />
-    <Compile Include="UI\CheckBox.cs" />
-    <Compile Include="UI\Component.cs" />
-    <Compile Include="UI\Control.cs" />
-    <Compile Include="Core\Bresenham.cs" />
-    <Compile Include="Core\Color.cs" />
     <Compile Include="Core\EventArgs.cs" />
-    <Compile Include="Core\Pigment.cs" />
     <Compile Include="Core\Rect.cs" />
     <Compile Include="Actor\ICopy.cs" />
     <Compile Include="Actor\IObject.cs" />
     <Compile Include="Actor\UniqueId.cs" />
     <Compile Include="Actor\IEntity.cs" />
     <Compile Include="Core\Size.cs" />
-    <Compile Include="UI\DefaultPigments.cs" />
-    <Compile Include="UI\EmitterButton.cs" />
-    <Compile Include="UI\Entry.cs" />
-    <Compile Include="Extensions\ColorPresets.cs" />
     <Compile Include="Core\Point.cs" />
-    <Compile Include="UI\InputManager.cs" />
-    <Compile Include="UI\ListBox.cs" />
-    <Compile Include="UI\Manager.cs" />
-    <Compile Include="UI\Menu.cs" />
-    <Compile Include="UI\MenuButton.cs" />
-    <Compile Include="UI\Messages.cs" />
-    <Compile Include="UI\NumberEntry.cs" />
-    <Compile Include="UI\Panel.cs" />
-    <Compile Include="UI\PigmentMap.cs" />
-    <Compile Include="UI\ProgressBar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\RadioBox.cs" />
-    <Compile Include="UI\Slider.cs" />
-    <Compile Include="UI\SolidProgressBar.cs" />
-    <Compile Include="UI\SpinBox.cs" />
-    <Compile Include="UI\TextBox.cs" />
-    <Compile Include="UI\TextEntry.cs" />
-    <Compile Include="UI\Tooltip.cs" />
-    <Compile Include="UI\TreeView.cs" />
-    <Compile Include="UI\ValueBar.cs" />
-    <Compile Include="UI\Widget.cs" />
-    <Compile Include="UI\Window.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Actor\Components\Graphics\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="UI\UI.cd" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
