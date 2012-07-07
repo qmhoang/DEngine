@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\Entity.cs" />
+    <Compile Include="Core\Bresenham.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Core\AlternativeDictionary.cs" />
     <Compile Include="Core\Factory.cs" />
