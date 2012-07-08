@@ -46,9 +46,6 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libtcod-net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\..\Code Libraries\libtcod 1.5.1 c#\libtcod-net.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\..\Code Libraries\log4net-1.2.11\bin\net\4.0\release\log4net.dll</HintPath>
     </Reference>
@@ -63,6 +60,10 @@
   <ItemGroup>
     <Compile Include="Actor\Entity.cs" />
     <Compile Include="Core\Bresenham.cs" />
+    <Compile Include="Core\AStarPathFinder.cs" />
+    <Compile Include="Core\ShadowCastingFOV.cs" />
+    <Compile Include="Core\Map.cs" />
+    <Compile Include="Core\FovMap.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Core\AlternativeDictionary.cs" />
     <Compile Include="Core\Factory.cs" />

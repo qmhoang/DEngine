@@ -197,6 +197,36 @@ namespace DEngine.Core {
         }
 
         /// <summary>
+        /// Gets a random number centered around "center" with range "range" (inclusive)
+        /// using a gaussian/standard distribution. For example GaussianInt(8, 4, 3) will return values
+        /// between 4 and 12 (inclusive) with greater distribution towards 8.  Standard deviation will 
+        /// cause the distribution to vary its weights
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="range"></param>
+        /// <param name="stddev"></param>
+        /// <returns></returns>
+        /// NOTE: this is probably very slow, needs to be optimized
+        public static int GaussianInt(int center, int range, int stddev) {
+            if (range < 0)
+                throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be zero or greater.");
+            if (range < stddev)
+                throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be less than standard deviation (stddev)");
+            double random = Double();
+
+            int i = center - range;
+            double mean = center - 0.5;
+            while (i <= center + range) {
+                double v = GaussianDistribution.CumulativeTo(i, mean, stddev);
+                if (random <= v)
+                    return i;  
+                i++;
+            }
+
+            return center + range;
+        }
+
+        /// <summary>
         /// Randomly walks the given starting value repeatedly up and/or down
         /// with the given probabilities. Will only walk in one direction.
         /// </summary>

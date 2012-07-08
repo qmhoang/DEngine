@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DEngine.Core;
-using libtcod;
 
 namespace DEngine.Actor {
     public enum ActionResult {
