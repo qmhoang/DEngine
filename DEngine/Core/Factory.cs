@@ -18,7 +18,7 @@ namespace DEngine.Core {
         public abstract TProduct Construct();
     }
     public abstract class Factory<TKey, TProduct> {
-        public abstract TProduct Construct(TKey identifier);
+        public abstract TProduct Construct(TKey identifier);        
     }
 
     public abstract class Factory<TKey, TIdentifier, TProduct> {

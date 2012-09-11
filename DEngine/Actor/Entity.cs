@@ -46,7 +46,7 @@ namespace DEngine.Actor {
         public abstract bool CanSpot(Entity target);
 
         public bool Updateable { get { return ActionPoints > 0; } }        
-        public int ActionPoints { get; set; }
+        public virtual int ActionPoints { get; set; }
         public abstract int Speed { get; }
         public abstract void Update();
         public abstract bool Dead { get; }
