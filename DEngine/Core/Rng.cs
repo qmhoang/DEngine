@@ -108,6 +108,11 @@ namespace DEngine.Core {
             return Int(chance) == 0;
         }
 
+        /// <summary>
+        /// Returns true if given a random double (between 0.0 and 1.0) will be less or equal to than the given argument.
+        /// </summary>
+        /// <param name="chance"></param>
+        /// <returns></returns>
         public static bool Chance(double chance) {
             if (chance <= 0.0)
                 throw new ArgumentOutOfRangeException("chance", "Chance must be greater than 0.0");
@@ -204,14 +209,14 @@ namespace DEngine.Core {
         /// </summary>
         /// <param name="center"></param>
         /// <param name="range"></param>
-        /// <param name="stddev"></param>
+        /// <param name="stddev">standard deviation</param>
         /// <returns></returns>
-        /// NOTE: this is probably very slow, needs to be optimized
+        /// NOTE: this is probably very slow, may need to be optimized
         public static int GaussianInt(int center, int range, int stddev) {
             if (range < 0)
                 throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be zero or greater.");
             if (range < stddev)
-                throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be less than standard deviation (stddev)");
+                throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be less than standard deviation \"stddev\"");
             double random = Double();
 
             int i = center - range;
@@ -256,14 +261,14 @@ namespace DEngine.Core {
         }
 
         /// <summary>
-        /// Randomly walks the given level using a... unique distribution. The
+        /// Randomly walks the given level using a... unique distribution (triangle). The
         /// goal is to return a value that approximates a bell curve centered
         /// on the start level whose wideness increases as the level increases.
         /// Thus, starting at a low start level will only walk a short distance,
         /// while starting at a higher level can wander a lot farther.
         /// </summary>
         /// <returns></returns>
-        public static int WalkLevel(int level) {
+        public static int WalkLevelTriangle(int level) {
             int result = level;
 
             // stack a few triangles to approximate a bell
