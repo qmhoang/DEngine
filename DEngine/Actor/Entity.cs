@@ -16,7 +16,7 @@ namespace DEngine.Actor {
 		public UniqueId Uid { get; protected set; }
 
 		public string Asset { get; set; }
-		
+
 		public Point Position { get; set; }
 
 		public virtual ActionResult Move(Point p) {
@@ -39,13 +39,17 @@ namespace DEngine.Actor {
 		public bool IsVisibleTo(Entity actor) {
 			return actor.CanSpot(this);
 		}
+
 		public bool HasLineOfSight(Entity target) {
 			return HasLineOfSight(target.Position);
 		}
+
 		public abstract bool HasLineOfSight(Point position);
 		public abstract bool CanSpot(Entity target);
 
-		public bool Updateable { get { return ActionPoints > 0; } }
+		public bool Updateable {
+			get { return ActionPoints > 0; }
+		}
 
 		/// <summary>
 		/// When an entity has >0 AP, it can act, actions cost AP
@@ -56,9 +60,9 @@ namespace DEngine.Actor {
 		/// Represents how fast an entity is, the higher the speed, the faster an object can update
 		/// </summary>
 		public abstract int Speed { get; }
+
 		public abstract void Update();
 		public abstract bool Dead { get; }
 		public abstract void OnDeath();
-
 	}
 }

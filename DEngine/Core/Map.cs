@@ -9,7 +9,7 @@ namespace DEngine.Core {
 		public int Height {
 			get { return Size.Height; }
 		}
- 
+
 		public bool IsInBounds(Point v) {
 			return IsInBounds(v.X, v.Y);
 		}

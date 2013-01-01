@@ -18,9 +18,9 @@ namespace DEngine.Actor {
 				return false;
 			if (ReferenceEquals(this, obj))
 				return true;
-			if (obj.GetType() != typeof(UniqueId))
+			if (obj.GetType() != typeof (UniqueId))
 				return false;
-			return Equals((UniqueId)obj);
+			return Equals((UniqueId) obj);
 		}
 
 		public override int GetHashCode() {

@@ -2,36 +2,38 @@
 using System.Collections.Generic;
 using System.Collections;
 
-namespace DEngine.Core
-{
+namespace DEngine.Core {
 	/// <summary>
 	/// Represents a type of Dictionary that, after construction, has a static number of
 	/// items.  Items cannot be added or removed, but they can be modified as normal.
 	/// </summary>
 	/// <typeparam name="TKey"></typeparam>
 	/// <typeparam name="TValue"></typeparam>
-	public interface IStaticDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
-	{
+	public interface IStaticDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> {
 		/// <summary>
 		/// Get or set the value of the specified key.
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
 		TValue this[TKey key] { get; }
+
 		/// <summary>
 		/// Gets the number of items in this collection.
 		/// </summary>
 		int Count { get; }
+
 		/// <summary>
 		/// Gets a list of keys contained in this collection.
 		/// </summary>
 		Dictionary<TKey, TValue>.KeyCollection Keys { get; }
+
 		/// <summary>
 		/// Returns true if the specified key is contained in this collection.
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
 		bool ContainsKey(TKey key);
+
 		/// <summary>
 		/// Returns true if the specified value is contained in this collection.
 		/// </summary>
@@ -47,23 +49,17 @@ namespace DEngine.Core
 	/// </summary>
 	/// <typeparam name="TKey"></typeparam>
 	/// <typeparam name="TValue"></typeparam>
-	public class StaticDictionary<TKey, TValue> : 
-		IStaticDictionary<TKey,TValue>, IEnumerable<KeyValuePair<TKey, TValue>>
-	{
+	public class StaticDictionary<TKey, TValue> :
+			IStaticDictionary<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>> {
 		/// <summary>
 		/// Construct a StaticDictionary instance given an array of key value pairs.
 		/// </summary>
 		/// <param name="items"></param>
-		public StaticDictionary(KeyValuePair<TKey, TValue>[] items)
-		{
+		public StaticDictionary(KeyValuePair<TKey, TValue>[] items) {
 			dictionary = new Dictionary<TKey, TValue>();
 
 			foreach (var itm in items)
-			{
 				dictionary.Add(itm.Key, itm.Value);
-			}
-
-			
 		}
 
 		/// <summary>
@@ -76,31 +72,20 @@ namespace DEngine.Core
 		/// is null.</exception>
 		/// <exception cref="System.ArgumentException">Thrown when <paramref name="key"/>
 		/// does not exist in the default items.</exception>
-		public TValue this[TKey key]
-		{
-			get
-			{
+		public TValue this[TKey key] {
+			get {
 				if (!dictionary.ContainsKey(key))
-				{
 					throw new ArgumentException("Specified key does not exist");
-				}
 				if (key == null)
-				{
 					throw new ArgumentNullException("key");
-				}
 
 				return dictionary[key];
 			}
-			set
-			{
+			set {
 				if (!dictionary.ContainsKey(key))
-				{
 					throw new ArgumentException("Specified key does not exist");
-				}
 				if (key == null)
-				{
 					throw new ArgumentNullException("key");
-				}
 
 				dictionary[key] = value;
 			}
@@ -109,34 +94,22 @@ namespace DEngine.Core
 		/// <summary>
 		/// Gets the number of items contained in this StaticDictionary
 		/// </summary>
-		public int Count
-		{
-			get
-			{
-				return dictionary.Count;
-			}
+		public int Count {
+			get { return dictionary.Count; }
 		}
 
 		/// <summary>
 		/// Gets a collection containing the keys.
 		/// </summary>
-		public Dictionary<TKey, TValue>.KeyCollection Keys
-		{
-			get
-			{
-				return dictionary.Keys;
-			}
+		public Dictionary<TKey, TValue>.KeyCollection Keys {
+			get { return dictionary.Keys; }
 		}
 
 		/// <summary>
 		/// Gets a collection containing the values.
 		/// </summary>
-		public Dictionary<TKey, TValue>.ValueCollection Values
-		{
-			get
-			{
-				return dictionary.Values;
-			}
+		public Dictionary<TKey, TValue>.ValueCollection Values {
+			get { return dictionary.Values; }
 		}
 
 		/// <summary>
@@ -146,12 +119,9 @@ namespace DEngine.Core
 		/// <returns></returns>
 		/// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/>
 		/// is null.</exception>
-		public bool ContainsKey(TKey key)
-		{
+		public bool ContainsKey(TKey key) {
 			if (key == null)
-			{
 				throw new ArgumentNullException("key");
-			}
 			return dictionary.ContainsKey(key);
 		}
 
@@ -160,8 +130,7 @@ namespace DEngine.Core
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		public bool ContainsValue(TValue value)
-		{
+		public bool ContainsValue(TValue value) {
 			return dictionary.ContainsValue(value);
 		}
 
@@ -169,8 +138,7 @@ namespace DEngine.Core
 		/// Returns a string representation of this object.
 		/// </summary>
 		/// <returns></returns>
-		public override string ToString()
-		{
+		public override string ToString() {
 			return dictionary.ToString();
 		}
 
@@ -178,8 +146,7 @@ namespace DEngine.Core
 		/// Returns an enumerator that iterates through this collection.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-		{
+		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
 			return dictionary.GetEnumerator();
 		}
 
@@ -187,11 +154,10 @@ namespace DEngine.Core
 		/// Returns an enumerator that iterates through this collection.
 		/// </summary>
 		/// <returns></returns>
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return (IEnumerator)GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() {
+			return (IEnumerator) GetEnumerator();
 		}
 
 		private Dictionary<TKey, TValue> dictionary;
-	}
+			}
 }

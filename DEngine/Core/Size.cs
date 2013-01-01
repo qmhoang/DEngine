@@ -14,7 +14,7 @@ namespace DEngine.Core {
 					return false;
 			}
 		}
-		
+
 
 		public Size(int width, int height) : this() {
 			Width = width;
@@ -33,7 +33,7 @@ namespace DEngine.Core {
 			if (this.GetType() != obj.GetType())
 				return false;
 
-			return Equals((Size)obj);
+			return Equals((Size) obj);
 		}
 
 		public bool Equals(Size size) {
@@ -69,11 +69,11 @@ namespace DEngine.Core {
 		}
 
 		public static Size operator *(Size s, double scalar) {
-			return new Size((int)(s.Width * scalar), (int)(s.Height * scalar));
+			return new Size((int) (s.Width * scalar), (int) (s.Height * scalar));
 		}
 
 		public static Size operator /(Size s, double scalar) {
-			return new Size((int)(s.Width / scalar), (int)(s.Height / scalar));
+			return new Size((int) (s.Width / scalar), (int) (s.Height / scalar));
 		}
 	}
 }

@@ -11,10 +11,11 @@ namespace DEngine.Core {
 	/// </summary>
 	[Serializable]
 	public struct Rect {
-		readonly Point topLeft;
-		readonly Size size;
+		private readonly Point topLeft;
+		private readonly Size size;
 
 		#region Constructors
+
 		public Rect(Point topLeft, Size size) {
 			this.topLeft = topLeft;
 			this.size = size;
@@ -23,16 +24,16 @@ namespace DEngine.Core {
 		public Rect(Point topLeft, Point bottomRight) {
 			this.topLeft = topLeft;
 			this.size = new Size(bottomRight.X - topLeft.X + 1,
-				bottomRight.Y - topLeft.Y + 1);
-
+			                     bottomRight.Y - topLeft.Y + 1);
 		}
 
 		public Rect(int x1, int y1, int x2, int y2)
-			: this(new Point(x1, y1), new Point(x2, y2)) {
-		}
+				: this(new Point(x1, y1), new Point(x2, y2)) {}
+
 		#endregion
 
 		#region Properties
+
 		public Size Size {
 			get { return size; }
 		}
@@ -58,9 +59,7 @@ namespace DEngine.Core {
 		}
 
 		public Point BottomRight {
-			get {
-				return new Point(Right, Bottom);
-			}
+			get { return new Point(Right, Bottom); }
 		}
 
 		public Point TopRight {
@@ -81,27 +80,19 @@ namespace DEngine.Core {
 		}
 
 		public Point TopCenter {
-			get {
-				return new Point(Center.X, Top);
-			}
+			get { return new Point(Center.X, Top); }
 		}
 
 		public Point RightCenter {
-			get {
-				return new Point(Right, Center.Y);
-			}
+			get { return new Point(Right, Center.Y); }
 		}
 
 		public Point BottomCenter {
-			get {
-				return new Point(Center.X, Bottom);
-			}
+			get { return new Point(Center.X, Bottom); }
 		}
 
 		public Point LeftCenter {
-			get {
-				return new Point(Left, Center.Y);
-			}
+			get { return new Point(Left, Center.Y); }
 		}
 
 		#endregion
@@ -110,17 +101,19 @@ namespace DEngine.Core {
 
 		public bool Contains(Point point) {
 			if ((point.X >= topLeft.X) && (point.Y >= topLeft.Y) &&
-				(point.X <= BottomRight.X) && (point.Y <= BottomRight.Y))
+			    (point.X <= BottomRight.X) && (point.Y <= BottomRight.Y))
 				return true;
 
 			return false;
 		}
+
 		#endregion
 
 		#region Static Methods
+
 		public static Rect MoveBy(Rect rect, Size delta) {
 			Point newTopLeft = new Point(rect.topLeft.X + delta.Width,
-				rect.topLeft.Y + delta.Height);
+			                             rect.topLeft.Y + delta.Height);
 
 			return new Rect(newTopLeft, rect.size);
 		}
@@ -143,7 +136,7 @@ namespace DEngine.Core {
 			Size newSize;
 
 			newTopLeft = new Point(source.topLeft.X - dx,
-				source.topLeft.Y - dy);
+			                       source.topLeft.Y - dy);
 
 			newSize = new Size(source.size.Width + dx * 2, source.size.Height + dy * 2);
 
@@ -151,9 +144,11 @@ namespace DEngine.Core {
 
 			return ret;
 		}
+
 		#endregion
 
 		#region Overrides
+
 		public override bool Equals(object obj) {
 			if (obj == null)
 				return false;
@@ -161,7 +156,7 @@ namespace DEngine.Core {
 			if (this.GetType() != obj.GetType())
 				return false;
 
-			return Equals((Rect)obj);
+			return Equals((Rect) obj);
 		}
 
 		public bool Equals(Rect rect) {
@@ -187,6 +182,7 @@ namespace DEngine.Core {
 		public override string ToString() {
 			return string.Format("{0} : {1}", topLeft, size);
 		}
+
 		#endregion
 	}
 }

@@ -11,7 +11,7 @@ namespace DEngine.Core {
 			public bool Visible;
 		}
 
-		Cell[,] cells;
+		private Cell[,] cells;
 
 		public int Width { get; private set; }
 		public int Height { get; private set; }
@@ -19,19 +19,17 @@ namespace DEngine.Core {
 		public FovMap(int width, int height) {
 			Width = width;
 			Height = height;
-			cells = new Cell[Width, Height];
+			cells = new Cell[Width,Height];
 		}
 
 		public void Clear() {
-			cells = new Cell[Width, Height];            
+			cells = new Cell[Width,Height];
 		}
 
 		public void ClearVisibility() {
-			for (int i = 0; i < Width; i++) {
-				for (int j = 0; j < Height; j++) {
+			for (int i = 0; i < Width; i++)
+				for (int j = 0; j < Height; j++)
 					cells[i, j].Visible = false;
-				}
-			}          
 		}
 
 		public bool IsTransparent(int x, int y) {

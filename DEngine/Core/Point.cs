@@ -20,7 +20,7 @@ namespace DEngine.Core {
 		public int X { get; private set; }
 		public int Y { get; private set; }
 
-		public Point(Point v) : this(v.X, v.Y) { }
+		public Point(Point v) : this(v.X, v.Y) {}
 
 		public Point(int x, int y) : this() {
 			X = x;
@@ -124,7 +124,7 @@ namespace DEngine.Core {
 			if (obj == null || GetType() != obj.GetType())
 				return false;
 
-			return this == (Point)obj;
+			return this == (Point) obj;
 		}
 
 		// override object.GetHashCode

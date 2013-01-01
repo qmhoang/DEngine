@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DEngine.Core {   
+namespace DEngine.Core {
 //    abstract public class Factory<TKey, TBase> {
 //        protected readonly Dictionary<TKey, TBase> products = new Dictionary<TKey, TBase>();
 //
@@ -17,8 +17,9 @@ namespace DEngine.Core {
 	public abstract class Factory<TProduct> {
 		public abstract TProduct Construct();
 	}
+
 	public abstract class Factory<TKey, TProduct> {
-		public abstract TProduct Construct(TKey identifier);        
+		public abstract TProduct Construct(TKey identifier);
 	}
 
 	public abstract class Factory<TKey, TIdentifier, TProduct> {
