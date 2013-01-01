@@ -27,48 +27,61 @@ namespace DEngine.Core {
 		/* convert dir_t to dx,dy */
 		private static int[] dirx = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
 		private static int[] diry = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
+		private static PathFindingDirection[] invdir =
+				{
+						PathFindingDirection.SOUTH_EAST,
+						PathFindingDirection.SOUTH,
+						PathFindingDirection.SOUTH_WEST,
+						PathFindingDirection.EAST,
+						PathFindingDirection.NONE,
+						PathFindingDirection.WEST,
+						PathFindingDirection.NORTH_EAST,
+						PathFindingDirection.NORTH,
+						PathFindingDirection.NORTH_WEST
+				};
 
-		private int m_ox, m_oy; /* coordinates of the creature position */
-		private int m_dx, m_dy; /* coordinates of the creature's destination */
+		private int ox, oy; /* coordinates of the creature position */
+		private int dx, dy; /* coordinates of the creature's destination */
 
-		private List<PathFindingDirection> m_path;
+		private List<PathFindingDirection> path;
 
-		private int m_width, m_height; /* map size */
+		private int w, h; /* map size */
 
-		private float[] m_grid; /* wxh djikstra distance grid (covered distance) */
-		private float[] m_heur;
-		private PathFindingDirection[] m_prev;
+		private float[] grid; /* wxh djikstra distance grid (covered distance) */
+		private float[] heur;
+		private PathFindingDirection[] prev;
 
-		private float m_diagonalCost;
+		private float diagonalCost;
 
-		private List<uint> m_heap;
+		private List<uint> heap;
 
-		private Map m_map;
+		private Map map;
 
 		#region Heap Functions
 
 		// libtcod's version uses a list that these functions turn into a heap
+		/* small layer on top of TCOD_list_t to implement a binary heap (min_heap) */
 		private void heap_sift_down() {
 			/* sift-down : move the first element of the heap down to its right place */
 			int cur = 0;
-			int end = m_heap.Count - 1;
+			int end = heap.Count - 1;
 			int child = 1;
 
 			while (child <= end) {
 				int toSwap = cur;
-				uint off_cur = m_heap[cur];
-				float cur_dist = m_heur[off_cur];
+				uint off_cur = heap[cur];
+				float cur_dist = heur[off_cur];
 				float swapValue = cur_dist;
-				uint off_child = m_heap[child];
-				float child_dist = m_heur[off_child];
+				uint off_child = heap[child];
+				float child_dist = heur[off_child];
 				if (child_dist < cur_dist) {
 					toSwap = child;
 					swapValue = child_dist;
 				}
 				if (child < end) {
 					/* get the min between child and child+1 */
-					uint off_child2 = m_heap[child + 1];
-					float child2_dist = m_heur[off_child2];
+					uint off_child2 = heap[child + 1];
+					float child2_dist = heur[off_child2];
 					if (swapValue > child2_dist) {
 						toSwap = child + 1;
 						swapValue = child2_dist;
@@ -76,9 +89,9 @@ namespace DEngine.Core {
 				}
 				if (toSwap != cur) {
 					/* get down one level */
-					uint tmp = m_heap[toSwap];
-					m_heap[toSwap] = m_heap[cur];
-					m_heap[cur] = tmp;
+					uint tmp = heap[toSwap];
+					heap[toSwap] = heap[cur];
+					heap[cur] = tmp;
 					cur = toSwap;
 				} else
 					return;
@@ -88,19 +101,19 @@ namespace DEngine.Core {
 
 		private void heap_sift_up() {
 			/* sift-up : move the last element of the heap up to its right place */
-			int end = m_heap.Count - 1;
+			int end = heap.Count - 1;
 			int child = end;
 			while (child > 0) {
-				uint off_child = m_heap[child];
-				float child_dist = m_heur[off_child];
+				uint off_child = heap[child];
+				float child_dist = heur[off_child];
 				int parent = (child - 1) / 2;
-				uint off_parent = m_heap[parent];
-				float parent_dist = m_heur[off_parent];
+				uint off_parent = heap[parent];
+				float parent_dist = heur[off_parent];
 				if (parent_dist > child_dist) {
 					/* get up one level */
-					uint tmp = m_heap[child];
-					m_heap[child] = m_heap[parent];
-					m_heap[parent] = tmp;
+					uint tmp = heap[child];
+					heap[child] = heap[parent];
+					heap[parent] = tmp;
 					child = parent;
 				} else
 					return;
@@ -111,8 +124,8 @@ namespace DEngine.Core {
 
 		private void heap_add(int x, int y) {
 			/* append the new value to the end of the heap */
-			uint off = (uint) (x + y * m_width);
-			m_heap.Add(off);
+			uint off = (uint) (x + y * w);
+			heap.Add(off);
 			/* bubble the value up to its real position */
 			heap_sift_up();
 		}
@@ -121,11 +134,11 @@ namespace DEngine.Core {
 
 		private uint heap_get() {
 			/* return the first value of the heap (minimum score) */
-			int end = m_heap.Count() - 1;
-			uint off = m_heap[0];
+			int end = heap.Count() - 1;
+			uint off = heap[0];
 			/* take the last element and put it at first position (heap root) */
-			m_heap[0] = m_heap[end];
-			m_heap.RemoveAt(end);
+			heap[0] = heap[end];
+			heap.RemoveAt(end);
 			/* and bubble it down to its real position */
 			heap_sift_down();
 			return off;
@@ -134,38 +147,39 @@ namespace DEngine.Core {
 		/* this is the slow part, when we change the heuristic of a cell already in the heap */
 
 		private void heap_reorder(uint offset) {
+			int end = heap.Count;
+			int cur = 0;
 			uint off_idx = 0;
 			float value;
-			int idx = -1;
-			int heap_size = m_heap.Count();
+			int idx = 0;
+			int heap_size = heap.Count();
 
-			for (int i = 0; i < heap_size; ++i)
-				if (m_heap[i] == offset) {
-					idx = i;
+			while (cur != end) {
+				if (heap[cur] == offset) 
 					break;
-				}
+				cur++;idx++;
+			}
 
-			if (idx == -1)
-				return;
+			if (cur == end) return;
 
-			off_idx = m_heap[idx];
-			value = m_heur[off_idx];
+			off_idx = heap[idx];
+			value = heur[off_idx];
 			if (idx > 0) {
 				int parent = (idx - 1) / 2;
 				/* compare to its parent */
-				uint off_parent = m_heap[parent];
-				float parent_value = m_heur[off_parent];
+				uint off_parent = heap[parent];
+				float parent_value = heur[off_parent];
 				if (value < parent_value) {
 					/* smaller. bubble it up */
 					while (idx > 0 && value < parent_value) {
 						/* swap with parent */
-						m_heap[parent] = off_idx;
-						m_heap[idx] = off_parent;
+						heap[parent] = off_idx;
+						heap[idx] = off_parent;
 						idx = parent;
 						if (idx > 0) {
 							parent = (idx - 1) / 2;
-							off_parent = m_heap[parent];
-							parent_value = m_heur[off_parent];
+							off_parent = heap[parent];
+							parent_value = heur[off_parent];
 						}
 					}
 					return;
@@ -174,26 +188,26 @@ namespace DEngine.Core {
 			/* compare to its sons */
 			while (idx * 2 + 1 < heap_size) {
 				int child = idx * 2 + 1;
-				uint off_child = m_heap[child];
+				uint off_child = heap[child];
 				int toSwap = idx;
 				int child2;
 				float swapValue = value;
-				if (m_heur[off_child] < value) {
+				if (heur[off_child] < value) {
 					/* swap with son1 ? */
 					toSwap = child;
-					swapValue = m_heur[off_child];
+					swapValue = heur[off_child];
 				}
 				child2 = child + 1;
 				if (child2 < heap_size) {
-					uint off_child2 = m_heap[child2];
-					if (m_heur[off_child2] < swapValue) /* swap with son2 */
+					uint off_child2 = heap[child2];
+					if (heur[off_child2] < swapValue) /* swap with son2 */
 						toSwap = child2;
 				}
 				if (toSwap != idx) {
 					/* bigger. bubble it down */
-					uint tmp = m_heap[toSwap];
-					m_heap[toSwap] = m_heap[idx];
-					m_heap[idx] = tmp;
+					uint tmp = heap[toSwap];
+					heap[toSwap] = heap[idx];
+					heap[idx] = tmp;
 					idx = toSwap;
 				} else
 					return;
@@ -203,73 +217,91 @@ namespace DEngine.Core {
 		#endregion
 
 		public AStarPathFinder(Map map, float diagonalCost) {
-			m_width = map.Width;
-			m_height = map.Height;
+			w = map.Width;
+			h = map.Height;
 
-			m_grid = new float[m_width + m_height * m_width];
-			m_heur = new float[m_width + m_height * m_width];
-			m_prev = new PathFindingDirection[m_width + m_height * m_width];
-			m_path = new List<PathFindingDirection>();
-			m_heap = new List<uint>();
+			grid = new float[h * w];
+			heur = new float[h * w];
+			prev = new PathFindingDirection[h * w];
+			path = new List<PathFindingDirection>();
+			heap = new List<uint>();
 
-			m_map = map;
-			m_diagonalCost = diagonalCost;
+			this.map = map;
+			this.diagonalCost = diagonalCost;
 		}
 
 		public bool Compute(int ox, int oy, int dx, int dy) {
-			m_ox = ox;
-			m_oy = oy;
-			m_dx = dx;
-			m_dy = dy;
-			m_path.Clear();
-			m_heap.Clear();
+			this.ox = ox;
+			this.oy = oy;
+			this.dx = dx;
+			this.dy = dy;
+			path.Clear();
+			heap.Clear();
 
-			if (ox == dx && oy == dy)
-				return true; /* trivial case */
+			if (ox == dx && oy == dy) return true; /* trivial case */
 
 			/* check that origin and destination are inside the map */
-			if (!((uint) ox < (uint) m_width && (uint) oy < (uint) m_height))
+			if (!((uint) ox < (uint) w && (uint) oy < (uint) h)) 
 				return false;
-			if (!((uint) dx < (uint) m_width && (uint) dy < (uint) m_height))
+			if (!((uint) dx < (uint) w && (uint) dy < (uint) h)) 
 				return false;
 
-			Array.Clear(m_grid, 0, m_width * m_height);
-			Array.Clear(m_prev, 0, m_width * m_height);
-			m_heur[ox + oy * m_width] = 1.0f;
+			Array.Clear(grid, 0, w * h);
+			for (int i = 0; i < w * h; i++) {
+				prev[i] = PathFindingDirection.NONE;
+			}
+			heur[ox + oy * w] = 1.0f;
 
 			TCOD_path_push_cell(ox, oy); /* put the origin cell as a bootstrap */
 			/* fill the djikstra grid until we reach dx,dy */
 			TCOD_path_set_cells();
 
-			if (m_grid[dx + dy * m_width] == 0)
+			if (grid[dx + dy * w] == 0)
 				return false; /* no path found */
 
 			/* there is a path. retrieve it */
 			do {
 				/* walk from destination to origin, using the 'prev' array */
-				PathFindingDirection step = m_prev[dx + dy * m_width];
-				m_path.Add(step);
+				PathFindingDirection step = prev[dx + dy * w];
+				path.Add(step);
 				dx -= dirx[(int) step];
 				dy -= diry[(int) step];
 			} while (dx != ox || dy != oy);
 			return true;
 		}
 
-		public bool Walk(ref int x, ref int y, bool recalculate_when_needed) {
-			if (m_path.Count == 0)
-				return false;
-			PathFindingDirection d = m_path[0];
-			m_path.RemoveAt(0);
+		public void Reverse() {
+			int tmp, i;
 
-			int newx = m_ox + dirx[(int) d];
-			int newy = m_oy + diry[(int) d];
+			tmp = ox;
+			ox = dx;
+			dx = tmp;
+			tmp = oy;
+			oy = dy;
+			dy = tmp;
+
+			for (i = 0; i < path.Count; i++) {
+				PathFindingDirection d = path[i];
+				d = invdir[(int) d];
+				path[i] = d;				
+			}
+		}
+
+		public bool Walk(ref int x, ref int y, bool recalculate_when_needed) {
+			if (path.Count == 0)
+				return false;
+			PathFindingDirection d = path[0];
+			path.RemoveAt(0);
+
+			int newx = ox + dirx[(int) d];
+			int newy = oy + diry[(int) d];
 
 			/* check if the path is still valid */
-			if (!m_map.IsWalkable(newx, newy)) {
+			if (!map.IsWalkable(newx, newy)) {
 				if (!recalculate_when_needed)
 					return false; /* don't walk */
 				/* calculate a new path */
-				if (!Compute(m_ox, m_oy, m_dx, m_dy))
+				if (!Compute(ox, oy, dx, dy))
 					return false; /* cannot find a new path */
 
 				return Walk(ref x, ref y, true); /* walk along the new path */
@@ -277,25 +309,26 @@ namespace DEngine.Core {
 
 			x = newx;
 			y = newy;
-			m_ox = newx;
-			m_oy = newy;
+			ox = newx;
+			oy = newy;
 			return true;
 		}
 
 		public bool IsEmpty() {
-			return m_path.Count == 0;
+			return path.Count == 0;
 		}
 
 		public int Size() {
-			return m_path.Count;
+			return path.Count;
 		}
 
 		public void GetPathElement(int index, out int x, out int y) {
-			x = m_ox;
-			y = m_oy;
-			int pos = m_path.Count - 1;
+			int pos;
+			x = ox;
+			y = oy;
+			pos = path.Count - 1;
 			do {
-				PathFindingDirection step = m_path[pos];
+				PathFindingDirection step = path[pos];
 				x += dirx[(int) step];
 				y += diry[(int) step];
 				pos--;
@@ -316,27 +349,27 @@ namespace DEngine.Core {
 
 		private void TCOD_path_get_cell(out int x, out int y, out float distance) {
 			uint offset = heap_get();
-			x = (int) (offset % m_width);
-			y = (int) (offset / m_width);
-			distance = m_grid[offset];
+			x = (int) (offset % w);
+			y = (int) (offset / w);
+			distance = grid[offset];
 		}
 
 		private float TCOD_path_walk_cost(int xFrom, int yFrom, int xTo, int yTo) {
-			return m_map.IsWalkable(xTo, yTo) ? 1.0f : 0.0f;
+			return map.IsWalkable(xTo, yTo) ? 1.0f : 0.0f;
 		}
 
 		private void TCOD_path_get_origin(out int x, out int y) {
-			x = m_ox;
-			y = m_oy;
+			x = ox;
+			y = oy;
 		}
 
 		private void TCOD_path_get_destination(out int x, out int y) {
-			x = m_dx;
-			y = m_dy;
+			x = dx;
+			y = dy;
 		}
 
-		private int[] idirx = new int[] {0, -1, 1, 0, -1, 1, -1, 1};
-		private int[] idiry = new int[] {-1, 0, 0, 1, -1, -1, 1, 1};
+		private int[] idirx = {0, -1, 1, 0, -1, 1, -1, 1};
+		private int[] idiry = {-1, 0, 0, 1, -1, -1, 1, 1};
 
 		private PathFindingDirection[] prevdirs = {
 		                                          		PathFindingDirection.NORTH, PathFindingDirection.WEST, PathFindingDirection.EAST, PathFindingDirection.SOUTH,
@@ -347,39 +380,39 @@ namespace DEngine.Core {
 		/* fill the grid, starting from the origin until we reach the destination */
 
 		private void TCOD_path_set_cells() {
-			while (m_grid[m_dx + m_dy * m_width] == 0 && !(m_heap.Count == 0)) {
-				int x, y;
+			while (grid[dx + dy * w] == 0 && !(heap.Count == 0)) {
+				int x, y, i, imax;
 				float distance;
 				TCOD_path_get_cell(out x, out y, out distance);
 
-				int imax = (m_diagonalCost == 0.0f ? 4 : 8);
-				for (int i = 0; i < imax; i++) {
-					/* convert i to dx,dy */
+				imax = (diagonalCost == 0.0f ? 4 : 8);
+				for (i = 0; i < imax; i++) {
+					/* convert i to dx,dy */					
 					/* convert i to direction */
 					/* coordinate of the adjacent cell */
 					int cx = x + idirx[i];
 					int cy = y + idiry[i];
-					if (cx >= 0 && cy >= 0 && cx < m_width && cy < m_height) {
+					if (cx >= 0 && cy >= 0 && cx < w && cy < h) {
 						float walk_cost = TCOD_path_walk_cost(x, y, cx, cy);
 						if (walk_cost > 0.0f) {
 							/* in of the map and walkable */
-							float covered = distance + walk_cost * (i >= 4 ? m_diagonalCost : 1.0f);
-							float previousCovered = m_grid[cx + cy * m_width];
+							float covered = distance + walk_cost * (i >= 4 ? diagonalCost : 1.0f);
+							float previousCovered = grid[cx + cy * w];
 							if (previousCovered == 0) {
 								/* put a new cell in the heap */
-								int offset = cx + cy * m_width;
+								int offset = cx + cy * w;
 								/* A* heuristic : remaining distance */
-								float remaining = (float) Math.Sqrt((cx - m_dx) * (cx - m_dx) + (cy - m_dy) * (cy - m_dy));
-								m_grid[offset] = covered;
-								m_heur[offset] = covered + remaining;
-								m_prev[offset] = prevdirs[i];
+								float remaining = (float) Math.Sqrt((cx - dx) * (cx - dx) + (cy - dy) * (cy - dy));
+								grid[offset] = covered;
+								heur[offset] = covered + remaining;
+								prev[offset] = prevdirs[i];
 								TCOD_path_push_cell(cx, cy);
 							} else if (previousCovered > covered) {
 								/* we found a better path to a cell already in the heap */
-								int offset = cx + cy * m_width;
-								m_grid[offset] = covered;
-								m_heur[offset] -= (previousCovered - covered); /* fix the A* score */
-								m_prev[offset] = prevdirs[i];
+								int offset = cx + cy * w;
+								grid[offset] = covered;
+								heur[offset] -= (previousCovered - covered); /* fix the A* score */
+								prev[offset] = prevdirs[i];
 								/* reorder the heap */
 								heap_reorder((uint) offset);
 							}
