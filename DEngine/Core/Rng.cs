@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
 
 namespace DEngine.Core {
@@ -23,14 +24,14 @@ namespace DEngine.Core {
         }
 
         /// <summary>
-        /// Gets a random int between 0 and max (half-inclusive).
+        /// Gets a random int between 0 (inclusive) and max (exclusive).
         /// </summary>
         public static int Int(int max) {
             return sRandom.Next(max);
         }
 
         /// <summary>
-        /// Gets a random int between min and max (half-inclusive).
+        /// Gets a random int between min (inclusive) and max (exclusive).
         /// </summary>
         public static int Int(int min, int max) {
             return Int(max - min) + min;
@@ -207,11 +208,10 @@ namespace DEngine.Core {
         /// between 4 and 12 (inclusive) with greater distribution towards 8.  Standard deviation will 
         /// cause the distribution to vary its weights
         /// </summary>
-        /// <param name="center"></param>
-        /// <param name="range"></param>
+        /// <param name="center">mean</param>
+        /// <param name="range">inclusive range, <b>this can alter the distribution curve greatly is range is too small compared to std dev</b></param>
         /// <param name="stddev">standard deviation</param>
-        /// <returns></returns>
-        /// NOTE: this is probably very slow, may need to be optimized
+        /// <returns></returns>        
         public static int GaussianInt(int center, int range, int stddev) {
             if (range < 0)
                 throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be zero or greater.");
@@ -219,16 +219,14 @@ namespace DEngine.Core {
                 throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be less than standard deviation \"stddev\"");
             double random = Double();
 
-            int i = center - range;
-            double mean = center - 0.5;
-            while (i <= center + range) {
-                double v = GaussianDistribution.CumulativeTo(i, mean, stddev);
-                if (random <= v)
-                    return i;  
-                i++;
-            }
+            int gaussianInt = (int) Math.Round(GaussianDistribution.InverseCumulativeTo(random, center, stddev));
 
-            return center + range;
+            if (gaussianInt < center - range)
+                return center - range;
+            else if (gaussianInt > center + range)
+                return center + range;
+            else
+                return gaussianInt;
         }
 
         /// <summary>
@@ -236,6 +234,8 @@ namespace DEngine.Core {
         /// with the given probabilities. Will only walk in one direction.
         /// </summary>
         /// <param name="start">Value to start at.</param>
+        /// <param name = "chanceOfDec"></param>
+        /// <param name = "chanceOfInc"></param>
         public static int Walk(int start, int chanceOfDec, int chanceOfInc) {
             // make sure we won't get stuck in an infinite loop
             if (chanceOfDec == 1)
@@ -380,32 +380,41 @@ namespace DEngine.Core {
         public static Rand Constant(int value) {
             return new Rand(
                     () => value,
-                    value, value.ToString(), true);
+                    value, value, value, value.ToString(), true);
         }
 
         public static Rand Range(int min, int max) {
             return new Rand(
-                    () => Rng.IntInclusive(min, max),
-                    (min + max) / 2.0f, min.ToString() + "-" + max.ToString());
+                    () => Rng.IntInclusive(min, max), 
+                    min, (min + max) / 2.0f, max, min.ToString() + "-" + max.ToString());
         }
 
         public static Rand Dice(int dice, int sides) {
             return new Rand(
                     () => Rng.Roll(dice, sides),
-                    dice * ((1 + sides) / 2.0f), dice.ToString() + "d" + sides.ToString());
+                    dice, dice * ((1 + sides) / 2.0f), dice * sides + 1,  dice.ToString() + "d" + sides.ToString());
         }
 
         public static Rand Triangle(int center, int range) {
             return new Rand(
                     () => Rng.TriangleInt(center, range),
-                    center, center.ToString() + "t" + range.ToString());
+                    center - range, center, center + range + 1, center.ToString() + "t" + range.ToString());
         }
 
         public static Rand Taper(int chance, int outOf) {
             return new Rand(
-                    () => Rng.Taper(0, 1, chance, outOf),
+                    () => Rng.Taper(0, 1, chance, outOf), 
+                    Int32.MinValue,
                     (float) chance / (outOf - (float) chance), // sum of geometric series
+                    Int32.MaxValue,
                     "(" + chance + ":" + outOf + ")");
+        }
+
+        public static Rand Gaussian(int mean, int range, int stddev) {            
+            return new Rand(
+                () => Rng.GaussianInt(mean, range, stddev), 
+                mean - range, mean, mean + range + 1,
+                String.Format("μ={0}, r=[{2}-{3}], σ={1}", mean, stddev, mean - range, mean + range));
         }
 
         /// <summary>
@@ -422,7 +431,20 @@ namespace DEngine.Core {
         }
 
         /// <summary>
-        /// Gets the average of the values rolled by this Roller.
+        /// Gets the (inclusive) minimum of this Random value
+        /// </summary>
+        public float Mininum {
+            get {
+                float min = this.min;
+                if (nextRand != null)
+                    min += nextRand.Mininum;
+
+                return min;
+            }
+        }
+
+        /// <summary>
+        /// Gets the average of the values rolled by this Random value.
         /// </summary>
         public float Average {
             get {
@@ -431,6 +453,19 @@ namespace DEngine.Core {
                     avrg += nextRand.Average;
 
                 return avrg;
+            }
+        }
+
+        /// <summary>
+        /// Gets the (exclusive) maximum of this Random value
+        /// </summary>
+        public float Maximum {
+            get {
+                float max = this.max;
+                if (nextRand != null)
+                    max += nextRand.Maximum;
+
+                return max;
             }
         }
 
@@ -450,20 +485,24 @@ namespace DEngine.Core {
             return result;
         }
 
-        private Rand(Func<int> rollFunction, float average, string text, bool isConstant) {
+        private Rand(Func<int> rollFunction, float min, float average, float max, string text, bool isConstant) {
             this.rollFunction = rollFunction;
+            this.min = min;
             this.average = average;
+            this.max = max;
             this.text = text;
             this.constant = isConstant;
         }
 
-        private Rand(Func<int> rollFunction, float average, string text)
-                : this(rollFunction, average, text, false) {}
+        private Rand(Func<int> rollFunction, float min, float average, float max, string text)
+                : this(rollFunction, min, average, max, text, false) {}
 
         private static Regex parser;
 
         private readonly Func<int> rollFunction;
+        private readonly float min;
         private readonly float average;
+        private readonly float max;     // exclusive
         private readonly string text;
         private readonly bool constant;
 
@@ -471,7 +510,7 @@ namespace DEngine.Core {
         private Rand nextRand;
 
         public static Rand operator +(Rand v1, Rand v2) {
-            return new Rand(v2.rollFunction, v2.Average, v2.text, v2.IsConstant) {nextRand = v1};            
+            return new Rand(v2.rollFunction, v2.Mininum, v2.Average, v2.Maximum, v2.text, v2.IsConstant) {nextRand = v1};            
         }
     }
 }

@@ -17,11 +17,12 @@ namespace DEngine.Core {
         public static readonly Point Southwest = South + West;
         public static readonly Point Southeast = South + East;
 
-        readonly public int X, Y;
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
         public Point(Point v) : this(v.X, v.Y) { }
 
-        public Point(int x, int y) {
+        public Point(int x, int y) : this() {
             X = x;
             Y = y;
         }

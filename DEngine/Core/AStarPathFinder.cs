@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace DEngine.Core {
+    // ReSharper disable InconsistentNaming
+    // ReSharper disable FieldCanBeMadeReadOnly.Local
+
     // This code is taken almost directly from path_c.c
     // in libtcod, with formatting changes and a few interface changes
     // It is excempt from most any code formatting rules, since I try to
@@ -250,7 +253,7 @@ namespace DEngine.Core {
             int newy = m_oy + diry[(int)d];
 
             /* check if the path is still valid */
-            if (m_map.IsWalkable(newx, newy)) {
+            if (!m_map.IsWalkable(newx, newy)) {
                 if (!recalculate_when_needed)
                     return false; /* don't walk */
                 /* calculate a new path */
@@ -369,4 +372,7 @@ namespace DEngine.Core {
             }
         }
     }
+    // ReSharper restore InconsistentNaming
+    // ReSharper restore FieldCanBeMadeReadOnly.Local
+
 }
