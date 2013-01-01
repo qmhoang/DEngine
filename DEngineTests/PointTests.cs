@@ -48,7 +48,7 @@ namespace DEngineTests {
 			get {
 				yield return new TestCaseData(new Point(111, 222), 1).Returns(new Point(111, 222));
 				yield return new TestCaseData(new Point(300, 400), -1).Returns(new Point(-300, -400));
-				yield return new TestCaseData(new Point(-111, 222), 0).Throws(typeof(DivideByZeroException)).SetName("DivideByZero");
+				yield return new TestCaseData(new Point(-111, 222), 0).Throws(typeof (DivideByZeroException)).SetName("DivideByZero");
 				yield return new TestCaseData(new Point(111, 222), 111).Returns(new Point(1, 2));
 			}
 		}
@@ -80,7 +80,7 @@ namespace DEngineTests {
 	}
 
 	[TestFixture]
-	class PointTests {
+	internal class PointTests {
 		public const double ErrorTolerance = 0.00001;
 
 
@@ -136,43 +136,43 @@ namespace DEngineTests {
 			Assert.AreEqual(Point.West.Left, Point.South);
 		}
 
-		[Test, TestCaseSource(typeof(PointTestFactory), "AddCases")]
+		[Test, TestCaseSource(typeof (PointTestFactory), "AddCases")]
 		public static Point TestAddition(Point p1, Point p2) {
 			return p1 + p2;
 		}
 
-		[Test, TestCaseSource(typeof(PointTestFactory), "SubCases")]
+		[Test, TestCaseSource(typeof (PointTestFactory), "SubCases")]
 		public static Point TestSubstraction(Point p1, Point p2) {
 			return p1 - p2;
 		}
 
-		[Test, TestCaseSource(typeof(PointTestFactory), "MultCases")]
+		[Test, TestCaseSource(typeof (PointTestFactory), "MultCases")]
 		public static Point TestScalarMult(Point p, int scalar) {
 			return p * scalar;
 		}
 
-		[Test, TestCaseSource(typeof(PointTestFactory), "DivCases")]
+		[Test, TestCaseSource(typeof (PointTestFactory), "DivCases")]
 		public static Point TestScalarDiv(Point p, int scalar) {
 			return p / scalar;
 		}
 
 
-		[TestCaseSource(typeof(PointTestFactory), "LengthCases")]
+		[TestCaseSource(typeof (PointTestFactory), "LengthCases")]
 		public static double TestLength(Point point) {
 			return point.Length();
 		}
 
-		[TestCaseSource(typeof(PointTestFactory), "DistanceToCases")]
+		[TestCaseSource(typeof (PointTestFactory), "DistanceToCases")]
 		public static double TestDistanceTo(Point p1, Point p2) {
 			return p1.DistanceTo(p2);
 		}
 
-		[TestCaseSource(typeof(PointTestFactory), "CircleCases")]
+		[TestCaseSource(typeof (PointTestFactory), "CircleCases")]
 		public static bool TestInCircle(Point p, Point origin, int radius) {
 			return p.IsInCircle(origin, radius);
 		}
 
-		[TestCaseSource(typeof(PointTestFactory), "ShiftCases")]
+		[TestCaseSource(typeof (PointTestFactory), "ShiftCases")]
 		public static Point TestShift(Point p, int x, int y) {
 			return p.Shift(x, y);
 		}

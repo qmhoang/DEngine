@@ -385,14 +385,14 @@ namespace DEngine.Core {
 
 		public static Rand Range(int min, int max) {
 			return new Rand(
-					() => Rng.IntInclusive(min, max), 
+					() => Rng.IntInclusive(min, max),
 					min, (min + max) / 2.0f, max, min.ToString() + "-" + max.ToString());
 		}
 
 		public static Rand Dice(int dice, int sides) {
 			return new Rand(
 					() => Rng.Roll(dice, sides),
-					dice, dice * ((1 + sides) / 2.0f), dice * sides + 1,  dice.ToString() + "d" + sides.ToString());
+					dice, dice * ((1 + sides) / 2.0f), dice * sides + 1, dice.ToString() + "d" + sides.ToString());
 		}
 
 		public static Rand Triangle(int center, int range) {
@@ -403,18 +403,18 @@ namespace DEngine.Core {
 
 		public static Rand Taper(int chance, int outOf) {
 			return new Rand(
-					() => Rng.Taper(0, 1, chance, outOf), 
+					() => Rng.Taper(0, 1, chance, outOf),
 					Int32.MinValue,
 					(float) chance / (outOf - (float) chance), // sum of geometric series
 					Int32.MaxValue,
 					"(" + chance + ":" + outOf + ")");
 		}
 
-		public static Rand Gaussian(int mean, int range, int stddev) {            
+		public static Rand Gaussian(int mean, int range, int stddev) {
 			return new Rand(
-				() => Rng.GaussianInt(mean, range, stddev), 
-				mean - range, mean, mean + range + 1,
-				String.Format("μ={0}, r=[{2}-{3}], σ={1}", mean, stddev, mean - range, mean + range));
+					() => Rng.GaussianInt(mean, range, stddev),
+					mean - range, mean, mean + range + 1,
+					String.Format("μ={0}, r=[{2}-{3}], σ={1}", mean, stddev, mean - range, mean + range));
 		}
 
 		/// <summary>
@@ -502,7 +502,7 @@ namespace DEngine.Core {
 		private readonly Func<int> rollFunction;
 		private readonly float min;
 		private readonly float average;
-		private readonly float max;     // exclusive
+		private readonly float max; // exclusive
 		private readonly string text;
 		private readonly bool constant;
 
@@ -510,7 +510,7 @@ namespace DEngine.Core {
 		private Rand nextRand;
 
 		public static Rand operator +(Rand v1, Rand v2) {
-			return new Rand(v2.rollFunction, v2.Mininum, v2.Average, v2.Maximum, v2.text, v2.IsConstant) {nextRand = v1};            
+			return new Rand(v2.rollFunction, v2.Mininum, v2.Average, v2.Maximum, v2.text, v2.IsConstant) {nextRand = v1};
 		}
 	}
 }

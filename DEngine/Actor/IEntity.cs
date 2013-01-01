@@ -1,5 +1,4 @@
 ﻿namespace DEngine.Actor {
-
 	/// <summary>
 	/// Interface for all entities can that do something (ie update)
 	/// </summary>

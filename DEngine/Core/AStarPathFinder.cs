@@ -12,11 +12,21 @@ namespace DEngine.Core {
 	// It is excempt from most any code formatting rules, since I try to
 	// keep the internals as close to C as possible to make porting changes easy
 	public class AStarPathFinder {
-		private enum PathFindingDirection { NORTH_WEST, NORTH, NORTH_EAST, WEST, NONE, EAST, SOUTH_WEST, SOUTH, SOUTH_EAST };
+		private enum PathFindingDirection {
+			NORTH_WEST,
+			NORTH,
+			NORTH_EAST,
+			WEST,
+			NONE,
+			EAST,
+			SOUTH_WEST,
+			SOUTH,
+			SOUTH_EAST
+		};
 
 		/* convert dir_t to dx,dy */
-		private static int[] dirx = { -1, 0, 1, -1, 0, 1, -1, 0, 1 };
-		private static int[] diry = { -1, -1, -1, 0, 0, 0, 1, 1, 1 };
+		private static int[] dirx = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
+		private static int[] diry = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
 
 		private int m_ox, m_oy; /* coordinates of the creature position */
 		private int m_dx, m_dy; /* coordinates of the creature's destination */
@@ -36,6 +46,7 @@ namespace DEngine.Core {
 		private Map m_map;
 
 		#region Heap Functions
+
 		// libtcod's version uses a list that these functions turn into a heap
 		private void heap_sift_down() {
 			/* sift-down : move the first element of the heap down to its right place */
@@ -69,7 +80,8 @@ namespace DEngine.Core {
 					m_heap[toSwap] = m_heap[cur];
 					m_heap[cur] = tmp;
 					cur = toSwap;
-				} else return;
+				} else
+					return;
 				child = cur * 2 + 1;
 			}
 		}
@@ -90,22 +102,23 @@ namespace DEngine.Core {
 					m_heap[child] = m_heap[parent];
 					m_heap[parent] = tmp;
 					child = parent;
-				} else {
+				} else
 					return;
-				}
 			}
 		}
 
 		/* add a coordinate pair in the heap so that the heap root always contains the minimum A* score */
+
 		private void heap_add(int x, int y) {
 			/* append the new value to the end of the heap */
-			uint off = (uint)(x + y * m_width);
+			uint off = (uint) (x + y * m_width);
 			m_heap.Add(off);
 			/* bubble the value up to its real position */
 			heap_sift_up();
 		}
 
 		/* get the coordinate pair with the minimum A* score from the heap */
+
 		private uint heap_get() {
 			/* return the first value of the heap (minimum score) */
 			int end = m_heap.Count() - 1;
@@ -119,18 +132,18 @@ namespace DEngine.Core {
 		}
 
 		/* this is the slow part, when we change the heuristic of a cell already in the heap */
+
 		private void heap_reorder(uint offset) {
 			uint off_idx = 0;
 			float value;
 			int idx = -1;
 			int heap_size = m_heap.Count();
 
-			for (int i = 0; i < heap_size; ++i) {
+			for (int i = 0; i < heap_size; ++i)
 				if (m_heap[i] == offset) {
 					idx = i;
 					break;
 				}
-			}
 
 			if (idx == -1)
 				return;
@@ -173,10 +186,8 @@ namespace DEngine.Core {
 				child2 = child + 1;
 				if (child2 < heap_size) {
 					uint off_child2 = m_heap[child2];
-					if (m_heur[off_child2] < swapValue) {
-						/* swap with son2 */
+					if (m_heur[off_child2] < swapValue) /* swap with son2 */
 						toSwap = child2;
-					}
 				}
 				if (toSwap != idx) {
 					/* bigger. bubble it down */
@@ -184,9 +195,11 @@ namespace DEngine.Core {
 					m_heap[toSwap] = m_heap[idx];
 					m_heap[idx] = tmp;
 					idx = toSwap;
-				} else return;
+				} else
+					return;
 			}
 		}
+
 		#endregion
 
 		public AStarPathFinder(Map map, float diagonalCost) {
@@ -215,9 +228,9 @@ namespace DEngine.Core {
 				return true; /* trivial case */
 
 			/* check that origin and destination are inside the map */
-			if (!((uint)ox < (uint)m_width && (uint)oy < (uint)m_height))
+			if (!((uint) ox < (uint) m_width && (uint) oy < (uint) m_height))
 				return false;
-			if (!((uint)dx < (uint)m_width && (uint)dy < (uint)m_height))
+			if (!((uint) dx < (uint) m_width && (uint) dy < (uint) m_height))
 				return false;
 
 			Array.Clear(m_grid, 0, m_width * m_height);
@@ -236,10 +249,9 @@ namespace DEngine.Core {
 				/* walk from destination to origin, using the 'prev' array */
 				PathFindingDirection step = m_prev[dx + dy * m_width];
 				m_path.Add(step);
-				dx -= dirx[(int)step];
-				dy -= diry[(int)step];
-			}
-			while (dx != ox || dy != oy);
+				dx -= dirx[(int) step];
+				dy -= diry[(int) step];
+			} while (dx != ox || dy != oy);
 			return true;
 		}
 
@@ -249,8 +261,8 @@ namespace DEngine.Core {
 			PathFindingDirection d = m_path[0];
 			m_path.RemoveAt(0);
 
-			int newx = m_ox + dirx[(int)d];
-			int newy = m_oy + diry[(int)d];
+			int newx = m_ox + dirx[(int) d];
+			int newy = m_oy + diry[(int) d];
 
 			/* check if the path is still valid */
 			if (!m_map.IsWalkable(newx, newy)) {
@@ -284,27 +296,28 @@ namespace DEngine.Core {
 			int pos = m_path.Count - 1;
 			do {
 				PathFindingDirection step = m_path[pos];
-				x += dirx[(int)step];
-				y += diry[(int)step];
+				x += dirx[(int) step];
+				y += diry[(int) step];
 				pos--;
 				index--;
-			}
-			while (index >= 0);
+			} while (index >= 0);
 		}
 
 		/* private stuff */
 		/* add a new unvisited cells to the cells-to-treat list
 		 * the list is in fact a min_heap. Cell at index i has its sons at 2*i+1 and 2*i+2
 		 */
+
 		private void TCOD_path_push_cell(int x, int y) {
 			heap_add(x, y);
 		}
 
 		/* get the best cell from the heap */
+
 		private void TCOD_path_get_cell(out int x, out int y, out float distance) {
 			uint offset = heap_get();
-			x = (int)(offset % m_width);
-			y = (int)(offset / m_width);
+			x = (int) (offset % m_width);
+			y = (int) (offset / m_width);
 			distance = m_grid[offset];
 		}
 
@@ -322,13 +335,17 @@ namespace DEngine.Core {
 			y = m_dy;
 		}
 
-		int[] idirx = new int[] { 0, -1, 1, 0, -1, 1, -1, 1 };
-		int[] idiry = new int[] { -1, 0, 0, 1, -1, -1, 1, 1 };
-		PathFindingDirection[] prevdirs = { PathFindingDirection.NORTH, PathFindingDirection.WEST, PathFindingDirection.EAST, PathFindingDirection.SOUTH, 
-											  PathFindingDirection.NORTH_WEST, PathFindingDirection.NORTH_EAST, PathFindingDirection.SOUTH_WEST, 
-											  PathFindingDirection.SOUTH_EAST };
+		private int[] idirx = new int[] {0, -1, 1, 0, -1, 1, -1, 1};
+		private int[] idiry = new int[] {-1, 0, 0, 1, -1, -1, 1, 1};
+
+		private PathFindingDirection[] prevdirs = {
+		                                          		PathFindingDirection.NORTH, PathFindingDirection.WEST, PathFindingDirection.EAST, PathFindingDirection.SOUTH,
+		                                          		PathFindingDirection.NORTH_WEST, PathFindingDirection.NORTH_EAST, PathFindingDirection.SOUTH_WEST,
+		                                          		PathFindingDirection.SOUTH_EAST
+		                                          };
 
 		/* fill the grid, starting from the origin until we reach the destination */
+
 		private void TCOD_path_set_cells() {
 			while (m_grid[m_dx + m_dy * m_width] == 0 && !(m_heap.Count == 0)) {
 				int x, y;
@@ -352,7 +369,7 @@ namespace DEngine.Core {
 								/* put a new cell in the heap */
 								int offset = cx + cy * m_width;
 								/* A* heuristic : remaining distance */
-								float remaining = (float)Math.Sqrt((cx - m_dx) * (cx - m_dx) + (cy - m_dy) * (cy - m_dy));
+								float remaining = (float) Math.Sqrt((cx - m_dx) * (cx - m_dx) + (cy - m_dy) * (cy - m_dy));
 								m_grid[offset] = covered;
 								m_heur[offset] = covered + remaining;
 								m_prev[offset] = prevdirs[i];
@@ -364,7 +381,7 @@ namespace DEngine.Core {
 								m_heur[offset] -= (previousCovered - covered); /* fix the A* score */
 								m_prev[offset] = prevdirs[i];
 								/* reorder the heap */
-								heap_reorder((uint)offset);
+								heap_reorder((uint) offset);
 							}
 						}
 					}
@@ -372,7 +389,7 @@ namespace DEngine.Core {
 			}
 		}
 	}
+
 	// ReSharper restore InconsistentNaming
 	// ReSharper restore FieldCanBeMadeReadOnly.Local
-
 }

@@ -8,9 +8,8 @@ namespace DEngine.Core {
 
 			int x = origin.X;
 			int y = origin.Y;
-			while (!b.Step(ref x, ref y)) {
+			while (!b.Step(ref x, ref y))
 				list.Add(new Point(x, y));
-			}
 
 			return list;
 		}
@@ -22,16 +21,18 @@ namespace DEngine.Core {
 			desty = yTo;
 			deltax = xTo - xFrom;
 			deltay = yTo - yFrom;
-			if (deltax > 0) {
+			if (deltax > 0)
 				stepx = 1;
-			} else if (deltax < 0) {
+			else if (deltax < 0)
 				stepx = -1;
-			} else stepx = 0;
-			if (deltay > 0) {
+			else
+				stepx = 0;
+			if (deltay > 0)
 				stepy = 1;
-			} else if (deltay < 0) {
+			else if (deltay < 0)
 				stepy = -1;
-			} else stepy = 0;
+			else
+				stepy = 0;
 			if (stepx * deltax > stepy * deltay) {
 				e = stepx * deltax;
 				deltax *= 2;
@@ -45,7 +46,8 @@ namespace DEngine.Core {
 
 		private bool Step(ref int xCur, ref int yCur) {
 			if (stepx * deltax > stepy * deltay) {
-				if (origx == destx) return true;
+				if (origx == destx)
+					return true;
 				origx += stepx;
 				e -= stepy * deltay;
 				if (e < 0) {
@@ -53,7 +55,8 @@ namespace DEngine.Core {
 					e += stepx * deltax;
 				}
 			} else {
-				if (origy == desty) return true;
+				if (origy == desty)
+					return true;
 				origy += stepy;
 				e -= stepx * deltax;
 				if (e < 0) {
@@ -74,6 +77,6 @@ namespace DEngine.Core {
 		private int origx;
 		private int origy;
 		private int destx;
-		private int desty; 
+		private int desty;
 	}
 }

@@ -6,11 +6,12 @@ using NUnit.Framework;
 
 namespace DEngineTests {
 	[TestFixture]
-	class RngTests {
+	internal class RngTests {
 		[SetUp]
 		public static void SetUp() {
 			Rng.Seed(0);
 		}
+
 //		[Test]
 //		public static void TestDiceCreation() {
 //			Rand d = new Rand(1, 2, 3, 4);
@@ -66,9 +67,8 @@ namespace DEngineTests {
 		public static void TestTriangle() {
 			int[] list = new int[20];
 
-			for (int i = 0; i < 100000; i++) {
+			for (int i = 0; i < 100000; i++)
 				list[Rng.TriangleInt(10, 8)]++;
-			}
 
 			int index = 0;
 			foreach (var i in list) {
@@ -79,7 +79,6 @@ namespace DEngineTests {
 
 		[Test]
 		public static void TestGaussian() {
-
 			int[] list = new int[51];
 
 			for (int i = 0; i < 400000; i++) {
@@ -87,7 +86,7 @@ namespace DEngineTests {
 //                Console.WriteLine(j);
 				list[j]++;
 			}
-			
+
 			int index = 0;
 			foreach (var i in list) {
 				Console.WriteLine("{0}: {1}", index, i);
