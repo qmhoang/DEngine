@@ -45,18 +45,5 @@ namespace DEngine.Core {
         }
 
         public abstract bool IsWalkable(int x, int y);
-
-
-//        public void SetVisible(Point p, bool visible) {
-//            SetVisible(p.X, p.Y, visible);
-//        }
-//
-//        public abstract void SetVisible(int x, int y, bool visible);
-//
-//        public void SetWalkable(Point p, bool walkable) {
-//            SetWalkable(p.X, p.Y, walkable);
-//        }
-//
-//        public abstract void SetWalkable(int x, int y, bool walkable);
     }
 }

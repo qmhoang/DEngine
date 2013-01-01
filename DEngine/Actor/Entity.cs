@@ -45,8 +45,16 @@ namespace DEngine.Actor {
         public abstract bool HasLineOfSight(Point position);
         public abstract bool CanSpot(Entity target);
 
-        public bool Updateable { get { return ActionPoints > 0; } }        
+        public bool Updateable { get { return ActionPoints > 0; } }
+
+        /// <summary>
+        /// When an entity has >0 AP, it can act, actions cost AP
+        /// </summary>
         public virtual int ActionPoints { get; set; }
+
+        /// <summary>
+        /// Represents how fast an entity is, the higher the speed, the faster an object can update
+        /// </summary>
         public abstract int Speed { get; }
         public abstract void Update();
         public abstract bool Dead { get; }

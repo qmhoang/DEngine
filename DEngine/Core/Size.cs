@@ -3,8 +3,8 @@ namespace DEngine.Core {
     /// Immutable type representing anything that has a width and a height
     /// </summary>
     public struct Size {
-        public int Width;
-        public int Height;
+        public int Width { get; set; }
+        public int Height { get; set; }
 
         public bool IsEmpty {
             get {
@@ -14,13 +14,14 @@ namespace DEngine.Core {
                     return false;
             }
         }
+        
 
-        public Size(int width, int height) {
+        public Size(int width, int height) : this() {
             Width = width;
             Height = height;
         }
 
-        public Size(Size size) {
+        public Size(Size size) : this() {
             Width = size.Width;
             Height = size.Height;
         }
