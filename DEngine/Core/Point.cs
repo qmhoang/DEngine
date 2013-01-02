@@ -16,6 +16,7 @@ namespace DEngine.Core {
 		public static readonly Point Northeast = North + East;
 		public static readonly Point Southwest = South + West;
 		public static readonly Point Southeast = South + East;
+		public static readonly Point Invalid = new Point(-1, -1);
 
 		public int X { get; private set; }
 		public int Y { get; private set; }
