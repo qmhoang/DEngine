@@ -25,23 +25,24 @@ namespace DEngine.Core {
 		};
 
 		/* convert dir_t to dx,dy */
-		private static int[] dirx = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
-		private static int[] diry = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
-		private static PathFindingDirection[] invdir =
-				{
-						PathFindingDirection.SOUTH_EAST,
-						PathFindingDirection.SOUTH,
-						PathFindingDirection.SOUTH_WEST,
-						PathFindingDirection.EAST,
-						PathFindingDirection.NONE,
-						PathFindingDirection.WEST,
-						PathFindingDirection.NORTH_EAST,
-						PathFindingDirection.NORTH,
-						PathFindingDirection.NORTH_WEST
-				};
+		static int[] dirx={-1,0,1,-1,0,1,-1,0,1};
+		static int[] diry={-1,-1,-1,0,0,0,1,1,1};
+
+		private static PathFindingDirection[] invdir = {
+		                                               		PathFindingDirection.SOUTH_EAST,
+		                                               		PathFindingDirection.SOUTH, 
+															PathFindingDirection.SOUTH_WEST, 
+															PathFindingDirection.EAST, 
+															PathFindingDirection.NONE,
+		                                               		PathFindingDirection.WEST, 
+															PathFindingDirection.NORTH_EAST, 
+															PathFindingDirection.NORTH, 
+															PathFindingDirection.NORTH_WEST
+		                                               };
 
 		private int ox, oy; /* coordinates of the creature position */
 		private int dx, dy; /* coordinates of the creature's destination */
+
 
 		private List<PathFindingDirection> path;
 
@@ -290,8 +291,8 @@ namespace DEngine.Core {
 		public bool Walk(ref int x, ref int y, bool recalculate_when_needed) {
 			if (path.Count == 0)
 				return false;
-			PathFindingDirection d = path[0];
-			path.RemoveAt(0);
+			PathFindingDirection d = path[path.Count - 1];
+			path.RemoveAt(path.Count - 1);			
 
 			int newx = ox + dirx[(int) d];
 			int newy = oy + diry[(int) d];
@@ -414,7 +415,7 @@ namespace DEngine.Core {
 								heur[offset] -= (previousCovered - covered); /* fix the A* score */
 								prev[offset] = prevdirs[i];
 								/* reorder the heap */
-								heap_reorder((uint) offset);
+								heap_reorder((uint)offset);
 							}
 						}
 					}

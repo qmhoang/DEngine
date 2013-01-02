@@ -1,6 +1,14 @@
+using System;
+
 namespace DEngine.Core {
 	public abstract class Map {
 		public Size Size { get; protected set; }
+		internal FovMap FOVMap;
+		
+		protected Map(Size size) {
+			Size = size;
+			FOVMap = new FovMap(Size.Width, Size.Height);
+		}
 
 		public int Width {
 			get { return Size.Width; }
@@ -38,12 +46,32 @@ namespace DEngine.Core {
 			return IsVisible(p.X, p.Y);
 		}
 
-		public abstract bool IsVisible(int x, int y);
+		public bool IsVisible(int x, int y) {
+			if (!IsInBoundsOrBorder(x, y))
+				throw new ArgumentOutOfRangeException();
+			return FOVMap.IsVisible(x, y);
+		}
 
 		public bool IsWalkable(Point v) {
 			return IsWalkable(v.X, v.Y);
 		}
+		
+		public bool IsWalkable(int x, int y) {
+			if (!IsInBoundsOrBorder(x, y))
+				return false;
+			return FOVMap.IsWalkable(x, y);
+		}
 
-		public abstract bool IsWalkable(int x, int y);
+		protected void SetVisibility(int x, int y, bool visible) {
+			FOVMap.SetVisibility(x, y, visible);			
+		}
+
+		protected void SetProperties(int x, int y, bool transparent, bool walkable) {
+			FOVMap.SetProperties(x, y, transparent, walkable);
+		}
+
+		public void CalculateFOV(Point viewPoint, int viewableDistance) {
+			ShadowCastingFOV.ComputeRecursiveShadowcasting(FOVMap, viewPoint.X, viewPoint.Y, viewableDistance, true);
+		}
 	}
 }
