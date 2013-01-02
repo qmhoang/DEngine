@@ -1,6 +1,6 @@
 using System;
 
-namespace DEngine.Core {
+namespace DEngine.Core {	
 	public abstract class Map {
 		public Size Size { get; protected set; }
 		internal FovMap FOVMap;

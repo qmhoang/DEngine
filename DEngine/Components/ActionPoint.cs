@@ -25,4 +25,5 @@ namespace DEngine.Components {
 			Speed = speed;			
 		}
 	}
+
 }
