@@ -167,8 +167,10 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public IEnumerable<EntityComponent> Components() {
-			return manager.All(Id);
+		public IEnumerable<EntityComponent> Components {
+			get {
+				return manager.All(Id);
+			}
 		}
 
 		#region IEquatable and IComparable

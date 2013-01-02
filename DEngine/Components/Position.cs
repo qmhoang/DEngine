@@ -11,16 +11,20 @@ namespace DEngine.Components {
 
 		public int X {
 			get { return Coordinates.X; }
-			set { Coordinates.X = value; }
+			set { Coordinates = new Point(value, Y); }
 		}
 
 		public int Y {
 			get { return Coordinates.Y; }
-			set { Coordinates.Y = value; }
+			set { Coordinates = new Point(X, value); }
 		}
 
 		public Position(Point coordinate) {
 			Coordinates = coordinate;
+		}
+
+		public Position(int x, int y) {
+			Coordinates = new Point(x, y);			
 		}
 
 		public double DistanceTo(Position p) {
