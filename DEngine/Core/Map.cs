@@ -62,6 +62,16 @@ namespace DEngine.Core {
 			return FOVMap.IsWalkable(x, y);
 		}
 
+		public bool IsTransparent(Point v) {
+			return IsTransparent(v.X, v.Y);
+		}
+
+		public bool IsTransparent(int x, int y) {
+			if (!IsInBoundsOrBorder(x, y))
+				return false;
+			return FOVMap.IsTransparent(x, y);
+		}
+
 		protected void SetVisibility(int x, int y, bool visible) {
 			FOVMap.SetVisibility(x, y, visible);			
 		}
