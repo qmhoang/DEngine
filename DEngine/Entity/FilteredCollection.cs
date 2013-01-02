@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DEngine.Extensions;
 
 namespace DEngine.Entity {
 	/// <summary>
@@ -71,15 +72,14 @@ namespace DEngine.Entity {
 			}
 		}
 
-		//        /// <summary>
-		//        /// Constructor with lambda comparer
-		//        /// </summary>
-		//        /// <param name="entityManager"></param>
-		//        /// <param name="types"></param>
-		//        /// <param name="comparer"></param>
-		//        internal FilteredCollection(EntityManager entityManager, Type[] types, Func<Entity, Entity, int> comparer)
-		//            : this(entityManager, types, new Engine.Tools.LambdaComparer<Entity>(comparer))
-		//        { }
+		/// <summary>
+		/// Constructor with lambda comparer
+		/// </summary>
+		/// <param name="entityManager"></param>
+		/// <param name="types"></param>
+		/// <param name="comparer"></param>
+		internal FilteredCollection(EntityManager entityManager, Type[] types, Func<Entity, Entity, int> comparer)
+			: this(entityManager, types, new LambdaComparer<Entity>(comparer)) {}
 
 		/// <summary>
 		/// Constructor with comparer
@@ -98,9 +98,9 @@ namespace DEngine.Entity {
 		/// <summary>
 		/// Check if the entity belongs in this collection
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="entity"></param>
 		internal bool MatchesFilter(Entity entity) {
-			return filter.All(t => entity.Is(t));
+			return filter.All(entity.Is);
 		}
 
 		/// <summary>

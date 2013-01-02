@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="Actor\AbstractActor.cs" />
     <Compile Include="Components\ActionPoint.cs" />
-    <Compile Include="Components\Position.cs" />
+    <Compile Include="Components\Location.cs" />
     <Compile Include="Components\Sprite.cs" />
     <Compile Include="Core\Bresenham.cs" />
     <Compile Include="Core\AStarPathFinder.cs" />

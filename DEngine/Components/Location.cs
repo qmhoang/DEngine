@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using DEngine.Core;
+using DEngine.Entity;
+
+namespace DEngine.Components {
+	public class Location : EntityComponent {
+		public Point Position { get; set; }
+
+		public int X {
+			get { return Position.X; }
+			set { Position = new Point(value, Y); }
+		}
+
+		public int Y {
+			get { return Position.Y; }
+			set { Position = new Point(X, value); }
+		}
+
+		public Location(Point coordinate) {
+			Position = coordinate;
+		}
+
+		public Location(int x, int y) {
+			Position = new Point(x, y);			
+		}
+
+		public double DistanceTo(Location p) {
+			return Position.DistanceTo(p.Position);
+		}
+
+		public bool IsNear(int x, int y, int radius) {
+			return IsNear(new Point(x, y), radius);
+		}
+
+		public bool IsNear(Point point, int radius) {
+			return point.IsInCircle(Position, radius);
+		}
+	}
+}
