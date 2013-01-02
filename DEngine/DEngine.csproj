@@ -58,7 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\Entity.cs" />
+    <Compile Include="Actor\AbstractActor.cs" />
     <Compile Include="Core\Bresenham.cs" />
     <Compile Include="Core\AStarPathFinder.cs" />
     <Compile Include="Core\ShadowCastingFOV.cs" />
@@ -73,11 +73,20 @@
     <Compile Include="Core\EventArgs.cs" />
     <Compile Include="Core\Rect.cs" />
     <Compile Include="Actor\ICopy.cs" />
-    <Compile Include="Actor\IObject.cs" />
+    <Compile Include="Extensions\LambdaComparer.cs" />
+    <Compile Include="Objects\ComponentManager.cs" />
+    <Compile Include="Objects\Entity.cs" />
     <Compile Include="Actor\UniqueId.cs" />
-    <Compile Include="Actor\IEntity.cs" />
+    <Compile Include="Actor\IObject.cs" />
     <Compile Include="Core\Size.cs" />
     <Compile Include="Core\Point.cs" />
+    <Compile Include="Objects\EntityComponent.cs" />
+    <Compile Include="Objects\EntityManager.cs" />
+    <Compile Include="Objects\FilteredCollection.cs" />
+    <Compile Include="Objects\IComponentManager.cs" />
+    <Compile Include="Objects\Template.cs" />
+    <Compile Include="Objects\TemplateCollection.cs" />
+    <Compile Include="Objects\TemplateCollections.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
