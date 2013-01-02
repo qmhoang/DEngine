@@ -28,7 +28,7 @@ namespace DEngine.Actor {
 		}
 
 		public int CompareTo(UniqueId other) {
-			return id.CompareTo(other);
+			return id.CompareTo(other.id);
 		}
 
 		public override string ToString() {

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace DEngine.Entity {
 	/// <summary>
-	/// Manager for template collections.  Provides internal manipulations
+	/// Manager for template collections.  Provides public manipulations
 	/// for template collections.
 	/// </summary>
-	internal class TemplateCollections {
+	public class TemplateCollections {
 		readonly EntityManager manager;    // Entity manager
 		readonly Dictionary<Type, TemplateCollection> templates;
 
-		internal TemplateCollections(EntityManager entityManager) {
+		public TemplateCollections(EntityManager entityManager) {
 			manager = entityManager;
 			templates = new Dictionary<Type, TemplateCollection>();
 		}
@@ -20,7 +20,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="TTemplate"></typeparam>
 		/// <returns></returns>
-		internal TemplateCollection Get<TTemplate>()
+		public TemplateCollection Get<TTemplate>()
 				where TTemplate : Template {
 			// Ensure that we have something to return
 			if (!templates.ContainsKey(typeof(TTemplate))) {
@@ -36,7 +36,7 @@ namespace DEngine.Entity {
 		/// Add a new entity to the appropriate template collection
 		/// </summary>
 		/// <param name="e"></param>
-		internal void Add(Entity e) {
+		public void Add(Entity e) {
 			if (e.Template == null)
 				return;
 
@@ -52,7 +52,7 @@ namespace DEngine.Entity {
 		/// Remove an entity from the template collections
 		/// </summary>
 		/// <param name="e"></param>
-		internal void Remove(Entity e) {
+		public void Remove(Entity e) {
 			if (e.Template == null)
 				return;
 

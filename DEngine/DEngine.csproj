@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\AbstractActor.cs" />
-    <Compile Include="Components\Actionable.cs" />
+    <Compile Include="Components\ActionPoint.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Components\Sprite.cs" />
     <Compile Include="Core\Bresenham.cs" />
