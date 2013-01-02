@@ -59,6 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\AbstractActor.cs" />
+    <Compile Include="Components\Actionable.cs" />
+    <Compile Include="Components\Position.cs" />
+    <Compile Include="Components\Sprite.cs" />
     <Compile Include="Core\Bresenham.cs" />
     <Compile Include="Core\AStarPathFinder.cs" />
     <Compile Include="Core\ShadowCastingFOV.cs" />
@@ -74,19 +77,19 @@
     <Compile Include="Core\Rect.cs" />
     <Compile Include="Actor\ICopy.cs" />
     <Compile Include="Extensions\LambdaComparer.cs" />
-    <Compile Include="Objects\ComponentManager.cs" />
-    <Compile Include="Objects\Entity.cs" />
+    <Compile Include="Entity\ComponentManager.cs" />
+    <Compile Include="Entity\Entity.cs" />
     <Compile Include="Actor\UniqueId.cs" />
     <Compile Include="Actor\IObject.cs" />
     <Compile Include="Core\Size.cs" />
     <Compile Include="Core\Point.cs" />
-    <Compile Include="Objects\EntityComponent.cs" />
-    <Compile Include="Objects\EntityManager.cs" />
-    <Compile Include="Objects\FilteredCollection.cs" />
-    <Compile Include="Objects\IComponentManager.cs" />
-    <Compile Include="Objects\Template.cs" />
-    <Compile Include="Objects\TemplateCollection.cs" />
-    <Compile Include="Objects\TemplateCollections.cs" />
+    <Compile Include="Entity\EntityComponent.cs" />
+    <Compile Include="Entity\EntityManager.cs" />
+    <Compile Include="Entity\FilteredCollection.cs" />
+    <Compile Include="Entity\IComponentManager.cs" />
+    <Compile Include="Entity\Template.cs" />
+    <Compile Include="Entity\TemplateCollection.cs" />
+    <Compile Include="Entity\TemplateCollections.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
