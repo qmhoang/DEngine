@@ -62,6 +62,7 @@
     <Compile Include="Components\ActionPoint.cs" />
     <Compile Include="Components\Location.cs" />
     <Compile Include="Components\Sprite.cs" />
+    <Compile Include="Components\VisionComponent.cs" />
     <Compile Include="Core\Bresenham.cs" />
     <Compile Include="Core\AStarPathFinder.cs" />
     <Compile Include="Core\ShadowCastingFOV.cs" />

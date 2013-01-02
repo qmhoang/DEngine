@@ -21,7 +21,7 @@ namespace DEngine.Entity {
 		private UniqueId owner;
 
 		[XmlIgnore]
-		public virtual UniqueId Owner {
+		public virtual UniqueId OwnerUId {
 			get {
 				return owner;
 			}

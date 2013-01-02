@@ -83,6 +83,7 @@ namespace DEngine.Entity {
 		/// <summary>
 		/// Construct with components
 		/// </summary>
+		/// <param name = "manager"></param>
 		/// <param name="id"></param>
 		/// <param name="components"></param>
 		public Entity(EntityManager manager, UniqueId id, IEnumerable<EntityComponent> components)

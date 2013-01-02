@@ -8,6 +8,7 @@ using DEngine.Entity;
 namespace DEngine.Components {
 	public class Location : EntityComponent {
 		public Point Position { get; set; }
+		public Map Level { get; set; }
 
 		public int X {
 			get { return Position.X; }
@@ -26,6 +27,8 @@ namespace DEngine.Components {
 		public Location(int x, int y) {
 			Position = new Point(x, y);			
 		}
+
+		public Location() {}
 
 		public double DistanceTo(Location p) {
 			return Position.DistanceTo(p.Position);

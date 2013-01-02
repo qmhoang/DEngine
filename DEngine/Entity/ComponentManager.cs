@@ -44,7 +44,7 @@ namespace DEngine.Entity {
 		/// <param name="o"></param>
 		public void Add<T>(UniqueId id, T o)
 				where T : EntityComponent {
-			o.Owner = id;   // Ensure the component is owned by the entity
+			o.OwnerUId = id;   // Ensure the component is owned by the entity
 			this[o.GetType()].Add(id, o);
 		}
 
@@ -52,9 +52,11 @@ namespace DEngine.Entity {
 		/// Add a collection of components to an entity
 		/// </summary>
 		/// <param name="id"></param>
-		/// <param name="components"></param>
-		public void Add(UniqueId id, IEnumerable<EntityComponent> components) {
-			foreach (var component in components) {
+		/// <param name="comps"></param>
+		public void Add(UniqueId id, IEnumerable<EntityComponent> comps) {
+			if (comps == null)
+				throw new ArgumentNullException("comps");
+			foreach (var component in comps) {
 				Add(id, component);
 			}
 		}
