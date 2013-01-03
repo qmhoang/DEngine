@@ -111,6 +111,13 @@ namespace DEngine.Entity {
 			return this;
 		}
 
+		public Entity Add(IEnumerable<EntityComponent> components) {
+			manager.Components.Add(Id, components);
+
+			manager.FilteredCollections.Each(c => c.Add(this));
+			return this;
+		}
+
 		/// <summary>
 		/// Remove a component from the entity
 		/// </summary>
@@ -195,5 +202,9 @@ namespace DEngine.Entity {
 		}
 
 		#endregion
+
+		public override string ToString() {
+			return Id.ToString();
+		}
 	}
 }

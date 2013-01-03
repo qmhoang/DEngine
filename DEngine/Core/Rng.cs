@@ -27,6 +27,8 @@ namespace DEngine.Core {
 		/// Gets a random int between 0 (inclusive) and max (exclusive).
 		/// </summary>
 		public static int Int(int max) {
+			Contract.Requires(max >= 0);
+			Contract.Ensures(Contract.Result<int>() >= 0 && Contract.Result<int>() < max);
 			return sRandom.Next(max);
 		}
 
@@ -34,6 +36,9 @@ namespace DEngine.Core {
 		/// Gets a random int between min (inclusive) and max (exclusive).
 		/// </summary>
 		public static int Int(int min, int max) {
+			Contract.Requires(min < max);
+			Contract.Ensures(Contract.Result<int>() >= min && Contract.Result<int>() < max);
+
 			return Int(max - min) + min;
 		}
 
@@ -41,6 +46,8 @@ namespace DEngine.Core {
 		/// Gets a random int between 0 and max (inclusive).
 		/// </summary>
 		public static int IntInclusive(int max) {
+			Contract.Requires(max > 0);
+			Contract.Ensures(Contract.Result<int>() >= 0 && Contract.Result<int>() <= max);
 			return sRandom.Next(max + 1);
 		}
 
@@ -48,6 +55,8 @@ namespace DEngine.Core {
 		/// Gets a random int between min and max (inclusive).
 		/// </summary>
 		public static int IntInclusive(int min, int max) {
+			Contract.Requires(min < max);
+			Contract.Ensures(Contract.Result<int>() >= min && Contract.Result<int>() <= max);
 			return IntInclusive(max - min) + min;
 		}
 
@@ -67,7 +76,7 @@ namespace DEngine.Core {
 		public static double Double(double min, double max) {
 			if (max < min)
 				throw new ArgumentOutOfRangeException("max", "The max must be min or greater.");
-
+			
 			return Double(max - min) + min;
 		}
 
