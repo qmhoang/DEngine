@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using DEngine.Components;
 using DEngine.Entity;
 
 namespace DEngine.Core {	
@@ -85,6 +88,10 @@ namespace DEngine.Core {
 
 		public void CalculateFOV(Point viewPoint, int viewableDistance) {
 			ShadowCastingFOV.ComputeRecursiveShadowcasting(FOVMap, viewPoint.X, viewPoint.Y, viewableDistance, true);
+		}
+
+		public IEnumerable<Entity.Entity> GetEntitiesAt(Point location) {
+			return EntityManager.Get<Location>().Where(e => e.As<Location>().Position == location);
 		}
 	}
 }
