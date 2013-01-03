@@ -30,8 +30,12 @@ namespace DEngine.Components {
 
 		public Location() {}
 
-		public double DistanceTo(Location p) {
-			return Position.DistanceTo(p.Position);
+		public double DistanceTo(Location loc) {
+			return Position.DistanceTo(loc.Position);
+		}
+
+		public double DistanceTo(Point p) {
+			return Position.DistanceTo(p);
 		}
 
 		public bool IsNear(int x, int y, int radius) {
