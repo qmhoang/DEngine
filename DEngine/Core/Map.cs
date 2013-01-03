@@ -1,9 +1,12 @@
 using System;
+using DEngine.Entity;
 
 namespace DEngine.Core {	
 	public abstract class Map {
 		public Size Size { get; protected set; }
 		internal FovMap FOVMap;
+		public EntityManager EntityManager { get; protected set; }
+
 		
 		protected Map(Size size) {
 			Size = size;

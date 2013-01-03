@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace DEngine.Core {
 	/// <summary>
@@ -57,6 +58,7 @@ namespace DEngine.Core {
 		}
 
 		public static Point operator /(Point v, int scalar) {
+			Contract.Requires<DivideByZeroException>(scalar != 0);
 			return new Point(v.X / scalar, v.Y / scalar);
 		}
 

@@ -102,7 +102,7 @@ namespace DEngine.Entity {
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		public FilteredCollection Get<T>(IComparer<Entity> comparer) where T : EntityComponent {
-			return Get(new[] { typeof(T) }, comparer);
+			return Get(comparer, new[] { typeof(T) });
 		}
 
 		/// <summary>
@@ -111,7 +111,7 @@ namespace DEngine.Entity {
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		public FilteredCollection Get<T>(Func<Entity, Entity, int> comparer) where T : EntityComponent {
-			return Get(new[] { typeof(T) }, comparer);
+			return Get(comparer, new[] { typeof(T) });
 		}
 
 		/// <summary>
@@ -136,7 +136,7 @@ namespace DEngine.Entity {
 		/// <param name="componentTypes"></param>
 		/// <param name="comparer"></param>
 		/// <returns></returns>
-		public FilteredCollection Get(Type[] componentTypes, IComparer<Entity> comparer) {
+		public FilteredCollection Get(IComparer<Entity> comparer, params Type[] componentTypes) {
 			var hashCode = FilteredCollection.GetHashCode(componentTypes, comparer);
 
 			if (!filteredCollections.ContainsKey(hashCode)) {
@@ -153,8 +153,8 @@ namespace DEngine.Entity {
 		/// <param name="componentTypes"></param>
 		/// <param name="comparer"></param>
 		/// <returns></returns>
-		public FilteredCollection Get(Type[] componentTypes, Func<Entity, Entity, int> comparer) {
-			return Get(componentTypes, new LambdaComparer<Entity>(comparer));
+		public FilteredCollection Get(Func<Entity, Entity, int> comparer, params Type[] componentTypes) {
+			return Get(new LambdaComparer<Entity>(comparer), componentTypes);
 		}
 
 		#endregion
