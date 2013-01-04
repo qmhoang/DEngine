@@ -7,17 +7,39 @@ using DEngine.Entity;
 
 namespace DEngine.Components {
 	public class Location : EntityComponent, IEquatable<Location> {
-		public Point Position { get; set; }
+		private Point position;
+		public Point Position {
+			get { return position; }
+			set {
+				position = value;
+				OnPositionChanged(new EventArgs<Point>(position));
+			}
+		}
+
 		public Map Level { get; set; }
 
+		public event EventHandler<EventArgs<Point>> PositionChanged;
+
+		public void OnPositionChanged(EventArgs<Point> e) {
+			EventHandler<EventArgs<Point>> handler = PositionChanged;
+			if (handler != null)
+				handler(this, e);
+		}
+
+		public event EventHandler<EventArgs<Map>> MapChanged;
+
+		public void OnMapChanged(EventArgs<Map> e) {
+			EventHandler<EventArgs<Map>> handler = MapChanged;
+			if (handler != null)
+				handler(this, e);
+		}
+
 		public int X {
-			get { return Position.X; }
-			set { Position = new Point(value, Y); }
+			get { return Position.X; }			
 		}
 
 		public int Y {
-			get { return Position.Y; }
-			set { Position = new Point(X, value); }
+			get { return Position.Y; }			
 		}
 
 		public Location(Point position, Map level) {
