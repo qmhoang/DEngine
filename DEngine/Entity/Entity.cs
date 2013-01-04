@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using DEngine.Actor;
 using DEngine.Extensions;
 
@@ -146,7 +147,8 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public T As<T>() where T : EntityComponent {
+		[Pure] 
+		public T Get<T>() where T : EntityComponent {
 			return manager.Components.Get<T>(Id);
 		}
 
@@ -155,8 +157,9 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public bool Is<T>() where T : EntityComponent {
-			return Is(typeof(T));
+		[Pure]
+		public bool Has<T>() where T : EntityComponent {
+			return Has(typeof(T));
 		}
 
 		/// <summary>
@@ -166,7 +169,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		internal bool Is(Type t) {
+		internal bool Has(Type t) {
 			return manager.Components.Contains(Id, t);
 		}
 
