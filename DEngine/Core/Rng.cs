@@ -12,7 +12,7 @@ namespace DEngine.Core {
 		/// Resets the seed used to generate the random numbers to a time-dependent one.
 		/// </summary>
 		public static void Seed() {
-			sRandom = new Random();
+			random = new Random();
 		}
 
 		/// <summary>
@@ -20,7 +20,7 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <param name="seed">New seed.</param>
 		public static void Seed(int seed) {
-			sRandom = new Random(seed);
+			random = new Random(seed);
 		}
 
 		/// <summary>
@@ -29,7 +29,7 @@ namespace DEngine.Core {
 		public static int Int(int max) {
 			Contract.Requires(max >= 0);
 			Contract.Ensures(Contract.Result<int>() >= 0 && Contract.Result<int>() < max);
-			return sRandom.Next(max);
+			return random.Next(max);
 		}
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace DEngine.Core {
 		public static int IntInclusive(int max) {
 			Contract.Requires(max > 0);
 			Contract.Ensures(Contract.Result<int>() >= 0 && Contract.Result<int>() <= max);
-			return sRandom.Next(max + 1);
+			return random.Next(max + 1);
 		}
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace DEngine.Core {
 			if (max < 0.0f)
 				throw new ArgumentOutOfRangeException("max", "The max must be zero or greater.");
 
-			return sRandom.NextDouble() * max;
+			return random.NextDouble() * max;
 		}
 
 		/// <summary>
@@ -129,7 +129,7 @@ namespace DEngine.Core {
 			if (chance > 1.0)
 				throw new ArgumentOutOfRangeException("chance", "Chance must be less than 1.0");
 
-			return sRandom.NextDouble() <= chance;
+			return random.NextDouble() <= chance;
 		}
 
 		/// <summary>
@@ -322,7 +322,7 @@ namespace DEngine.Core {
 			return value;
 		}
 
-		private static Random sRandom = new Random();
+		private static Random random = new Random();
 	}
 
 	/// <summary>

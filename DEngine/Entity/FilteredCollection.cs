@@ -100,7 +100,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <param name="entity"></param>
 		internal bool MatchesFilter(Entity entity) {
-			return filter.All(entity.Is);
+			return filter.All(entity.Has);
 		}
 
 		/// <summary>

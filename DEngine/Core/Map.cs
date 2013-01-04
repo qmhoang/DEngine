@@ -91,7 +91,7 @@ namespace DEngine.Core {
 		}
 
 		public IEnumerable<Entity.Entity> GetEntitiesAt(Point location) {
-			return EntityManager.Get<Location>().Where(e => e.As<Location>().Position == location);
+			return EntityManager.Get<Location>().Where(e => e.Get<Location>().Position == location);
 		}
 	}
 }
