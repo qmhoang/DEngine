@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 
 namespace DEngine.Entity {
-	public class Template : IEnumerable<EntityComponent> {
-		readonly Dictionary<Type, EntityComponent> components = new Dictionary<Type, EntityComponent>();
+	public class Template : IEnumerable<Component> {
+		readonly Dictionary<Type, Component> components = new Dictionary<Type, Component>();
 
 		public Template() { }
 
-		public Template(params EntityComponent[] components)
+		public Template(params Component[] components)
 			: this() {
 			if (components == null)
 				return;
@@ -21,7 +21,7 @@ namespace DEngine.Entity {
 		/// Add a component to the template
 		/// </summary>
 		/// <param name="component"></param>
-		public void Add(EntityComponent component) {
+		public void Add(Component component) {
 			if (components.ContainsKey(component.GetType())) {
 				components[component.GetType()] = component;
 			} else {
@@ -33,7 +33,7 @@ namespace DEngine.Entity {
 		/// Add a collection of components
 		/// </summary>
 		/// <param name="components"></param>
-		public void Add(params EntityComponent[] components) {
+		public void Add(params Component[] components) {
 			foreach (var component in components) {
 				Add(component);
 			}
@@ -44,8 +44,8 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public T As<T>() where T : EntityComponent {
-			EntityComponent o;
+		public T As<T>() where T : Component {
+			Component o;
 			components.TryGetValue(typeof(T), out o);
 			return (T)o;
 		}
@@ -55,13 +55,13 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public bool Is<T>() where T : EntityComponent {
+		public bool Is<T>() where T : Component {
 			return components.ContainsKey(typeof(T));
 		}
 
 		#region IEnumerable
 
-		public IEnumerator<EntityComponent> GetEnumerator() {
+		public IEnumerator<Component> GetEnumerator() {
 			return components.Values.GetEnumerator();
 		}
 

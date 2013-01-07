@@ -13,18 +13,18 @@ namespace DEngine.Entity {
 		/// <summary>
 		/// Collection of all components, separated by type.
 		/// </summary>
-		Dictionary<Type, Dictionary<UniqueId, EntityComponent>> components;
+		Dictionary<Type, Dictionary<UniqueId, Component>> components;
 
 
-		private Dictionary<UniqueId, EntityComponent> this[Type t] {
+		private Dictionary<UniqueId, Component> this[Type t] {
 			get {
 				// Ensure that the manager has a dictionary ready for the component type
 				if (!components.ContainsKey(t)) {
 					// Check that our type is valid
-					if (!typeof(EntityComponent).IsAssignableFrom(t))
+					if (!typeof(Component).IsAssignableFrom(t))
 						throw new ArgumentException("Type does not implement EntityComponent", "t");
 
-					components.Add(t, new Dictionary<UniqueId, EntityComponent>());
+					components.Add(t, new Dictionary<UniqueId, Component>());
 				}
 
 				return components[t];
@@ -33,7 +33,7 @@ namespace DEngine.Entity {
 
 
 		internal ComponentManager() {
-			components = new Dictionary<Type, Dictionary<UniqueId, EntityComponent>>();
+			components = new Dictionary<Type, Dictionary<UniqueId, Component>>();
 		}
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace DEngine.Entity {
 		/// <param name="id"></param>
 		/// <param name="o"></param>
 		public void Add<T>(UniqueId id, T o)
-				where T : EntityComponent {
+				where T : Component {
 			o.OwnerUId = id;   // Ensure the component is owned by the entity
 			this[o.GetType()].Add(id, o);
 		}
@@ -53,7 +53,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="comps"></param>
-		public void Add(UniqueId id, IEnumerable<EntityComponent> comps) {
+		public void Add(UniqueId id, IEnumerable<Component> comps) {
 			if (comps == null)
 				throw new ArgumentNullException("comps");
 			foreach (var component in comps) {
@@ -78,7 +78,7 @@ namespace DEngine.Entity {
 		/// <param name="id"></param>
 		/// <returns></returns>
 		public bool Remove<T>(UniqueId id)
-				where T : EntityComponent {
+				where T : Component {
 			return this[typeof(T)].Remove(id);
 		}
 
@@ -88,8 +88,8 @@ namespace DEngine.Entity {
 		/// <typeparam name="T"></typeparam>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public T Get<T>(UniqueId id) where T : EntityComponent {
-			EntityComponent o;
+		public T Get<T>(UniqueId id) where T : Component {
+			Component o;
 			this[typeof(T)].TryGetValue(id, out o);
 			return (T)o;
 		}
@@ -116,8 +116,8 @@ namespace DEngine.Entity {
 
 		#endregion
 
-		public IEnumerable<EntityComponent> All(UniqueId id) {
-			var list = new List<EntityComponent>();
+		public IEnumerable<Component> All(UniqueId id) {
+			var list = new List<Component>();
 
 			foreach (var collection in components) {
 				if (collection.Value.ContainsKey(id)) {

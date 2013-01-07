@@ -5,9 +5,7 @@ using DEngine.Core;
 using DEngine.Entity;
 
 namespace DEngine.Components {
-	public class VisibleComponent : EntityComponent {
-		//todo visibility difficulty
-
+	public class VisibleComponent : Component {
 		/// <summary>
 		/// How difficulty is it to see the item, -1 means its impossible to see
 		/// </summary>
@@ -23,5 +21,12 @@ namespace DEngine.Components {
 		}
 
 		public VisibleComponent() {}
+		public override Component Copy() {
+			return new VisibleComponent()
+			       {
+			       		VisibilityIndex = VisibilityIndex,
+						DefaultIndex = DefaultIndex,						
+			       };
+		}
 	}
 }

@@ -10,6 +10,7 @@ namespace DEngine.Core {
 		internal FovMap FOVMap;
 		public EntityManager EntityManager { get; protected set; }
 
+		//todo entity LUT by location (use filteredcollection to get) if speed is needed
 		
 		protected Map(Size size) {
 			Size = size;

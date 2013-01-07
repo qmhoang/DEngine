@@ -1,7 +1,7 @@
 using DEngine.Entity;
 
 namespace DEngine.Components {
-	public class ActionPoint : EntityComponent {
+	public class ActionPoint : Component {
 		/// <summary>
 		/// How much action points an entity has
 		/// </summary>
@@ -23,6 +23,10 @@ namespace DEngine.Components {
 		public ActionPoint(int actionPoints = 0, int speed = DEFAULT_SPEED) {
 			ActionPoints = actionPoints;
 			Speed = speed;			
+		}
+
+		public override Component Copy() {
+			return new ActionPoint(ActionPoints, Speed);
 		}
 	}
 

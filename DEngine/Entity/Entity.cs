@@ -87,7 +87,7 @@ namespace DEngine.Entity {
 		/// <param name = "manager"></param>
 		/// <param name="id"></param>
 		/// <param name="components"></param>
-		public Entity(EntityManager manager, UniqueId id, IEnumerable<EntityComponent> components)
+		public Entity(EntityManager manager, UniqueId id, IEnumerable<Component> components)
 			: this(manager, id) {
 			if (components is Template) {
 				template = components.GetType();
@@ -104,7 +104,7 @@ namespace DEngine.Entity {
 		/// <typeparam name="T"></typeparam>
 		/// <param name="component"></param>
 		/// <returns></returns>
-		public Entity Add<T>(T component) where T : EntityComponent {
+		public Entity Add<T>(T component) where T : Component {
 			manager.Components.Add(Id, component);
 
 			// Add any updated entity to any filtered collections
@@ -112,7 +112,7 @@ namespace DEngine.Entity {
 			return this;
 		}
 
-		public Entity Add(IEnumerable<EntityComponent> components) {
+		public Entity Add(IEnumerable<Component> components) {
 			manager.Components.Add(Id, components);
 
 			manager.FilteredCollections.Each(c => c.Add(this));
@@ -124,7 +124,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public Entity Remove<T>() where T : EntityComponent {
+		public Entity Remove<T>() where T : Component {
 			// Remove Order - Filtered Collections, ComponentManager
 
 			// Remove this from any filtered collections that it no longer matches
@@ -148,7 +148,7 @@ namespace DEngine.Entity {
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		[Pure] 
-		public T Get<T>() where T : EntityComponent {
+		public T Get<T>() where T : Component {
 			return manager.Components.Get<T>(Id);
 		}
 
@@ -158,7 +158,7 @@ namespace DEngine.Entity {
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		[Pure]
-		public bool Has<T>() where T : EntityComponent {
+		public bool Has<T>() where T : Component {
 			return Has(typeof(T));
 		}
 
@@ -178,7 +178,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public IEnumerable<EntityComponent> Components {
+		public IEnumerable<Component> Components {
 			get {
 				return manager.All(Id);
 			}
@@ -208,6 +208,20 @@ namespace DEngine.Entity {
 
 		public override string ToString() {
 			return Id.ToString();
+		}
+
+		/// <summary>
+		/// Deep clone
+		/// </summary>
+		/// <returns></returns>
+		public Entity Copy() {
+			var entity = new Entity(manager, new UniqueId());
+
+			foreach (var component in Components) {
+				entity.Add(component.Copy());
+			}
+
+			return entity;
 		}
 	}
 }
