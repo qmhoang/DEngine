@@ -66,7 +66,7 @@ namespace DEngine.Components {
 		}
 
 		public bool Equals(Location other) {
-			return !ReferenceEquals(null, other);
+			return Position == other.Position && ReferenceEquals(Level, other.Level);
 		}
 
 		public override bool Equals(object obj) {
