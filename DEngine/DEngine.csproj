@@ -114,7 +114,7 @@
     <Compile Include="Actor\IObject.cs" />
     <Compile Include="Core\Size.cs" />
     <Compile Include="Core\Point.cs" />
-    <Compile Include="Entity\EntityComponent.cs" />
+    <Compile Include="Entity\Component.cs" />
     <Compile Include="Entity\EntityManager.cs" />
     <Compile Include="Entity\FilteredCollection.cs" />
     <Compile Include="Entity\IComponentManager.cs" />

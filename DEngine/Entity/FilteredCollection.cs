@@ -57,7 +57,7 @@ namespace DEngine.Entity {
 			hashCode = FilteredCollection.GetHashCode(types, null);
 
 			// Check that all types are really components
-			if (!types.All(t => typeof(EntityComponent).IsAssignableFrom(t))) {
+			if (!types.All(t => typeof(Component).IsAssignableFrom(t))) {
 				throw new Exception("Type is not of IComponent - cannot filter.");
 			}
 
@@ -128,7 +128,7 @@ namespace DEngine.Entity {
 			entities.Add(entity);
 
 			// Notify any listeners that a new entity was added
-			if (OnEntityAdd != null) {
+			if (OnEntityAdd != null && MatchesFilter(entity)) {
 				OnEntityAdd(entity);
 			}
 
@@ -138,10 +138,10 @@ namespace DEngine.Entity {
 		/// <summary>
 		/// Remove an entity from the collection
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name = "entity"></param>
 		internal void Remove(Entity entity) {
 			// Notify any listeners that an entity was removed
-			if (OnEntityRemove != null) {
+			if (OnEntityRemove != null && MatchesFilter(entity)) {				
 				OnEntityRemove(entity);
 			}
 
@@ -166,7 +166,6 @@ namespace DEngine.Entity {
 		/// Get the hashcode for the type collection and the comparer.  The type collection can be in any order.
 		/// </summary>
 		/// <param name="types"></param>
-		/// <param name="comparer"></param>
 		/// <returns></returns>
 		public static int GetHashCode(Type[] types) {
 			return GetHashCode(types, null);

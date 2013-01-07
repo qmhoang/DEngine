@@ -14,14 +14,14 @@ namespace DEngine.Entity {
 		/// <typeparam name="T"></typeparam>
 		/// <param name="entityId"></param>
 		/// <param name="o"></param>
-		void Add<T>(UniqueId entityId, T o) where T : EntityComponent;
+		void Add<T>(UniqueId entityId, T o) where T : Component;
 
 		/// <summary>
 		/// Add a list of components to an entity
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="components"></param>
-		void Add(UniqueId id, IEnumerable<EntityComponent> components);
+		void Add(UniqueId id, IEnumerable<Component> components);
 
 		/// <summary>
 		/// Remove all components belonging to an entity
@@ -34,7 +34,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <param name="id"></param>		
 		/// <returns>If a component was removed or not</returns>
-		bool Remove<T>(UniqueId id) where T : EntityComponent;
+		bool Remove<T>(UniqueId id) where T : Component;
 
 		/// <summary>
 		/// Get a component beloning to an entity
@@ -42,7 +42,7 @@ namespace DEngine.Entity {
 		/// <typeparam name="T"></typeparam>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		T Get<T>(UniqueId id) where T : EntityComponent;
+		T Get<T>(UniqueId id) where T : Component;
 
 		/// <summary>
 		/// Check if an entity has a component type
@@ -52,6 +52,6 @@ namespace DEngine.Entity {
 		/// <returns></returns>
 		bool Contains(UniqueId id, Type t);
 
-		IEnumerable<EntityComponent> All(UniqueId id);
+		IEnumerable<Component> All(UniqueId id);
 	}
 }

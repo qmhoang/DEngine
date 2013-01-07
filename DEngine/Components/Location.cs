@@ -6,7 +6,7 @@ using DEngine.Core;
 using DEngine.Entity;
 
 namespace DEngine.Components {
-	public class Location : EntityComponent, IEquatable<Location> {
+	public class Location : Component, IEquatable<Location> {
 		private Point position;
 		public Point Position {
 			get { return position; }
@@ -89,6 +89,10 @@ namespace DEngine.Components {
 
 		public static bool operator !=(Location left, Location right) {
 			return !Equals(left, right);
+		}
+
+		public override Component Copy() {
+			return new Location(X, Y, Level);
 		}
 	}
 }

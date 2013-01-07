@@ -92,7 +92,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public FilteredCollection Get<T>() where T : EntityComponent {
+		public FilteredCollection Get<T>() where T : Component {
 			return Get(new[] { typeof(T) });
 		}
 
@@ -101,7 +101,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public FilteredCollection Get<T>(IComparer<Entity> comparer) where T : EntityComponent {
+		public FilteredCollection Get<T>(IComparer<Entity> comparer) where T : Component {
 			return Get(comparer, new[] { typeof(T) });
 		}
 
@@ -110,7 +110,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public FilteredCollection Get<T>(Func<Entity, Entity, int> comparer) where T : EntityComponent {
+		public FilteredCollection Get<T>(Func<Entity, Entity, int> comparer) where T : Component {
 			return Get(comparer, new[] { typeof(T) });
 		}
 
@@ -179,7 +179,7 @@ namespace DEngine.Entity {
 		/// Create and return a new entity
 		/// </summary>
 		/// <returns></returns>
-		public Entity Create(IEnumerable<EntityComponent> components = null) {
+		public Entity Create(IEnumerable<Component> components = null) {
 			var nextId = new UniqueId();
 
 			// Ensure that the next available id is, in fact, available
@@ -234,7 +234,7 @@ namespace DEngine.Entity {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public IEnumerable<EntityComponent> All(UniqueId id) {
+		public IEnumerable<Component> All(UniqueId id) {
 			return Components.All(id);
 		}
 	}

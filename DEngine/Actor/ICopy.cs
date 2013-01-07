@@ -3,7 +3,7 @@
 	/// Make a hard copy
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public interface ICopy<out T> {
+	public interface ICopy<T> {
 		T Copy();
 	}
 }
