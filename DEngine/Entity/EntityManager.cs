@@ -179,7 +179,7 @@ namespace DEngine.Entity {
 		/// Create and return a new entity
 		/// </summary>
 		/// <returns></returns>
-		public Entity Create(IEnumerable<Component> components = null) {
+		public Entity Create(IEnumerable<Component> comps = null) {
 			var nextId = new UniqueId();
 
 			// Ensure that the next available id is, in fact, available
@@ -187,7 +187,7 @@ namespace DEngine.Entity {
 				nextId = new UniqueId();
 			}
 
-			var entity = components == null ? new Entity(this, nextId) : new Entity(this, nextId, components);
+			var entity = comps == null ? new Entity(this, nextId) : new Entity(this, nextId, comps);
 
 			entities.Add(entity.Id, entity);               // Add to entity dictionary
 			FilteredCollections.Each(c => c.Add(entity));   // Add to filtered collections
