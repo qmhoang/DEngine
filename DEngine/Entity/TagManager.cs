@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 
@@ -14,6 +15,9 @@ namespace DEngine.Entity {
 		}
 
 		public void Register(String tag, Entity e) {
+			Contract.Requires<ArgumentNullException>(e != null);
+			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
+
 			entityLUT.Add(tag, e);
 			if (!tags.ContainsKey(e)) {
 				tags.Add(e, new List<string>());
@@ -22,6 +26,8 @@ namespace DEngine.Entity {
 		}
 
 		public void Unregister(String tag) {
+			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
+
 			if (!entityLUT.ContainsKey(tag))
 				return;
 
@@ -30,14 +36,20 @@ namespace DEngine.Entity {
 		}
 
 		public bool IsRegistered(String tag) {
+			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
+
 			return entityLUT.ContainsKey(tag);
 		}
 
 		public Entity GetEntity(String tag) {
+			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
+
 			return entityLUT[tag];
 		}
 
 		public void Remove(Entity e) {
+			Contract.Requires<ArgumentNullException>(e != null, "e");
+
 			foreach (var tag in tags[e]) {
 				entityLUT.Remove(tag);
 			}
@@ -45,6 +57,8 @@ namespace DEngine.Entity {
 		}
 
 		public IEnumerable<string> GetTags(Entity e) {
+			Contract.Requires<ArgumentNullException>(e != null, "e");
+
 			return tags[e];
 		}
 
