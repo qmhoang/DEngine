@@ -91,6 +91,7 @@
     <Compile Include="Actor\AbstractActor.cs" />
     <Compile Include="Components\ActionPoint.cs" />
     <Compile Include="Components\Location.cs" />
+    <Compile Include="Components\Identifier.cs" />
     <Compile Include="Components\Sprite.cs" />
     <Compile Include="Components\VisibleComponent.cs" />
     <Compile Include="Core\Bresenham.cs" />
