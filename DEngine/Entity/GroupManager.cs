@@ -74,6 +74,8 @@ namespace DEngine.Entity {
 		/// <param name="e"></param>
 		/// <returns></returns>
 		public string GetGroupOf(Entity e) {
+			Contract.Requires<ArgumentNullException>(e != null, "e");
+
 			if (entityIDToEntityLUT.ContainsKey(e.Id))
 				return entityIDToEntityLUT[e.Id];
 			return null;
