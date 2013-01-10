@@ -83,9 +83,17 @@ namespace DEngine.Core {
 			FOVMap.SetVisibility(x, y, visible);			
 		}
 
+		protected void SetTransparency(int x, int y, bool transparent) {
+			FOVMap.SetTransparency(x, y, transparent);
+		}
+
+		protected void SetWalkable(int x, int y, bool walkable) {
+			FOVMap.SetWalkable(x, y, walkable);
+		}
+
 		protected void SetProperties(int x, int y, bool transparent, bool walkable) {
 			FOVMap.SetProperties(x, y, transparent, walkable);
-		}
+		} 
 
 		public void CalculateFOV(Point viewPoint, int viewableDistance) {
 			ShadowCastingFOV.ComputeRecursiveShadowcasting(FOVMap, viewPoint.X, viewPoint.Y, viewableDistance, true);

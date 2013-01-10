@@ -43,6 +43,10 @@ namespace DEngine.Entity {
 		/// </summary>
 		protected virtual void OnSetOwner() { }
 
+		/// <summary>
+		/// Deep clone
+		/// </summary>
+		/// <returns></returns>
 		public abstract Component Copy();
 	}
 }
