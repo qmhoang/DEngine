@@ -19,5 +19,9 @@ namespace DEngine.Components {
 		public override Component Copy() {
 			return new Identifier(Name, Description);
 		}
+
+		public static string GetNameOrId(DEngine.Entity.Entity e) {
+			return e.Has<Identifier>() ? e.Get<Identifier>().Name : e.Id.ToString();
+		}
 	}
 }

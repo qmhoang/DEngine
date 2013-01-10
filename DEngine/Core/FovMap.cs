@@ -48,9 +48,18 @@ namespace DEngine.Core {
 			Cells[x, y].Visible = visible;
 		}
 
+		internal void SetTransparency(int x, int y, bool transparent) {
+			Cells[x, y].Transparent = transparent;
+		}
+
+		internal void SetWalkable(int x, int y, bool walkable) {
+			Cells[x, y].Walkable = walkable;
+		}
+
 		internal void SetProperties(int x, int y, bool transparent, bool walkable) {
 			Cells[x, y].Transparent = transparent;
 			Cells[x, y].Walkable = walkable;
 		}
+
 	}
 }
