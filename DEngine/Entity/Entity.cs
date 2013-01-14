@@ -11,7 +11,7 @@ namespace DEngine.Entity {
 	/// </summary>
 	public sealed class Entity : IEquatable<Entity>, IComparable<Entity> {
 		readonly UniqueId id;
-		readonly Type template;
+		readonly string template;
 		readonly EntityManager manager;
 		bool isActive = true;
 
@@ -50,7 +50,7 @@ namespace DEngine.Entity {
 		/// <summary>
 		/// The type of template this entity was loaded from, if any
 		/// </summary>
-		public Type Template {
+		public string Template {
 			get {
 				return template;
 			}
@@ -89,10 +89,6 @@ namespace DEngine.Entity {
 		/// <param name="components"></param>
 		public Entity(EntityManager manager, UniqueId id, IEnumerable<Component> components)
 			: this(manager, id) {
-			if (components is Template) {
-				template = components.GetType();
-			}
-
 			this.manager.Components.Add(Id, components);
 		}
 

@@ -120,9 +120,6 @@
     <Compile Include="Entity\EntityManager.cs" />
     <Compile Include="Entity\FilteredCollection.cs" />
     <Compile Include="Entity\IComponentManager.cs" />
-    <Compile Include="Entity\Template.cs" />
-    <Compile Include="Entity\TemplateCollection.cs" />
-    <Compile Include="Entity\TemplateCollections.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Entity\GroupManagerTests.cs" />
     <Compile Include="Tests\Entity\TagManagerTests.cs" />
