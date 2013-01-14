@@ -33,11 +33,6 @@ namespace DEngine.Entity {
 		readonly Dictionary<int, FilteredCollection> filteredCollections;
 
 		/// <summary>
-		/// Template collections
-		/// </summary>
-		readonly TemplateCollections templateCollections;
-
-		/// <summary>
 		/// Store of all loaded components, indexed by type and entity id
 		/// </summary>
 		readonly IComponentManager components;
@@ -80,7 +75,6 @@ namespace DEngine.Entity {
 			entities = new Dictionary<UniqueId, Entity>();
 			filteredCollections = new Dictionary<int, FilteredCollection>();
 			components = componentManager;
-			templateCollections = new TemplateCollections(this);
 		}
 
 		#endregion
@@ -159,20 +153,6 @@ namespace DEngine.Entity {
 
 		#endregion
 
-		#region Get Template Collections
-
-		/// <summary>
-		/// Get a collection of entities loaded from a template type
-		/// </summary>
-		/// <typeparam name="TTemplate"></typeparam>
-		/// <returns></returns>
-		public TemplateCollection Templates<TTemplate>()
-			where TTemplate : Template {
-			return templateCollections.Get<TTemplate>();
-		}
-
-		#endregion
-
 		#region Create/Remove Entity
 
 		/// <summary>
@@ -191,7 +171,6 @@ namespace DEngine.Entity {
 
 			entities.Add(entity.Id, entity);               // Add to entity dictionary
 			FilteredCollections.Each(c => c.Add(entity));   // Add to filtered collections
-			templateCollections.Add(entity);               // Add to template collections
 
 			return entity;
 		}
@@ -210,7 +189,6 @@ namespace DEngine.Entity {
 		/// <param name="entity"></param>
 		public void Remove(Entity entity) {			
 			FilteredCollections.Each(c => c.Remove(entity));    // Remove from filtered collections
-			templateCollections.Remove(entity);                // Remove from template collections
 			Components.Remove(entity.Id);                       // Remove components
 			entities.Remove(entity.Id);                        // Remove from entity dictionary
 		}
