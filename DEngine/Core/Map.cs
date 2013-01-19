@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DEngine.Components;
-using DEngine.Entity;
+using DEngine.Entities;
 
 namespace DEngine.Core {	
 	public abstract class Map {
@@ -99,7 +99,7 @@ namespace DEngine.Core {
 			ShadowCastingFOV.ComputeRecursiveShadowcasting(FOVMap, viewPoint.X, viewPoint.Y, viewableDistance, true);
 		}
 
-		public IEnumerable<Entity.Entity> GetEntitiesAt(Point location, params Type[] types) {
+		public IEnumerable<Entities.Entity> GetEntitiesAt(Point location, params Type[] types) {
 			var l = types.ToList();
 			l.Add(typeof(Location));
 			return EntityManager.Get(l.ToArray()).Where(e => e.Get<Location>().Position == location);

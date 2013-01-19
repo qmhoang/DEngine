@@ -1,4 +1,4 @@
-using DEngine.Entity;
+using DEngine.Entities;
 
 namespace DEngine.Components {
 	public class Identifier : Component {
@@ -20,7 +20,7 @@ namespace DEngine.Components {
 			return new Identifier(Name, Description);
 		}
 
-		public static string GetNameOrId(DEngine.Entity.Entity e) {
+		public static string GetNameOrId(Entities.Entity e) {
 			return e.Has<Identifier>() ? e.Get<Identifier>().Name : e.Id.ToString();
 		}
 	}

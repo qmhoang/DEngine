@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DEngine.Core;
-using DEngine.Entity;
+using DEngine.Entities;
 
 namespace DEngine.Components {
 	public class Location : Component, IEquatable<Location> {

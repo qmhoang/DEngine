@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using DEngine.Actor;
 using DEngine.Core;
-using DEngine.Entity;
+using DEngine.Entities;
 
 namespace DEngine.Components {
 	public class VisibleComponent : Component {

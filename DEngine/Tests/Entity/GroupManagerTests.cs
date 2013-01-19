@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DEngine.Entity;
+using DEngine.Entities;
 using NUnit.Framework;
 
 namespace DEngine.Tests.Entity {
@@ -59,7 +59,7 @@ namespace DEngine.Tests.Entity {
 
 		[Test]
 		public void TestGetEntities() {
-			var list = new List<DEngine.Entity.Entity>();
+			var list = new List<DEngine.Entities.Entity>();
 
 			list.Add(manager.Create());
 			list.Add(manager.Create());
