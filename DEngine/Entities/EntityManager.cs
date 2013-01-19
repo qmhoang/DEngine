@@ -25,7 +25,7 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// All loaded entities
 		/// </summary>
-		readonly Dictionary<UniqueId, Entity> entities;
+		internal readonly Dictionary<UniqueId, Entity> entities;
 
 		/// <summary>
 		/// Filtered entity collections
@@ -168,8 +168,7 @@ namespace DEngine.Entities {
 			}
 
 			var entity = comps == null ? new Entity(this, nextId) : new Entity(this, nextId, comps);
-
-			entities.Add(entity.Id, entity);               // Add to entity dictionary
+			
 			FilteredCollections.Each(c => c.Add(entity));   // Add to filtered collections
 
 			return entity;

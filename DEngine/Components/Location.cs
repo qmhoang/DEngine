@@ -18,18 +18,18 @@ namespace DEngine.Components {
 
 		public Map Level { get; set; }
 
-		public event EventHandler<EventArgs<Point>> PositionChanged;
+		public event ComponentEventHandler<EventArgs<Point>> PositionChanged;
 
 		public void OnPositionChanged(EventArgs<Point> e) {
-			EventHandler<EventArgs<Point>> handler = PositionChanged;
+			ComponentEventHandler<EventArgs<Point>> handler = PositionChanged;
 			if (handler != null)
 				handler(this, e);
 		}
 
-		public event EventHandler<EventArgs<Map>> MapChanged;
+		public event ComponentEventHandler<EventArgs<Map>> MapChanged;
 
 		public void OnMapChanged(EventArgs<Map> e) {
-			EventHandler<EventArgs<Map>> handler = MapChanged;
+			ComponentEventHandler<EventArgs<Map>> handler = MapChanged;
 			if (handler != null)
 				handler(this, e);
 		}
@@ -92,7 +92,12 @@ namespace DEngine.Components {
 		}
 
 		public override Component Copy() {
-			return new Location(X, Y, Level);
+			var location = new Location(X, Y, Level);
+			if (PositionChanged != null)
+				location.PositionChanged = (ComponentEventHandler<EventArgs<Point>>) PositionChanged.Clone();
+			if (MapChanged != null)
+				location.MapChanged = (ComponentEventHandler<EventArgs<Map>>) MapChanged.Clone();
+			return location;
 		}
 	}
 }

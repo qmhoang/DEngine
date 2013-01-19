@@ -48,5 +48,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <returns></returns>
 		public abstract Component Copy();
+
+		public delegate void ComponentEventHandler<in TEventArgs>(Component sender, TEventArgs e) where TEventArgs : System.EventArgs;
 	}
 }
