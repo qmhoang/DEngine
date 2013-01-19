@@ -76,9 +76,9 @@ namespace DEngine.Entities {
 			if (manager == null) {
 				throw new ArgumentNullException("manager");
 			}
-
+			manager.entities.Add(id, this);
 			this.id = id;
-			this.manager = manager;
+			this.manager = manager;			
 		}
 
 		/// <summary>
