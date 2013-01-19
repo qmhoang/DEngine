@@ -9,15 +9,15 @@ namespace DEngine.Components {
 		public const int PLAYER_LAYER = 40;
 
 		public string Asset { get; set; }		
-		public int Order { get; set; }
+		public int ZOrder { get; set; }
 
-		public Sprite(string asset, int order) {
+		public Sprite(string asset, int zorder) {
 			Asset = asset;			
-			Order = order;
+			ZOrder = zorder;
 		}
 
 		public override Component Copy() {
-			return new Sprite(Asset, Order);
+			return new Sprite(Asset, ZOrder);
 		}
 	}
 }
