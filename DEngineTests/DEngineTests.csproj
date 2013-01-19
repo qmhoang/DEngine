@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\GroupManagerTests.cs" />
+    <Compile Include="Entity\TagManagerTests.cs" />
     <Compile Include="GaussianDistributionTests.cs" />
     <Compile Include="PointTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
