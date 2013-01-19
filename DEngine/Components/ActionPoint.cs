@@ -1,4 +1,4 @@
-using DEngine.Entity;
+using DEngine.Entities;
 
 namespace DEngine.Components {
 	public class ActionPoint : Component {
