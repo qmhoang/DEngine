@@ -9,14 +9,14 @@ namespace DEngine.Core {
 	// keep the internals as close to C as possible to make porting changes easy
 
 	// ReSharper disable InconsistentNaming
-	internal static class ShadowCastingFOV
+	public static class ShadowCastingFOV
 	{
 		private static int [,] mult = new int[4,8] {{1,0,0,-1,-1,0,0,1},
 													{0,1,-1,0,0,-1,1,0},
 													{0,1,1,0,0,-1,-1,0},
 													{1,0,0,1,-1,0,0,-1}};
 
-		private static void CastLight(FovMap map, int cx, int cy, int row, float start, float end, int radius, int r2, int xx, int xy, int yx, int yy, int id, bool light_walls) 
+		private static void CastLight(VisibilityMap vision, Map map, int cx, int cy, int row, float start, float end, int radius, int r2, int xx, int xy, int yx, int yy, int id, bool light_walls) 
 		{
 			float new_start = 0.0f;
 			if (start < end)
@@ -42,7 +42,8 @@ namespace DEngine.Core {
 						else if(end > l_slope)
 							break;
 						if (dx * dx + dy * dy <= r2 && (light_walls || map.Cells[X, Y].Transparent))
-							map.Cells[X, Y].Visible = true;
+//							map.Cells[X, Y].Visible = true;
+							vision.SetVisibility(X, Y, true);
 						if ( blocked ) 
 						{
 							if (!map.Cells[X, Y].Transparent)
@@ -61,7 +62,7 @@ namespace DEngine.Core {
 							if (!map.Cells[X, Y].Transparent && j < radius)
 							{
 								blocked = true;
-								CastLight(map, cx, cy, j + 1, start, l_slope, radius, r2, xx, xy, yx, yy, id+1, light_walls);
+								CastLight(vision, map, cx, cy, j + 1, start, l_slope, radius, r2, xx, xy, yx, yy, id+1, light_walls);
 								new_start = r_slope;
 							}
 						}
@@ -72,9 +73,10 @@ namespace DEngine.Core {
 			}
 		}
 
-		internal static void ComputeRecursiveShadowcasting(FovMap map, int playerX, int playerY, int maxRadius, bool lightWalls)
+		public static void ComputeRecursiveShadowcasting(VisibilityMap vision, Map map, int playerX, int playerY, int maxRadius, bool lightWalls)
 		{
-			map.ClearVisibility();
+//			map.ClearVisibility();
+			vision.ClearVisibility();
 
 			if ( maxRadius == 0 ) 
 			{
@@ -88,9 +90,10 @@ namespace DEngine.Core {
 			/* recursive shadow casting */
 			for (int oct = 0; oct < 8; oct++)
 			{
-				CastLight(map, playerX, playerY, 1, 1.0f, 0.0f, maxRadius, r2, mult[0,oct], mult[1,oct], mult[2,oct], mult[3,oct], 0, lightWalls);
+				CastLight(vision, map, playerX, playerY, 1, 1.0f, 0.0f, maxRadius, r2, mult[0,oct], mult[1,oct], mult[2,oct], mult[3,oct], 0, lightWalls);
 			}
-			map.Cells[playerX, playerY].Visible = true;
+//			map.Cells[playerX, playerY].Visible = true;
+			vision.SetVisibility(playerX, playerY, true);
 		}
 	}
 	// ReSharper restore InconsistentNaming
