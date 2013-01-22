@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
 
@@ -481,7 +482,7 @@ namespace DEngine.Core {
 		public override string ToString() {
 			string text = this.text;
 			if (nextRand != null)
-				text += nextRand.ToString();
+				text += string.Format(" + {0}", nextRand);
 
 			return text;
 		}
@@ -520,6 +521,12 @@ namespace DEngine.Core {
 
 		public static Rand operator +(Rand v1, Rand v2) {
 			return new Rand(v2.rollFunction, v2.Mininum, v2.Average, v2.Maximum, v2.text, v2.IsConstant) {nextRand = v1};
+		}
+
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(max >= average && average >= min);
 		}
 	}
 }

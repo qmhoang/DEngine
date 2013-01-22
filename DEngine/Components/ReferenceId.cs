@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 using DEngine.Entities;
 
 namespace DEngine.Components {
@@ -6,6 +7,7 @@ namespace DEngine.Components {
 		public string RefId { get; private set; }
 
 		public ReferenceId(string refId) {
+			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(refId));
 			RefId = refId;
 		}
 
