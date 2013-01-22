@@ -1,10 +1,17 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using DEngine.Entities;
 
 namespace DEngine.Components {
 	public class ReferenceId : Component, IEquatable<ReferenceId> {
 		public string RefId { get; private set; }
+
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(!String.IsNullOrEmpty(RefId));			
+		}
 
 		public ReferenceId(string refId) {
 			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(refId));

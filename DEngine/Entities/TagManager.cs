@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 
 namespace DEngine.Entities {
-	public class TagManager {
+	public sealed class TagManager {
 		private Dictionary<string, Entity> entityLUT;
 		private Dictionary<Entity, List<string>> tags;
+
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(entityLUT != null);
+			Contract.Invariant(tags != null);			
+		}
 
 		public TagManager() {
 			entityLUT = new Dictionary<string, Entity>();
@@ -63,8 +71,13 @@ namespace DEngine.Entities {
 		}
 
 		public Entity this[string tag] {
-			get { return GetEntity(tag); }
+			get {
+				Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
+				return GetEntity(tag);
+			}
 			set {
+				Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
+				Contract.Requires<ArgumentNullException>(value != null, "value");
 				Register(tag, value);
 			}
 		}

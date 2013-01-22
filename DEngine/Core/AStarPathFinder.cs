@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 
@@ -55,6 +57,16 @@ namespace DEngine.Core {
 		private float diagonalCost;
 
 		private List<uint> heap;
+
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(grid != null);
+			Contract.Invariant(heur != null);
+			Contract.Invariant(heap != null);
+			Contract.Invariant(path != null);
+			Contract.Invariant(prev != null);			
+		}
 
 		private Level level;
 
@@ -189,6 +201,7 @@ namespace DEngine.Core {
 			/* compare to its sons */
 			while (idx * 2 + 1 < heap_size) {
 				int child = idx * 2 + 1;
+				Contract.Assume(child < heap.Count);
 				uint off_child = heap[child];
 				int toSwap = idx;
 				int child2;
@@ -200,6 +213,7 @@ namespace DEngine.Core {
 				}
 				child2 = child + 1;
 				if (child2 < heap_size) {
+					Contract.Assume(child2 < heap.Count);
 					uint off_child2 = heap[child2];
 					if (heur[off_child2] < swapValue) /* swap with son2 */
 						toSwap = child2;
@@ -218,6 +232,7 @@ namespace DEngine.Core {
 		#endregion
 
 		public AStarPathFinder(Level level, float diagonalCost) {
+			Contract.Requires<ArgumentNullException>(level != null, "level");
 			w = level.Width;
 			h = level.Height;
 
@@ -329,6 +344,7 @@ namespace DEngine.Core {
 			y = oy;
 			pos = path.Count - 1;
 			do {
+				Contract.Assume(index >= 0);
 				PathFindingDirection step = path[pos];
 				x += dirx[(int) step];
 				y += diry[(int) step];

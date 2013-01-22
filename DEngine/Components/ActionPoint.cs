@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using DEngine.Entities;
@@ -23,6 +24,7 @@ namespace DEngine.Components {
 		public const int DEFAULT_SPEED = 100;
 
 		public ActionPoint(int actionPoints = 0, int speed = DEFAULT_SPEED) {
+			Contract.Requires<ArgumentException>(speed > 0);
 			ActionPoints = actionPoints;
 			Speed = speed;			
 		}
