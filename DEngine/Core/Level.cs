@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using DEngine.Components;
 using DEngine.Entities;
 
 namespace DEngine.Core {
 	public abstract class Map {
-		public abstract int Width { get; protected set; }
-		public abstract int Height { get; protected set; }
+		public abstract int Width { get; }
+		public abstract int Height { get; }
 
 		public bool IsInBounds(Point v) {
 			return IsInBounds(v.X, v.Y);
@@ -36,7 +38,6 @@ namespace DEngine.Core {
 
 	public abstract class Level : Map {
 		public Size Size { get; protected set; }
-//		internal FovMap FOVMap;
 		public EntityManager EntityManager { get; protected set; }
 
 		internal struct Cell {
@@ -46,11 +47,17 @@ namespace DEngine.Core {
 
 		internal Cell[,] Cells;
 
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(Cells != null);
+			Contract.Invariant(EntityManager != null);
+		}
+
 		//todo entity LUT by location (use filteredcollection to get) if speed is needed
 		
 		protected Level(Size size) {
 			Size = size;
-//			FOVMap = new FovMap(Size.Width, Size.Height);
 			Cells = new Cell[size.Width, size.Height];
 		}
 
@@ -71,8 +78,7 @@ namespace DEngine.Core {
 				return false;
 			return Cells[x, y].Transparent;
 		}
-
-
+		
 		public bool IsWalkable(int x, int y) {
 			if (!IsInBoundsOrBorder(x, y))
 				return false;
@@ -101,8 +107,9 @@ namespace DEngine.Core {
 		}
 
 		public IEnumerable<Entity> GetEntitiesAt(Point location, params Type[] types) {
+			Contract.Ensures(Contract.Result<IEnumerable<Entity>>().All(e => types.All(e.Has) && e.Has<Location>()));
 			var l = types.ToList();
-			l.Add(typeof(Location));
+			l.Add(typeof(Location));			
 			return EntityManager.Get(l.ToArray()).Where(e => e.Get<Location>().Position == location);
 		}
 	}

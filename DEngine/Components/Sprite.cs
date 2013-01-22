@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using DEngine.Entities;
 
 namespace DEngine.Components {
@@ -12,12 +15,19 @@ namespace DEngine.Components {
 		public int ZOrder { get; set; }
 
 		public Sprite(string asset, int zorder) {
+			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(asset));
 			Asset = asset;			
 			ZOrder = zorder;
 		}
 
 		public override Component Copy() {
 			return new Sprite(Asset, ZOrder);
+		}
+
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(!string.IsNullOrEmpty(Asset));			
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -13,13 +14,20 @@ namespace DEngine.Entities {
 	/// 
 	/// A entity can only belong to one group at a time.
 	/// </summary>
-	public class GroupManager {
+	public sealed class GroupManager {
 		private Dictionary<UniqueId, string> entityIDToEntityLUT;
 		private Dictionary<string, HashSet<Entity>> entitiesByGroup;
 
 		public GroupManager() {
 			entityIDToEntityLUT = new Dictionary<UniqueId, string>();
 			entitiesByGroup = new Dictionary<string, HashSet<Entity>>();
+		}
+
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(entitiesByGroup != null);
+			Contract.Invariant(entityIDToEntityLUT != null);			
 		}
 
 		/// <summary>
@@ -60,6 +68,7 @@ namespace DEngine.Entities {
 		/// <param name="e"></param>
 		public void Remove(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
+
 			if (entityIDToEntityLUT.ContainsKey(e.Id)) {
 				string group = entityIDToEntityLUT[e.Id];
 
@@ -87,6 +96,7 @@ namespace DEngine.Entities {
 		/// <param name="e"></param>
 		/// <returns>true if it is in any group, false if none.</returns>
 		public bool IsGrouped(Entity e) {
+			Contract.Requires<ArgumentNullException>(e != null, "e");
 			return GetGroupOf(e) != null;
 		}
 	}

@@ -1,15 +1,20 @@
 namespace DEngine.Core {
 	public sealed class VisionMap : Map {
 		private bool[,] cells;
+		
+		private Size size;
 
-		public override int Width { get; protected set; }
-		public override int Height { get; protected set; }
+		public override int Width {
+			get { return size.Width; }			
+		}
+		public override int Height {
+			get { return size.Height; }			
+		}
 
 		public VisionMap(Size size) : this(size.Width, size.Height) { }
 
 		public VisionMap(int width, int height) {
-			Width = width;
-			Height = height;
+			size = new Size(width, height);
 			cells = new bool[width, height];
 		}
 
