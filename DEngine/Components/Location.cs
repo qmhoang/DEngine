@@ -16,7 +16,7 @@ namespace DEngine.Components {
 			}
 		}
 
-		public Map Level { get; set; }
+		public Level Level { get; set; }
 
 		public event ComponentEventHandler<EventArgs<Point>> PositionChanged;
 
@@ -26,10 +26,10 @@ namespace DEngine.Components {
 				handler(this, e);
 		}
 
-		public event ComponentEventHandler<EventArgs<Map>> MapChanged;
+		public event ComponentEventHandler<EventArgs<Level>> MapChanged;
 
-		public void OnMapChanged(EventArgs<Map> e) {
-			ComponentEventHandler<EventArgs<Map>> handler = MapChanged;
+		public void OnMapChanged(EventArgs<Level> e) {
+			ComponentEventHandler<EventArgs<Level>> handler = MapChanged;
 			if (handler != null)
 				handler(this, e);
 		}
@@ -42,12 +42,12 @@ namespace DEngine.Components {
 			get { return Position.Y; }			
 		}
 
-		public Location(Point position, Map level) {
+		public Location(Point position, Level level) {
 			Position = position;
 			Level = level;
 		}
 
-		public Location(int x, int y, Map level) : this(new Point(x, y), level) {}
+		public Location(int x, int y, Level level) : this(new Point(x, y), level) {}
 
 		public double DistanceTo(Location loc) {
 			return Position.DistanceTo(loc.Position);
@@ -96,7 +96,7 @@ namespace DEngine.Components {
 			if (PositionChanged != null)
 				location.PositionChanged = (ComponentEventHandler<EventArgs<Point>>) PositionChanged.Clone();
 			if (MapChanged != null)
-				location.MapChanged = (ComponentEventHandler<EventArgs<Map>>) MapChanged.Clone();
+				location.MapChanged = (ComponentEventHandler<EventArgs<Level>>) MapChanged.Clone();
 			return location;
 		}
 	}

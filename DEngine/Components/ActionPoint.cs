@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using DEngine.Entities;
 
 namespace DEngine.Components {
@@ -27,6 +29,12 @@ namespace DEngine.Components {
 
 		public override Component Copy() {
 			return new ActionPoint(ActionPoints, Speed);
+		}
+
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(Speed > 0);			
 		}
 	}
 

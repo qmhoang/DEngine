@@ -56,7 +56,7 @@ namespace DEngine.Core {
 
 		private List<uint> heap;
 
-		private Map map;
+		private Level level;
 
 		#region Heap Functions
 
@@ -217,9 +217,9 @@ namespace DEngine.Core {
 
 		#endregion
 
-		public AStarPathFinder(Map map, float diagonalCost) {
-			w = map.Width;
-			h = map.Height;
+		public AStarPathFinder(Level level, float diagonalCost) {
+			w = level.Width;
+			h = level.Height;
 
 			grid = new float[h * w];
 			heur = new float[h * w];
@@ -227,7 +227,7 @@ namespace DEngine.Core {
 			path = new List<PathFindingDirection>();
 			heap = new List<uint>();
 
-			this.map = map;
+			this.level = level;
 			this.diagonalCost = diagonalCost;
 		}
 
@@ -298,7 +298,7 @@ namespace DEngine.Core {
 			int newy = oy + diry[(int) d];
 
 			/* check if the path is still valid */
-			if (!map.IsWalkable(newx, newy)) {
+			if (!level.IsWalkable(newx, newy)) {
 				if (!recalculate_when_needed)
 					return false; /* don't walk */
 				/* calculate a new path */
@@ -356,7 +356,7 @@ namespace DEngine.Core {
 		}
 
 		private float TCOD_path_walk_cost(int xFrom, int yFrom, int xTo, int yTo) {
-			return map.IsWalkable(xTo, yTo) ? 1.0f : 0.0f;
+			return level.IsWalkable(xTo, yTo) ? 1.0f : 0.0f;
 		}
 
 		private void TCOD_path_get_origin(out int x, out int y) {
