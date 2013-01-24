@@ -11,7 +11,6 @@ namespace DEngine.Entities {
 	/// </summary>
 	public sealed class Entity : IEquatable<Entity>, IComparable<Entity> {
 		readonly UniqueId id;
-		readonly string template;
 		readonly EntityManager manager;
 		bool isActive = true;
 
@@ -48,15 +47,6 @@ namespace DEngine.Entities {
 		}
 
 		/// <summary>
-		/// The type of template this entity was loaded from, if any
-		/// </summary>
-		public string Template {
-			get {
-				return template;
-			}
-		}
-
-		/// <summary>
 		/// Event for for activating this entity
 		/// </summary>
 		public event EntityEventHandler OnEntityActivate;
@@ -89,7 +79,7 @@ namespace DEngine.Entities {
 		/// <param name="components"></param>
 		public Entity(EntityManager manager, UniqueId id, IEnumerable<Component> components)
 			: this(manager, id) {
-			this.manager.Components.Add(Id, components);
+			this.manager.Components.Add(this, components);
 		}
 
 		#region Add/Remove Components
@@ -101,7 +91,7 @@ namespace DEngine.Entities {
 		/// <param name="component"></param>
 		/// <returns></returns>
 		public Entity Add<T>(T component) where T : Component {
-			manager.Components.Add(Id, component);
+			manager.Components.Add(this, component);
 
 			// Add any updated entity to any filtered collections
 			manager.FilteredCollections.Each(c => c.Add(this));
@@ -109,7 +99,7 @@ namespace DEngine.Entities {
 		}
 
 		public Entity Add(IEnumerable<Component> components) {
-			manager.Components.Add(Id, components);
+			manager.Components.Add(this, components);
 
 			manager.FilteredCollections.Each(c => c.Add(this));
 			return this;
@@ -145,6 +135,7 @@ namespace DEngine.Entities {
 		/// <returns></returns>
 		[Pure] 
 		public T Get<T>() where T : Component {
+			Contract.Ensures(Contract.Result<T>() != null);
 			return manager.Components.Get<T>(Id);
 		}
 
@@ -218,6 +209,16 @@ namespace DEngine.Entities {
 			}
 
 			return entity;
+		}
+
+		/// <summary>
+		/// Notifies all attached components with a message containing arbitrary data.
+		/// </summary>
+		public void Broadcast(IComponentMessage data) {
+			if (Components != null)
+				foreach (var component in Components) {
+					component.Receive(data);
+				}
 		}
 	}
 }

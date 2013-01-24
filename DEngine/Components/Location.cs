@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using DEngine.Core;
@@ -50,6 +51,7 @@ namespace DEngine.Components {
 		public Location(int x, int y, Level level) : this(new Point(x, y), level) {}
 
 		public double DistanceTo(Location loc) {
+			Contract.Requires<ArgumentNullException>(loc != null, "loc");
 			return Position.DistanceTo(loc.Position);
 		}
 

@@ -17,24 +17,25 @@ namespace DEngine.Entities {
 	/// Owner can be overridden to allow component members to set internal data
 	/// according to the owning entity
 	/// </summary>
-	public abstract class Component : ICopy<Component> {
-		private UniqueId owner;
-
-		[XmlIgnore]
-		public virtual UniqueId OwnerUId {
-			get {
-				return owner;
-			}
-			internal set {
+	public abstract class Component {
+		private Entity entity;
+		protected internal Entity Entity {
+			get { return entity; }
+			set { 				
 				// Ensure that the owner has not been set, and that it is being set to something valid
-				if (owner == default(UniqueId) && value != default(UniqueId)) {
-					owner = value;
+				if (entity == null && value != null) {
+					entity = value;
 				} else {
 					throw new FieldAccessException("Cannot reset component to different entity.");
 				}
 
 				OnSetOwner();
 			}
+		}
+
+		[XmlIgnore]
+		public virtual UniqueId OwnerUId {
+			get { return entity.Id; }			
 		}
 
 		/// <summary>
@@ -49,6 +50,22 @@ namespace DEngine.Entities {
 		/// <returns></returns>
 		public abstract Component Copy();
 
+		/// <summary>
+		/// Receives a message containing arbitrary data.
+		/// </summary>
+		public virtual void Receive(IComponentMessage data) { }
+		/// <summary>
+		/// Notifies all attached components with a message containing arbitrary data.
+		/// </summary>
+		public void Notify(IComponentMessage data) {
+			if (Entity != null)
+				Entity.Broadcast(data);
+		}
+
 		public delegate void ComponentEventHandler<in TEventArgs>(Component sender, TEventArgs e) where TEventArgs : System.EventArgs;
+	}
+
+	public interface IComponentMessage {
+		
 	}
 }
