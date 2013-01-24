@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using DEngine.Extensions;
 
@@ -121,6 +122,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <param name="entity"></param>
 		internal bool Add(Entity entity) {
+			Contract.Requires<ArgumentNullException>(entity != null, "entity");
 			// Ensure that the entity matches the filter
 			if (!MatchesFilter(entity))
 				return false;
@@ -140,6 +142,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <param name = "entity"></param>
 		internal void Remove(Entity entity) {
+			Contract.Requires<ArgumentNullException>(entity != null, "entity");
 			// Notify any listeners that an entity was removed
 			if (OnEntityRemove != null && MatchesFilter(entity)) {				
 				OnEntityRemove(entity);

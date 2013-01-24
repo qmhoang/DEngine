@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 namespace DEngine.Core {
@@ -18,6 +19,9 @@ namespace DEngine.Core {
 
 		private static void CastLight(VisionMap vision, Level level, int cx, int cy, int row, float start, float end, int radius, int r2, int xx, int xy, int yx, int yy, int id, bool light_walls) 
 		{
+			Contract.Requires<ArgumentNullException>(vision != null, "vision");
+			Contract.Requires<ArgumentNullException>(level != null, "level");
+
 			float new_start = 0.0f;
 			if (start < end)
 				return;
@@ -75,6 +79,8 @@ namespace DEngine.Core {
 
 		public static void ComputeRecursiveShadowcasting(VisionMap vision, Level level, int playerX, int playerY, int maxRadius, bool lightWalls)
 		{
+			Contract.Requires<ArgumentNullException>(level != null, "level");
+			Contract.Requires<ArgumentNullException>(vision != null, "vision");
 //			map.ClearVisibility();
 			vision.ClearVisibility();
 

@@ -12,16 +12,16 @@ namespace DEngine.Entities {
 		/// Add a new component to an entity
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <param name="entityId"></param>
+		/// <param name="entity"></param>
 		/// <param name="o"></param>
-		void Add<T>(UniqueId entityId, T o) where T : Component;
+		void Add<T>(Entity entity, T o) where T : Component;
 
 		/// <summary>
 		/// Add a list of components to an entity
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="e"></param>
 		/// <param name="components"></param>
-		void Add(UniqueId id, IEnumerable<Component> components);
+		void Add(Entity e, IEnumerable<Component> components);
 
 		/// <summary>
 		/// Remove all components belonging to an entity

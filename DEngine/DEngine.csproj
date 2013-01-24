@@ -33,7 +33,7 @@
     <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
     <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
     <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
-    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
     <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
     <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
     <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
@@ -88,7 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\AbstractActor.cs" />
+    <Compile Include="Actor\ActionResult.cs" />
     <Compile Include="Components\ActionPoint.cs" />
     <Compile Include="Components\Location.cs" />
     <Compile Include="Components\Identifier.cs" />
@@ -109,7 +109,6 @@
     <Compile Include="Core\Rng.cs" />
     <Compile Include="Core\EventArgs.cs" />
     <Compile Include="Core\Rect.cs" />
-    <Compile Include="Actor\ICopy.cs" />
     <Compile Include="Extensions\LambdaComparer.cs" />
     <Compile Include="Entities\ComponentManager.cs" />
     <Compile Include="Entities\Entity.cs" />

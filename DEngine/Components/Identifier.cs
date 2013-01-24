@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics.Contracts;
 using DEngine.Entities;
 
 namespace DEngine.Components {
@@ -20,7 +22,9 @@ namespace DEngine.Components {
 			return new Identifier(Name, Description);
 		}
 
-		public static string GetNameOrId(Entities.Entity e) {
+		public static string GetNameOrId(Entity e) {
+			Contract.Requires<ArgumentNullException>(e != null, "e");
+			Contract.Requires<ArgumentException>(e.Has<Identifier>());
 			return e.Has<Identifier>() ? e.Get<Identifier>().Name : e.Id.ToString();
 		}
 	}
