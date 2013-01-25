@@ -99,6 +99,7 @@
     <Compile Include="Core\ShadowCastingFOV.cs" />
     <Compile Include="Core\Level.cs" />
     <Compile Include="Core\VisionMap.cs" />
+    <Compile Include="Entities\EventSubsystem.cs" />
     <Compile Include="Entities\GroupManager.cs" />
     <Compile Include="Entities\TagManager.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />

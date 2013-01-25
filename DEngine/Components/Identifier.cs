@@ -16,16 +16,18 @@ namespace DEngine.Components {
 			Name = name;
 			Description = description;
 		}
-
-
+		
 		public override Component Copy() {
 			return new Identifier(Name, Description);
 		}
 
 		public static string GetNameOrId(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
-			Contract.Requires<ArgumentException>(e.Has<Identifier>());
 			return e.Has<Identifier>() ? e.Get<Identifier>().Name : e.Id.ToString();
+		}
+
+		public override string ToString() {
+			return String.Format("Name: {0}, Description: {1}", Name, Description);
 		}
 	}
 }

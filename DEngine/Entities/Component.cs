@@ -29,7 +29,7 @@ namespace DEngine.Entities {
 					throw new FieldAccessException("Cannot reset component to different entity.");
 				}
 
-				OnSetOwner();
+				OnSetOwner(entity);
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace DEngine.Entities {
 		/// Called when the component owner is set.  Allows children to set additional data
 		/// upon being assigned to an entity.
 		/// </summary>
-		protected virtual void OnSetOwner() { }
+		protected virtual void OnSetOwner(Entity e) { }
 
 		/// <summary>
 		/// Deep clone

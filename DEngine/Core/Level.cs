@@ -107,7 +107,7 @@ namespace DEngine.Core {
 		}
 
 		public IEnumerable<Entity> GetEntitiesAt(Point location, params Type[] types) {
-			Contract.Ensures(Contract.Result<IEnumerable<Entity>>().All(e => types.All(e.Has) && e.Has<Location>()));
+			Contract.Ensures(Contract.Result<IEnumerable<Entity>>().All(e => e != null && types.All(e.Has) && e.Has<Location>()));
 			var l = types.ToList();
 			l.Add(typeof(Location));			
 			return EntityManager.Get(l.ToArray()).Where(e => e.Get<Location>().Position == location);
