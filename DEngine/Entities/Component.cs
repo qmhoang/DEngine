@@ -53,19 +53,16 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// Receives a message containing arbitrary data.
 		/// </summary>
-		public virtual void Receive(IComponentMessage data) { }
+		public virtual void Receive(string message, EventArgs e) { }
 		/// <summary>
 		/// Notifies all attached components with a message containing arbitrary data.
 		/// </summary>
-		public void Notify(IComponentMessage data) {
+		public void Notify(string message, EventArgs e) {
 			if (Entity != null)
-				Entity.Broadcast(data);
+				Entity.Broadcast(message, e);
 		}
 
-		public delegate void ComponentEventHandler<in TEventArgs>(Component sender, TEventArgs e) where TEventArgs : System.EventArgs;
+		public delegate void ComponentEventHandler<in TEventArgs>(Component sender, TEventArgs e) where TEventArgs : EventArgs;
 	}
 
-	public interface IComponentMessage {
-		
-	}
 }
