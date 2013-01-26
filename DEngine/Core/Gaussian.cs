@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 
 namespace DEngine.Core {
 	public class GaussianDistribution {
@@ -61,11 +63,15 @@ namespace DEngine.Core {
 		// Although we could use equations from // For details, see http://www.tina-vision.net/tina-knoppix/tina-memo/2003-003.pdf
 		// for multiplication, the precision mean ones are easier to write :)
 		public static GaussianDistribution operator *(GaussianDistribution left, GaussianDistribution right) {
+			Contract.Requires<ArgumentNullException>(left != null, "left");
+			Contract.Requires<ArgumentNullException>(right != null, "right");
 			return FromPrecisionMean(left.PrecisionMean + right.PrecisionMean, left.Precision + right.Precision);
 		}
 
 		/// Computes the absolute difference between two Gaussians
 		public static double AbsoluteDifference(GaussianDistribution left, GaussianDistribution right) {
+			Contract.Requires<ArgumentNullException>(left != null, "left");
+			Contract.Requires<ArgumentNullException>(right != null, "right");
 			return Math.Max(
 					Math.Abs(left.PrecisionMean - right.PrecisionMean),
 					Math.Sqrt(Math.Abs(left.Precision - right.Precision)));
@@ -73,10 +79,14 @@ namespace DEngine.Core {
 
 		/// Computes the absolute difference between two Gaussians
 		public static double operator -(GaussianDistribution left, GaussianDistribution right) {
+			Contract.Requires<ArgumentNullException>(left != null, "left");
+			Contract.Requires<ArgumentNullException>(right != null, "right");
 			return AbsoluteDifference(left, right);
 		}
 
 		public static double LogProductNormalization(GaussianDistribution left, GaussianDistribution right) {
+			Contract.Requires<ArgumentNullException>(left != null, "left");
+			Contract.Requires<ArgumentNullException>(right != null, "right");
 			if ((left.Precision == 0) || (right.Precision == 0))
 				return 0;
 
@@ -89,11 +99,15 @@ namespace DEngine.Core {
 
 
 		public static GaussianDistribution operator /(GaussianDistribution numerator, GaussianDistribution denominator) {
+			Contract.Requires<ArgumentNullException>(numerator != null, "numerator");
+			Contract.Requires<ArgumentNullException>(denominator != null, "denominator");
 			return FromPrecisionMean(numerator.PrecisionMean - denominator.PrecisionMean,
 			                         numerator.Precision - denominator.Precision);
 		}
 
 		public static double LogRatioNormalization(GaussianDistribution numerator, GaussianDistribution denominator) {
+			Contract.Requires<ArgumentNullException>(numerator != null, "numerator");
+			Contract.Requires<ArgumentNullException>(denominator != null, "denominator");
 			if ((numerator.Precision == 0) || (denominator.Precision == 0))
 				return 0;
 

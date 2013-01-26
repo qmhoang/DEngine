@@ -14,6 +14,7 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -24,6 +25,31 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>True</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile>..\..\baseline.xml</CodeContractsBaseLineFile>
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -49,6 +75,10 @@
     <Reference Include="log4net">
       <HintPath>..\..\..\Code Libraries\log4net-1.2.11\bin\net\4.0\release\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Code Libraries\NUnit-2.5.10.11092\bin\net-2.0\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,12 +88,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\Entity.cs" />
+    <Compile Include="Actor\ActionResult.cs" />
+    <Compile Include="Components\ActionPoint.cs" />
+    <Compile Include="Components\Location.cs" />
+    <Compile Include="Components\Identifier.cs" />
+    <Compile Include="Components\ReferenceId.cs" />
+    <Compile Include="Components\Sprite.cs" />
     <Compile Include="Core\Bresenham.cs" />
     <Compile Include="Core\AStarPathFinder.cs" />
     <Compile Include="Core\ShadowCastingFOV.cs" />
-    <Compile Include="Core\Map.cs" />
-    <Compile Include="Core\FovMap.cs" />
+    <Compile Include="Core\Level.cs" />
+    <Compile Include="Core\VisionMap.cs" />
+    <Compile Include="Entities\EventSubsystem.cs" />
+    <Compile Include="Entities\GroupManager.cs" />
+    <Compile Include="Entities\TagManager.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Core\AlternativeDictionary.cs" />
     <Compile Include="Core\Factory.cs" />
@@ -72,15 +110,18 @@
     <Compile Include="Core\Rng.cs" />
     <Compile Include="Core\EventArgs.cs" />
     <Compile Include="Core\Rect.cs" />
-    <Compile Include="Actor\ICopy.cs" />
-    <Compile Include="Actor\IObject.cs" />
+    <Compile Include="Extensions\LambdaComparer.cs" />
+    <Compile Include="Entities\ComponentManager.cs" />
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Actor\UniqueId.cs" />
-    <Compile Include="Actor\IEntity.cs" />
     <Compile Include="Core\Size.cs" />
     <Compile Include="Core\Point.cs" />
+    <Compile Include="Entities\Component.cs" />
+    <Compile Include="Entities\EntityManager.cs" />
+    <Compile Include="Entities\FilteredCollection.cs" />
+    <Compile Include="Entities\IComponentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -49,8 +49,7 @@ namespace DEngine.Core {
 	/// </summary>
 	/// <typeparam name="TKey"></typeparam>
 	/// <typeparam name="TValue"></typeparam>
-	public class StaticDictionary<TKey, TValue> :
-			IStaticDictionary<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>> {
+	public class StaticDictionary<TKey, TValue> : IStaticDictionary<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>> {
 		/// <summary>
 		/// Construct a StaticDictionary instance given an array of key value pairs.
 		/// </summary>
@@ -159,5 +158,8 @@ namespace DEngine.Core {
 		}
 
 		private Dictionary<TKey, TValue> dictionary;
-			}
+
+	}
+
+
 }
