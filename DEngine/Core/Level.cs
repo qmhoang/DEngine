@@ -11,26 +11,32 @@ namespace DEngine.Core {
 		public abstract int Width { get; }
 		public abstract int Height { get; }
 
+		[Pure]
 		public bool IsInBounds(Point v) {
 			return IsInBounds(v.X, v.Y);
 		}
 
+		[Pure]
 		public bool IsInBoundsOrBorder(Point v) {
 			return IsInBoundsOrBorder(v.X, v.Y);
 		}
 
+		[Pure]
 		public bool IsOnBorder(Point v) {
 			return IsOnBorder(v.X, v.Y);
 		}
 
+		[Pure]
 		public bool IsInBounds(int x, int y) {
 			return x >= 1 && y >= 1 && x < Width - 1 && y < Height - 1;
 		}
 
+		[Pure]
 		public bool IsInBoundsOrBorder(int x, int y) {
 			return x >= 0 && y >= 0 && x < Width && y < Height;
 		}
 
+		[Pure]
 		public bool IsOnBorder(int x, int y) {
 			return x == 0 || y == 0 || x == Width - 1 && y == Height - 1;
 		}

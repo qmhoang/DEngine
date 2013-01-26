@@ -19,7 +19,7 @@ namespace DEngine.Entities {
 	/// </summary>
 	public abstract class Component {
 		private Entity entity;
-		protected internal Entity Entity {
+		internal Entity Entity {
 			get { return entity; }
 			set { 				
 				// Ensure that the owner has not been set, and that it is being set to something valid
