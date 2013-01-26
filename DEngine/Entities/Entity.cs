@@ -90,6 +90,7 @@ namespace DEngine.Entities {
 		/// <returns></returns>
 		public Entity Add<T>(T component) where T : Component {
 			manager.Components.Add(this, component);
+			Messages += component.Receive;
 
 			// Add any updated entity to any filtered collections
 			manager.FilteredCollections.Each(c => c.Add(this));
@@ -98,6 +99,7 @@ namespace DEngine.Entities {
 
 		public Entity Add(IEnumerable<Component> components) {
 			manager.Components.Add(this, components);
+			components.Each(c => Messages += c.Receive);
 
 			manager.FilteredCollections.Each(c => c.Add(this));
 			return this;
@@ -119,6 +121,7 @@ namespace DEngine.Entities {
 				}
 			});
 
+			Messages -= manager.Components.Get<T>(Id).Notify;
 			// Remove from the component manager
 			manager.Components.Remove<T>(Id);
 			return this;
@@ -212,11 +215,14 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// Notifies all attached components with a message containing arbitrary data.
 		/// </summary>
-		public void Broadcast(IComponentMessage data) {
-			if (Components != null)
-				foreach (var component in Components) {
-					component.Receive(data);
-				}
+		public void Broadcast(string message, EventArgs e) {
+			MessageEvent<EventArgs> handler = Messages;
+			if (handler != null)
+				handler(message, e);
 		}
+
+		public delegate void MessageEvent<in T>(string message, T e) where T : EventArgs;
+
+		public event MessageEvent<EventArgs> Messages;
 	}
 }
