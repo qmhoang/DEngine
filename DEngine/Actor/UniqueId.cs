@@ -4,10 +4,10 @@ namespace DEngine.Actor {
 	/// <summary>
 	/// Global unique id for every game element in the universe
 	/// </summary>
-	public class UniqueId : IEquatable<UniqueId> {
-		private static int nextId = 0;
+	public class UniqueId : IEquatable<UniqueId>, IComparable<UniqueId> {
+		private static ulong nextId = 0;
 
-		private readonly int id;
+		private readonly ulong id;
 
 		public UniqueId() {
 			id = nextId++;
@@ -24,7 +24,11 @@ namespace DEngine.Actor {
 		}
 
 		public override int GetHashCode() {
-			return id;
+			return id.GetHashCode();
+		}
+
+		public int CompareTo(UniqueId other) {
+			return id.CompareTo(other.id);
 		}
 
 		public override string ToString() {

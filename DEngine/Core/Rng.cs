@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
 
@@ -12,7 +13,7 @@ namespace DEngine.Core {
 		/// Resets the seed used to generate the random numbers to a time-dependent one.
 		/// </summary>
 		public static void Seed() {
-			sRandom = new Random();
+			random = new Random();
 		}
 
 		/// <summary>
@@ -20,20 +21,25 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <param name="seed">New seed.</param>
 		public static void Seed(int seed) {
-			sRandom = new Random(seed);
+			random = new Random(seed);
 		}
 
 		/// <summary>
 		/// Gets a random int between 0 (inclusive) and max (exclusive).
 		/// </summary>
 		public static int Int(int max) {
-			return sRandom.Next(max);
+			Contract.Requires(max > 0);
+			Contract.Ensures(Contract.Result<int>() >= 0 && Contract.Result<int>() < max);
+			return random.Next(max);
 		}
 
 		/// <summary>
 		/// Gets a random int between min (inclusive) and max (exclusive).
 		/// </summary>
 		public static int Int(int min, int max) {
+			Contract.Requires(min < max);
+			Contract.Ensures(Contract.Result<int>() >= min && Contract.Result<int>() < max);
+
 			return Int(max - min) + min;
 		}
 
@@ -41,13 +47,17 @@ namespace DEngine.Core {
 		/// Gets a random int between 0 and max (inclusive).
 		/// </summary>
 		public static int IntInclusive(int max) {
-			return sRandom.Next(max + 1);
+			Contract.Requires(max >= 0);
+			Contract.Ensures(Contract.Result<int>() >= 0 && Contract.Result<int>() <= max);
+			return random.Next(max + 1);
 		}
 
 		/// <summary>
 		/// Gets a random int between min and max (inclusive).
 		/// </summary>
 		public static int IntInclusive(int min, int max) {
+			Contract.Requires(min <= max);
+			Contract.Ensures(Contract.Result<int>() >= min && Contract.Result<int>() <= max);
 			return IntInclusive(max - min) + min;
 		}
 
@@ -55,18 +65,16 @@ namespace DEngine.Core {
 		/// Gets a random double between 0 and max.
 		/// </summary>
 		public static double Double(double max = 1.0) {
-			if (max < 0.0f)
-				throw new ArgumentOutOfRangeException("max", "The max must be zero or greater.");
-
-			return sRandom.NextDouble() * max;
+			Contract.Requires<ArgumentOutOfRangeException>(max >= 0.0f, "The max must be zero or greater.");
+			
+			return random.NextDouble() * max;
 		}
 
 		/// <summary>
 		/// Gets a random double between min and max.
 		/// </summary>
 		public static double Double(double min, double max) {
-			if (max < min)
-				throw new ArgumentOutOfRangeException("max", "The max must be min or greater.");
+			Contract.Requires<ArgumentOutOfRangeException>(max >= min, "The max must be min or greater.");
 
 			return Double(max - min) + min;
 		}
@@ -74,8 +82,11 @@ namespace DEngine.Core {
 		/// <summary>
 		/// Gets a random Point within the given size (half-inclusive).
 		/// </summary>
-		public static Point Point(Point size) {
-			return new Point(Int(size.X), Int(size.Y));
+		public static Point Point(Size size) {
+			Contract.Requires<ArgumentException>(size.Width > 0);
+			Contract.Requires<ArgumentException>(size.Height > 0);
+
+			return new Point(Int(size.Width), Int(size.Height));
 		}
 
 		/// <summary>
@@ -96,6 +107,8 @@ namespace DEngine.Core {
 		/// Gets a random item from the given list.
 		/// </summary>
 		public static T Item<T>(IList<T> items) {
+			Contract.Requires<ArgumentNullException>(items != null, "items");
+			Contract.Requires<ArgumentException>(items.Count > 0);
 			return items[Int(items.Count)];
 		}
 
@@ -120,7 +133,7 @@ namespace DEngine.Core {
 			if (chance > 1.0)
 				throw new ArgumentOutOfRangeException("chance", "Chance must be less than 1.0");
 
-			return sRandom.NextDouble() <= chance;
+			return random.NextDouble() <= chance;
 		}
 
 		/// <summary>
@@ -186,8 +199,7 @@ namespace DEngine.Core {
 		/// The result is the x coordinate of the point in the original triangle.
 		/// </remarks>
 		public static int TriangleInt(int center, int range) {
-			if (range < 0)
-				throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be zero or greater.");
+			Contract.Requires<ArgumentOutOfRangeException>(range >= 0, "The argument \"range\" must be zero or greater.");
 
 			// pick a point in the square
 			int x = IntInclusive(range);
@@ -213,10 +225,8 @@ namespace DEngine.Core {
 		/// <param name="stddev">standard deviation</param>
 		/// <returns></returns>        
 		public static int GaussianInt(int center, int range, int stddev) {
-			if (range < 0)
-				throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be zero or greater.");
-			if (range < stddev)
-				throw new ArgumentOutOfRangeException("range", "The argument \"range\" must be less than standard deviation \"stddev\"");
+			Contract.Requires<ArgumentOutOfRangeException>(range >= 0, "The argument \"range\" must be zero or greater.");
+			Contract.Requires<ArgumentOutOfRangeException>(range > stddev, "The argument \"range\" must be greater than standard deviation \"stddev\"");
 			double random = Double();
 
 			int gaussianInt = (int) Math.Round(GaussianDistribution.InverseCumulativeTo(random, center, stddev));
@@ -229,59 +239,59 @@ namespace DEngine.Core {
 				return gaussianInt;
 		}
 
-		/// <summary>
-		/// Randomly walks the given starting value repeatedly up and/or down
-		/// with the given probabilities. Will only walk in one direction.
-		/// </summary>
-		/// <param name="start">Value to start at.</param>
-		/// <param name = "chanceOfDec"></param>
-		/// <param name = "chanceOfInc"></param>
-		public static int Walk(int start, int chanceOfDec, int chanceOfInc) {
-			// make sure we won't get stuck in an infinite loop
-			if (chanceOfDec == 1)
-				throw new ArgumentOutOfRangeException("chanceOfDec", "chanceOfDec must be zero or greater than one.");
-			if (chanceOfInc == 1)
-				throw new ArgumentOutOfRangeException("chanceOfInc", "chanceOfInc must be zero greater than one.");
+//		/// <summary>
+//		/// Randomly walks the given starting value repeatedly up and/or down
+//		/// with the given probabilities. Will only walk in one direction.
+//		/// </summary>
+//		/// <param name="start">Value to start at.</param>
+//		/// <param name = "chanceOfDec"></param>
+//		/// <param name = "chanceOfInc"></param>
+//		public static int Walk(int start, int chanceOfDec, int chanceOfInc) {
+//			// make sure we won't get stuck in an infinite loop
+//			Contract.Requires<ArgumentOutOfRangeException>(chanceOfDec != 1, "chanceOfDec must be zero or greater than one.");
+//			Contract.Requires<ArgumentOutOfRangeException>(chanceOfInc != 1, "chanceOfInc must be zero greater than one.");
+//
+//			// decide if walking up or down
+//			int direction = Int(chanceOfDec + chanceOfInc);
+//			if (direction < chanceOfDec) {
+//				// exponential chance of decrementing
+//				int sanity = 10000;
+//				while (Rng.OneIn(chanceOfDec) && (sanity-- > 0))
+//					start--;
+//			} else if (direction < chanceOfDec + chanceOfInc) {
+//				// exponential chance of incrementing
+//				int sanity = 10000;
+//				while (Rng.OneIn(chanceOfInc) && (sanity-- > 0))
+//					start++;
+//			}
+//
+//			return start;
+//		}
 
-			// decide if walking up or down
-			int direction = Int(chanceOfDec + chanceOfInc);
-			if (direction < chanceOfDec) {
-				// exponential chance of decrementing
-				int sanity = 10000;
-				while (Rng.OneIn(chanceOfDec) && (sanity-- > 0))
-					start--;
-			} else if (direction < chanceOfDec + chanceOfInc) {
-				// exponential chance of incrementing
-				int sanity = 10000;
-				while (Rng.OneIn(chanceOfInc) && (sanity-- > 0))
-					start++;
-			}
-
-			return start;
-		}
-
-		/// <summary>
-		/// Randomly walks the given level using a... unique distribution (triangle). The
-		/// goal is to return a value that approximates a bell curve centered
-		/// on the start level whose wideness increases as the level increases.
-		/// Thus, starting at a low start level will only walk a short distance,
-		/// while starting at a higher level can wander a lot farther.
-		/// </summary>
-		/// <returns></returns>
-		public static int WalkLevelTriangle(int level) {
-			int result = level;
-
-			// stack a few triangles to approximate a bell
-			for (int i = 0; i < Math.Min(5, level); i++)
-					// the width of the triangle is based on the level
-				result += Rng.TriangleInt(0, 1 + (level / 20));
-
-			// also have an exponentially descreasing change of going out of depth
-			while (Rng.OneIn(10))
-				result += 1 + Rng.Int(2 + (level / 5));
-
-			return result;
-		}
+//		/// <summary>
+//		/// Randomly walks the given level using a... unique distribution (triangle). The
+//		/// goal is to return a value that approximates a bell curve centered
+//		/// on the start level whose wideness increases as the level increases.
+//		/// Thus, starting at a low start level will only walk a short distance,
+//		/// while starting at a higher level can wander a lot farther.
+//		/// </summary>
+//		/// <returns></returns>
+//		public static int WalkLevelTriangle(int level) {
+//			int result = level;
+//
+//			// stack a few triangles to approximate a bell
+//			for (int i = 0; i < Math.Min(5, level); i++) {
+//				// the width of the triangle is based on the level
+//				result += Rng.TriangleInt(0, 1 + (level / 20));
+//			}
+//
+//			// also have an exponentially descreasing change of going out of depth
+//			while (Rng.OneIn(10)) {
+//				result += 1 + Rng.Int(2 + (level / 5));
+//			}
+//
+//			return result;
+//		}
 
 		/// <summary>
 		/// Repeatedly adds an increment to a given starting value as long as random
@@ -296,14 +306,10 @@ namespace DEngine.Core {
 		/// is successful.</param>
 		/// <returns>The resulting value.</returns>
 		public static int Taper(int start, int increment, int chance, int outOf) {
-			if (increment == 0)
-				throw new ArgumentOutOfRangeException("increment", "The increment cannot be zero.");
-			if (chance <= 0)
-				throw new ArgumentOutOfRangeException("chance", "The chance must be greater than zero.");
-			if (chance >= outOf)
-				throw new ArgumentOutOfRangeException("chance", "The chance must be less than the range.");
-			if (outOf <= 0)
-				throw new ArgumentOutOfRangeException("outOf", "The range must be positive.");
+			Contract.Requires<ArgumentOutOfRangeException>(increment == 0, "The increment cannot be zero.");
+			Contract.Requires<ArgumentOutOfRangeException>(chance > 0, "The chance must be greater than zero.");
+			Contract.Requires<ArgumentOutOfRangeException>(chance < outOf, "The chance must be less than the range.");
+			Contract.Requires<ArgumentOutOfRangeException>(outOf > 0, "The range must be positive.");
 
 			int value = start;
 
@@ -313,7 +319,7 @@ namespace DEngine.Core {
 			return value;
 		}
 
-		private static Random sRandom = new Random();
+		private static Random random = new Random();
 	}
 
 	/// <summary>
@@ -328,16 +334,16 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <param name="text">The string to parse.</param>
 		/// <returns>The parsed Roller or <c>null</c> if unsuccessful.</returns>
+		[SuppressMessage("Microsoft.Contract", "NonNull")]
 		public static Rand Parse(string text) {
 			// ignore whitespace
 			text = text.Trim();
 
 			// compile the regex if needed
 			if (parser == null) {
-				string pattern =
-						@"^((?<die>(?<dice>\d+)d(?<sides>\d+))|(?<tri>(?<center>\d+)t(?<range>\d+))|(?<range>(?<min>\d+)-(?<max>\d+))|(?<fixed>(?<value>-?\d+)))(?<taper>\((?<chance>\d+)\:(?<outof>\d+)\))?$";
+				const string PATTERN = @"^((?<die>(?<dice>\d+)d(?<sides>\d+))|(?<tri>(?<center>\d+)t(?<range>\d+))|(?<range>(?<min>\d+)-(?<max>\d+))|(?<fixed>(?<value>-?\d+)))(?<taper>\((?<chance>\d+)\:(?<outof>\d+)\))?$";
 
-				parser = new Regex(pattern, RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+				parser = new Regex(PATTERN, RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 			}
 
 			// parse it
@@ -472,7 +478,7 @@ namespace DEngine.Core {
 		public override string ToString() {
 			string text = this.text;
 			if (nextRand != null)
-				text += nextRand.ToString();
+				text += string.Format(" + {0}", nextRand);
 
 			return text;
 		}
@@ -486,6 +492,9 @@ namespace DEngine.Core {
 		}
 
 		private Rand(Func<int> rollFunction, float min, float average, float max, string text, bool isConstant) {
+			Contract.Requires<ArgumentNullException>(rollFunction != null, "rollFunction");
+			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(text));
+			Contract.Requires<ArgumentOutOfRangeException>(min <= average && average <= max);
 			this.rollFunction = rollFunction;
 			this.min = min;
 			this.average = average;
@@ -511,6 +520,12 @@ namespace DEngine.Core {
 
 		public static Rand operator +(Rand v1, Rand v2) {
 			return new Rand(v2.rollFunction, v2.Mininum, v2.Average, v2.Maximum, v2.text, v2.IsConstant) {nextRand = v1};
+		}
+
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(max >= average && average >= min);
 		}
 	}
 }
