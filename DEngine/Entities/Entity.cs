@@ -63,9 +63,7 @@ namespace DEngine.Entities {
 		/// <param name = "manager"></param>
 		/// <param name="id"></param>
 		public Entity(EntityManager manager, UniqueId id) {
-			if (manager == null) {
-				throw new ArgumentNullException("manager");
-			}
+			Contract.Requires<ArgumentNullException>(manager != null, "manager");
 			manager.entities.Add(id, this);
 			this.id = id;
 			this.manager = manager;			

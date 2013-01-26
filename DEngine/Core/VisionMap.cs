@@ -1,3 +1,5 @@
+using System;
+
 namespace DEngine.Core {
 	public sealed class VisionMap : Map {
 		private bool[,] cells;
@@ -25,7 +27,7 @@ namespace DEngine.Core {
 		}
 
 		public bool IsVisible(int x, int y) {
-			return cells[x, y];
+			return IsInBoundsOrBorder(x, y) && cells[x, y];
 		}
 
 		public bool IsVisible(Point p) {
@@ -34,6 +36,12 @@ namespace DEngine.Core {
 
 		public void SetVisibility(int x, int y, bool visible) {
 			cells[x, y] = visible;
+		}
+
+		public VisionMap Copy() {
+			var visionMap = new VisionMap(size);
+			visionMap.cells = (bool[,]) cells.Clone();
+			return visionMap;
 		}
 	}
 }
