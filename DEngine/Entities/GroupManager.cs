@@ -44,6 +44,7 @@ namespace DEngine.Entities {
 			if (!entitiesByGroup.ContainsKey(group)) {
 				entitiesByGroup.Add(group, new HashSet<Entity>());
 			}
+			Contract.Assume(entitiesByGroup.ContainsKey(group));
 			entitiesByGroup[group].Add(e);
 			entityIDToEntityLUT.Add(e.Id, group);
 		}

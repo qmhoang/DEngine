@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Text;
 using DEngine.Actor;
 using DEngine.Extensions;
@@ -212,6 +213,7 @@ namespace DEngine.Entities {
 		/// <param name="id"></param>
 		/// <returns></returns>
 		public IEnumerable<Component> All(UniqueId id) {
+			Contract.Requires<ArgumentNullException>(id != null, "id");
 			return Components.All(id);
 		}
 	}

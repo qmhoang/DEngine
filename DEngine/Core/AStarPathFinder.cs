@@ -344,7 +344,8 @@ namespace DEngine.Core {
 			y = oy;
 			pos = path.Count - 1;
 			do {
-				Contract.Assume(index >= 0);
+				Contract.Assert(index >= -1);
+				Contract.Assert(pos >= 0);
 				PathFindingDirection step = path[pos];
 				x += dirx[(int) step];
 				y += diry[(int) step];

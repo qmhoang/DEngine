@@ -65,6 +65,7 @@ namespace DEngine.Core {
 		protected Level(Size size) {
 			Size = size;
 			Cells = new Cell[size.Width, size.Height];
+			EntityManager = new EntityManager();
 		}
 
 		public override int Width {

@@ -14,7 +14,7 @@ namespace DEngine.Entities {
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
 		private void ObjectInvariant() {
 			Contract.Invariant(entityLUT != null);
-			Contract.Invariant(tags != null);			
+			Contract.Invariant(tags != null);
 		}
 
 		public TagManager() {
@@ -30,17 +30,17 @@ namespace DEngine.Entities {
 			if (!tags.ContainsKey(e)) {
 				tags.Add(e, new List<string>());
 			}
+			Contract.Assume(tags.ContainsKey(e));
 			tags[e].Add(tag);
 		}
 
 		public void Unregister(String tag) {
 			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
 
-			if (!entityLUT.ContainsKey(tag))
-				return;
-
-			tags[entityLUT[tag]].Remove(tag);
-			entityLUT.Remove(tag);
+			if (entityLUT.ContainsKey(tag)) {
+				tags[entityLUT[tag]].Remove(tag);
+				entityLUT.Remove(tag);
+			}
 		}
 
 		public bool IsRegistered(String tag) {
@@ -58,10 +58,12 @@ namespace DEngine.Entities {
 		public void Remove(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
 
-			foreach (var tag in tags[e]) {
-				entityLUT.Remove(tag);
+			if (tags.ContainsKey(e)) {
+				foreach (var tag in tags[e]) {
+					entityLUT.Remove(tag);
+				}
+				tags.Remove(e);
 			}
-			tags.Remove(e);			
 		}
 
 		public IEnumerable<string> GetTags(Entity e) {

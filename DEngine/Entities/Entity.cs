@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using DEngine.Actor;
 using DEngine.Extensions;
@@ -56,6 +57,13 @@ namespace DEngine.Entities {
 		/// </summary>
 		public event EntityEventHandler OnEntityDeactivate;
 
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(manager != null);
+			Contract.Invariant(Id != null);
+		}
+
 
 		/// <summary>
 		/// Construct empty entity
@@ -77,6 +85,9 @@ namespace DEngine.Entities {
 		/// <param name="components"></param>
 		public Entity(EntityManager manager, UniqueId id, IEnumerable<Component> components)
 			: this(manager, id) {
+			Contract.Requires<ArgumentNullException>(components != null, "components");
+			Contract.Requires<ArgumentNullException>(manager != null, "manager");
+			Contract.Requires<ArgumentNullException>(id != null, "id");
 			this.manager.Components.Add(this, components);
 		}
 
@@ -89,17 +100,17 @@ namespace DEngine.Entities {
 		/// <param name="component"></param>
 		/// <returns></returns>
 		public Entity Add<T>(T component) where T : Component {
+			Contract.Requires<ArgumentNullException>(component != null, "component");
 			manager.Components.Add(this, component);
-			Messages += component.Receive;
-
+			
 			// Add any updated entity to any filtered collections
 			manager.FilteredCollections.Each(c => c.Add(this));
 			return this;
 		}
 
 		public Entity Add(IEnumerable<Component> components) {
+			Contract.Requires<ArgumentNullException>(components != null, "components");
 			manager.Components.Add(this, components);
-			components.Each(c => Messages += c.Receive);
 
 			manager.FilteredCollections.Each(c => c.Add(this));
 			return this;
@@ -123,7 +134,7 @@ namespace DEngine.Entities {
 
 			Messages -= manager.Components.Get<T>(Id).Notify;
 			// Remove from the component manager
-			manager.Components.Remove<T>(Id);
+			manager.Components.Remove<T>(this);
 			return this;
 		}
 
@@ -205,8 +216,10 @@ namespace DEngine.Entities {
 		public Entity Copy() {
 			var entity = new Entity(manager, new UniqueId());
 
-			foreach (var component in Components) {
-				entity.Add(component.Copy());
+			if (Components != null) {
+				foreach (var component in Components) {
+					entity.Add(component.Copy());
+				}
 			}
 
 			return entity;

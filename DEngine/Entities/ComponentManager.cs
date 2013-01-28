@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using DEngine.Actor;
 
 namespace DEngine.Entities {
@@ -15,9 +17,9 @@ namespace DEngine.Entities {
 		/// </summary>
 		Dictionary<Type, Dictionary<UniqueId, Component>> components;
 
-
 		private Dictionary<UniqueId, Component> this[Type t] {
 			get {
+				Contract.Ensures(Contract.Result<Dictionary<UniqueId, Component>>() != null);
 				// Ensure that the manager has a dictionary ready for the component type
 				if (!components.ContainsKey(t)) {
 					// Check that our type is valid
@@ -31,6 +33,12 @@ namespace DEngine.Entities {
 			}
 		}
 
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(components != null);
+		}
+
 
 		internal ComponentManager() {
 			components = new Dictionary<Type, Dictionary<UniqueId, Component>>();
@@ -42,6 +50,7 @@ namespace DEngine.Entities {
 		public void Add<T>(Entity e, T o)
 				where T : Component {
 			o.Entity = e;
+			e.Messages += o.Receive;			
 			this[o.GetType()].Add(e.Id, o);
 		}
 
@@ -49,8 +58,6 @@ namespace DEngine.Entities {
 		/// Add a collection of components to an entity
 		/// </summary>
 		public void Add(Entity e, IEnumerable<Component> comps) {
-			if (comps == null)
-				throw new ArgumentNullException("comps");
 			foreach (var component in comps) {
 				Add(e, component);
 			}
@@ -70,11 +77,12 @@ namespace DEngine.Entities {
 		/// Remove a component from an entity
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <param name="id"></param>
+		/// <param name="e"></param>
 		/// <returns></returns>
-		public bool Remove<T>(UniqueId id)
+		public bool Remove<T>(Entity e)
 				where T : Component {
-			return this[typeof(T)].Remove(id);
+			e.Messages -= this[typeof(T)][e.Id].Receive;
+			return this[typeof(T)].Remove(e.Id);
 		}
 
 		/// <summary>

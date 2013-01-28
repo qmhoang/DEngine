@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using DEngine.Core;
 using DEngine.Entities;
 
 namespace DEngine.Components {
@@ -14,29 +15,37 @@ namespace DEngine.Components {
 		/// The rate in which an entity's AP is changed.
 		/// </summary>
 		/// <returns></returns>
-		public int Speed { get; set; }
+		public int ActionPointPerTurn { get; set; }
+
+		public const int DEFAULT_SPEED = 100;
 
 		/// <summary>
 		/// Can entity call update right now?
 		/// </summary>
 		public bool Updateable { get { return ActionPoints > 0; } }
 
-		public const int DEFAULT_SPEED = 100;
+		public event ComponentEventHandler<EventArgs<int>> Update;
+
+		public void OnUpdate(EventArgs<int> e) {
+			ComponentEventHandler<EventArgs<int>> handler = Update;
+			if (handler != null)
+				handler(this, e);
+		}
 
 		public ActionPoint(int actionPoints = 0, int speed = DEFAULT_SPEED) {
 			Contract.Requires<ArgumentException>(speed > 0);
 			ActionPoints = actionPoints;
-			Speed = speed;			
+			ActionPointPerTurn = speed;			
 		}
 
 		public override Component Copy() {
-			return new ActionPoint(ActionPoints, Speed);
+			return new ActionPoint(ActionPoints, ActionPointPerTurn);
 		}
 
 		[ContractInvariantMethod]
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
 		private void ObjectInvariant() {
-			Contract.Invariant(Speed > 0);			
+			Contract.Invariant(ActionPointPerTurn > 0);			
 		}
 	}
 
