@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using DEngine.Actor;
 
 namespace DEngine.Entities {
@@ -7,14 +9,15 @@ namespace DEngine.Entities {
 	/// Interface for a ComponentManager.  Handles storage and retrieval of component
 	/// types associated with entity ids.
 	/// </summary>
+	[ContractClass(typeof(IComponentManagerContract))]
 	public interface IComponentManager : IEnumerable<Type> {
 		/// <summary>
 		/// Add a new component to an entity
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <param name="entity"></param>
+		/// <param name="e"></param>
 		/// <param name="o"></param>
-		void Add<T>(Entity entity, T o) where T : Component;
+		void Add<T>(Entity e, T o) where T : Component;
 
 		/// <summary>
 		/// Add a list of components to an entity
@@ -32,9 +35,9 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// Remove a component belonging to an entity
 		/// </summary>
-		/// <param name="id"></param>		
+		/// <param name="e"></param>		
 		/// <returns>If a component was removed or not</returns>
-		bool Remove<T>(UniqueId id) where T : Component;
+		bool Remove<T>(Entity e) where T : Component;
 
 		/// <summary>
 		/// Get a component beloning to an entity
@@ -53,5 +56,50 @@ namespace DEngine.Entities {
 		bool Contains(UniqueId id, Type t);
 
 		IEnumerable<Component> All(UniqueId id);
+	}
+
+// ReSharper disable InconsistentNaming
+	[ContractClassFor(typeof(IComponentManager))]
+	abstract class IComponentManagerContract : IComponentManager {
+// ReSharper restore InconsistentNaming
+		public void Add<T>(Entity e, T o) where T : Component {
+			Contract.Requires<ArgumentNullException>(o != null, "o");
+			Contract.Requires<ArgumentNullException>(e != null, "e");
+		}
+
+		public void Add(Entity e, IEnumerable<Component> components) {
+			Contract.Requires<ArgumentNullException>(e != null, "e");
+			Contract.Requires<ArgumentNullException>(components != null, "comps");	
+		}
+
+		public void Remove(UniqueId id) {
+			Contract.Requires<ArgumentNullException>(id != null, "id");			
+		}
+
+		public bool Remove<T>(Entity e) where T : Component {
+			Contract.Requires<ArgumentNullException>(e != null, "e");
+			return false;
+		}
+
+		public T Get<T>(UniqueId id) where T : Component {
+			Contract.Requires<ArgumentNullException>(id != null, "id");
+			Contract.Ensures(Contract.Result<T>() != null);
+			return default(T);
+		}
+
+		public bool Contains(UniqueId id, Type t) {
+			Contract.Requires<ArgumentNullException>(id != null, "id");
+			return false;
+		}
+
+		public IEnumerable<Component> All(UniqueId id) {
+			Contract.Requires<ArgumentNullException>(id != null, "id");
+			return default(IEnumerable<Component>);
+		}
+
+		public abstract IEnumerator<Type> GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
+		}
 	}
 }

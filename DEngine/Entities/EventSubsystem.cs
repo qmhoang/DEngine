@@ -9,7 +9,7 @@ namespace DEngine.Entities {
 		protected FilteredCollection Collection;
 		
 		public Entity GetEntity(Component c) {
-			Contract.Requires<ArgumentNullException>(c != null, "c");
+			Contract.Requires<ArgumentNullException>(c != null, "c");			
 			return c.Entity;
 		}
 
@@ -17,7 +17,7 @@ namespace DEngine.Entities {
 		protected EventSubsystem(EntityManager entityManager, params Type[] types) {
 			Contract.Requires<ArgumentNullException>(entityManager != null, "entityManager");
 			Contract.Requires<ArgumentNullException>(types != null, "types");
-
+			
 			Collection = entityManager.Get(types);
 
 			Collection.OnEntityAdd += EntityAddedToCollection;

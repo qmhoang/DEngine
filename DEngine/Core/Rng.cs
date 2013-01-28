@@ -334,7 +334,6 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <param name="text">The string to parse.</param>
 		/// <returns>The parsed Roller or <c>null</c> if unsuccessful.</returns>
-		[SuppressMessage("Microsoft.Contract", "NonNull")]
 		public static Rand Parse(string text) {
 			// ignore whitespace
 			text = text.Trim();
@@ -353,7 +352,7 @@ namespace DEngine.Core {
 				return null;
 
 			Rand rand;
-
+			
 			if (match.Groups["die"].Success) {
 				int dice = Int32.Parse(match.Groups["dice"].Value);
 				int sides = Int32.Parse(match.Groups["sides"].Value);
@@ -392,19 +391,19 @@ namespace DEngine.Core {
 		public static Rand Range(int min, int max) {
 			return new Rand(
 					() => Rng.IntInclusive(min, max),
-					min, (min + max) / 2.0f, max, min.ToString() + "-" + max.ToString());
+					min, (min + max) / 2.0f, max, string.Format("{0}-{1}", min, max));
 		}
 
 		public static Rand Dice(int dice, int sides) {
 			return new Rand(
 					() => Rng.Roll(dice, sides),
-					dice, dice * ((1 + sides) / 2.0f), dice * sides + 1, dice.ToString() + "d" + sides.ToString());
+					dice, dice * ((1 + sides) / 2.0f), dice * sides + 1, string.Format("{0}d{1}", dice, sides));
 		}
 
 		public static Rand Triangle(int center, int range) {
 			return new Rand(
 					() => Rng.TriangleInt(center, range),
-					center - range, center, center + range + 1, center.ToString() + "t" + range.ToString());
+					center - range, center, center + range + 1, string.Format("{0}t{1}", center, range));
 		}
 
 		public static Rand Taper(int chance, int outOf) {
@@ -413,7 +412,7 @@ namespace DEngine.Core {
 					Int32.MinValue,
 					(float) chance / (outOf - (float) chance), // sum of geometric series
 					Int32.MaxValue,
-					"(" + chance + ":" + outOf + ")");
+					string.Format("({0}:{1})", chance, outOf));
 		}
 
 		public static Rand Gaussian(int mean, int range, int stddev) {
@@ -526,6 +525,7 @@ namespace DEngine.Core {
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
 		private void ObjectInvariant() {
 			Contract.Invariant(max >= average && average >= min);
+			Contract.Invariant(text != null);
 		}
 	}
 }

@@ -29,7 +29,7 @@ namespace DEngine.Core {
 			for (int j = row; j < radius + 1; j++) 
 			{
 				int dx = -j - 1;
-				int dy = - j;
+				int dy = -j;
 				bool blocked = false;
 				while (dx <= 0)
 				{
@@ -38,7 +38,7 @@ namespace DEngine.Core {
 					int Y = cy + dx * yx + dy * yy;
 					if ((uint)X < (uint)level.Width && (uint)Y < (uint)level.Height) 
 					{
-						int offset = X + Y * level.Width;
+//						int offset = X + Y * level.Width;
 						float l_slope = (dx - 0.5f) / (dy + 0.5f);
 						float r_slope = (dx + 0.5f) / (dy - 0.5f);
 						if (start < r_slope)

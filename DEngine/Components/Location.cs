@@ -13,11 +13,20 @@ namespace DEngine.Components {
 			get { return position; }
 			set {
 				position = value;
-				OnPositionChanged(new EventArgs<Point>(position));
+				var eventArgs = new EventArgs<Point>(position);
+				Notify("OnPositionChanged", eventArgs);
+				OnPositionChanged(eventArgs);
 			}
 		}
 
-		public Level Level { get; set; }
+		private Level level;
+		public Level Level {
+			get { return level; }
+			set {
+				level = value;
+				Notify("OnLevelChanged", new EventArgs<Level>(Level));
+			}
+		}
 
 		public event ComponentEventHandler<EventArgs<Point>> PositionChanged;
 
@@ -34,6 +43,7 @@ namespace DEngine.Components {
 			if (handler != null)
 				handler(this, e);
 		}
+
 
 		public int X {
 			get { return Position.X; }			
@@ -95,11 +105,16 @@ namespace DEngine.Components {
 
 		public override Component Copy() {
 			var location = new Location(X, Y, Level);
-			if (PositionChanged != null)
-				location.PositionChanged = (ComponentEventHandler<EventArgs<Point>>) PositionChanged.Clone();
-			if (MapChanged != null)
-				location.MapChanged = (ComponentEventHandler<EventArgs<Level>>) MapChanged.Clone();
 			return location;
+		}
+
+		public static bool ProcessPositionChangedEvent(string msg, EventArgs e, out Point position) {
+			if (msg == "OnPositionChanged") {
+				position = ((EventArgs<Point>) e).Data;
+				return true;
+			}
+			position = Point.Zero;
+			return false;
 		}
 	}
 }
