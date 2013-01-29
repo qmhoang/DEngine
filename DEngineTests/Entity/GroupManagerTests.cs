@@ -7,12 +7,12 @@ namespace DEngineTests.Entity {
 	[TestFixture]
 	public class GroupManagerTests {
 		private EntityManager manager;
-		private GroupManager groupManager;
+		private GroupManager<string> groupManager;
 
 		[SetUp]
 		public void SetUp() {
 			manager = new EntityManager();
-			groupManager = new GroupManager();
+			groupManager = new GroupManager<string>();
 		}
 
 		[Test]
@@ -20,17 +20,21 @@ namespace DEngineTests.Entity {
 			var entity = manager.Create();
 			Assert.IsFalse(groupManager.IsGrouped(entity));
 
-			groupManager.Set("group", entity);
+			groupManager.Set(entity, "group");
 			Assert.IsTrue(groupManager.IsGrouped(entity));
+			CollectionAssert.Contains(groupManager.GetEntities("group"), entity);
 
-			Assert.Throws<ArgumentException>(() => groupManager.Set("", entity));
-			Assert.Throws<ArgumentNullException>(() => groupManager.Set("1", null));
+			groupManager.Set(entity, "");
+			Assert.IsTrue(groupManager.IsGrouped(entity));
+			CollectionAssert.Contains(groupManager.GetEntities(""), entity);
+			
+			Assert.Throws<ArgumentNullException>(() => groupManager.Set(null, "1"));
 		}
 
 		[Test]
 		public void TestRemove() {
 			var entity = manager.Create();
-			groupManager.Set("group", entity);
+			groupManager.Set(entity, "group");
 			Assert.IsTrue(groupManager.IsGrouped(entity));
 
 			groupManager.Remove(entity);
@@ -42,17 +46,26 @@ namespace DEngineTests.Entity {
 		[Test]
 		public void TestGetters() {
 			var entity = manager.Create();
-			groupManager.Set("group", entity);
+
+			Assert.IsFalse(groupManager.IsValidGroup("group"));
+			groupManager.Set(entity, "group");
+			Assert.IsTrue(groupManager.IsValidGroup("group"));
 
 			Assert.AreEqual(groupManager.GetGroupOf(entity), "group");
 			Assert.AreNotEqual(groupManager.GetGroupOf(entity), "group2");
 
-			groupManager.Set("group2", entity);
+			Assert.IsTrue(groupManager.IsValidGroup("group"));			
+			groupManager.Set(entity, "group2");
+			Assert.IsFalse(groupManager.IsValidGroup("group"));
 
 			Assert.AreNotEqual(groupManager.GetGroupOf(entity), "group");
 			Assert.AreEqual(groupManager.GetGroupOf(entity), "group2");
 
 			Assert.Throws<ArgumentNullException>(() => groupManager.GetGroupOf(null));
+			
+			//test failures
+			groupManager.Remove(entity);
+			Assert.Throws<KeyNotFoundException>(delegate { var g = groupManager.GetGroupOf(entity); });			
 		}
 
 		[Test]
@@ -66,7 +79,7 @@ namespace DEngineTests.Entity {
 
 
 			foreach (var entity in list) {
-				groupManager.Set("group", entity);
+				groupManager.Set(entity, "group");
 			}
 
 			CollectionAssert.AreEqual(groupManager.GetEntities("group"), list);

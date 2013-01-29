@@ -7,15 +7,25 @@ using DEngine.Core;
 using DEngine.Entities;
 
 namespace DEngine.Components {
+	public class PositionChangedEvent : EventArgs {
+		public Point Previous { get; private set; }
+		public Point Current { get; private set; }
+
+		public PositionChangedEvent(Point prev, Point curr) {
+			Previous = prev;
+			Current = curr;
+		}
+	}
+
 	public class Location : Component, IEquatable<Location> {
 		private Point position;
 		public Point Position {
 			get { return position; }
 			set {
-				position = value;
-				var eventArgs = new EventArgs<Point>(position);
+				var eventArgs = new PositionChangedEvent(position, value);
 				Notify("OnPositionChanged", eventArgs);
 				OnPositionChanged(eventArgs);
+				position = value;
 			}
 		}
 
@@ -28,10 +38,10 @@ namespace DEngine.Components {
 			}
 		}
 
-		public event ComponentEventHandler<EventArgs<Point>> PositionChanged;
+		public event ComponentEventHandler<PositionChangedEvent> PositionChanged;
 
-		public void OnPositionChanged(EventArgs<Point> e) {
-			ComponentEventHandler<EventArgs<Point>> handler = PositionChanged;
+		public void OnPositionChanged(PositionChangedEvent e) {
+			ComponentEventHandler<PositionChangedEvent> handler = PositionChanged;
 			if (handler != null)
 				handler(this, e);
 		}
@@ -108,12 +118,14 @@ namespace DEngine.Components {
 			return location;
 		}
 
-		public static bool ProcessPositionChangedEvent(string msg, EventArgs e, out Point position) {
+		public static bool ProcessPositionChangedEvent(string msg, EventArgs e, out Point previous, out Point current) {
 			if (msg == "OnPositionChanged") {
-				position = ((EventArgs<Point>) e).Data;
+				previous = ((PositionChangedEvent)e).Previous;
+				current = ((PositionChangedEvent)e).Current;
 				return true;
 			}
-			position = Point.Zero;
+			current = Point.Zero;
+			previous = Point.Zero;
 			return false;
 		}
 	}

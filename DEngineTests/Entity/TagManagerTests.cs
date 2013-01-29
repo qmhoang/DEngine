@@ -7,19 +7,19 @@ namespace DEngineTests.Entity {
 	[TestFixture]
 	public class TagManagerTests {
 		private EntityManager manager;
-		private TagManager tagManager;
+		private TagManager<string> tagManager;
 
 		[SetUp]
 		public void SetUp() {
 			manager = new EntityManager();
-			tagManager = new TagManager();
+			tagManager = new TagManager<string>();
 		}
 
 		[Test]
 		public void TestGettersAndIndexers() {
 			var entity = manager.Create();
-			tagManager.Register("player", entity);
-			tagManager.Register("player1", entity);
+			tagManager.Register(entity, "player");
+			tagManager.Register(entity, "player1");
 
 			Assert.AreEqual(entity, tagManager.GetEntity("player"));
 			Assert.AreEqual(entity, tagManager.GetEntity("player1"));
@@ -35,8 +35,8 @@ namespace DEngineTests.Entity {
 		[Test]
 		public void TestRegister() {
 			var entity = manager.Create();
-			tagManager.Register("player", entity);
-			tagManager.Register("player1", entity);			
+			tagManager.Register(entity, "player");
+			tagManager.Register(entity, "player1");			
 
 			Assert.IsTrue(tagManager.IsRegistered("player"));
 			Assert.IsTrue(tagManager.IsRegistered("player1"));
@@ -49,13 +49,13 @@ namespace DEngineTests.Entity {
 			Assert.AreNotEqual(entity, entity1);
 
 			Assert.Throws<ArgumentException>(delegate { tagManager["player"] = entity; });
-			Assert.Throws<ArgumentException>(delegate { tagManager.Register("player1", entity); });
+			Assert.Throws<ArgumentException>(delegate { tagManager.Register(entity, "player1"); });
 		}
 
 		[Test]
 		public void TestUnregister() {
 			var entity = manager.Create();
-			tagManager.Register("player", entity);
+			tagManager.Register(entity, "player");
 
 			Assert.IsTrue(tagManager.IsRegistered("player"));
 
