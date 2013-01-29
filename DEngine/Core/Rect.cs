@@ -10,7 +10,7 @@ namespace DEngine.Core {
 	/// Size.Width and Size.Height are both positive</remarks>
 	/// </summary>
 	[Serializable]
-	public struct Rect {
+	public struct Rect : IEquatable<Rect> {
 		private readonly Point topLeft;
 		private readonly Size size;
 

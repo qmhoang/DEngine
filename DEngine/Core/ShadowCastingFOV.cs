@@ -45,12 +45,14 @@ namespace DEngine.Core {
 							continue;
 						else if(end > l_slope)
 							break;
-						if (dx * dx + dy * dy <= r2 && (light_walls || level.Cells[X, Y].Transparent))
+//						if (dx * dx + dy * dy <= r2 && (light_walls || level.Cells[X, Y].Transparent))
+						if (dx * dx + dy * dy <= r2 && (light_walls || level.IsTransparent(X, Y)))
 //							map.Cells[X, Y].Visible = true;
 							vision.SetVisibility(X, Y, true);
 						if ( blocked ) 
 						{
-							if (!level.Cells[X, Y].Transparent)
+//							if (!level.Cells[X, Y].Transparent)
+							if (!level.IsTransparent(X, Y))
 							{
 								new_start = r_slope;
 								continue;
@@ -63,7 +65,8 @@ namespace DEngine.Core {
 						} 
 						else 
 						{
-							if (!level.Cells[X, Y].Transparent && j < radius)
+//							if (!level.Cells[X, Y].Transparent && j < radius)
+							if (!level.IsTransparent(X, Y) && j < radius)
 							{
 								blocked = true;
 								CastLight(vision, level, cx, cy, j + 1, start, l_slope, radius, r2, xx, xy, yx, yy, id+1, light_walls);

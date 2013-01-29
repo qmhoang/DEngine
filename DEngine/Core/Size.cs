@@ -1,8 +1,10 @@
+using System;
+
 namespace DEngine.Core {
 	/// <summary>
 	/// Immutable type representing anything that has a width and a height
 	/// </summary>
-	public struct Size {
+	public struct Size : IEquatable<Size> {
 		public int Width { get; set; }
 		public int Height { get; set; }
 

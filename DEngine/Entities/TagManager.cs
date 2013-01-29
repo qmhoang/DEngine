@@ -6,9 +6,10 @@ using System.Linq;
 using System.Text;
 
 namespace DEngine.Entities {
-	public sealed class TagManager {
-		private Dictionary<string, Entity> entityLUT;
-		private Dictionary<Entity, List<string>> tags;
+	// ReSharper disable CompareNonConstrainedGenericWithNull
+	public sealed class TagManager<T> {
+		private Dictionary<T, Entity> entityLUT;
+		private Dictionary<Entity, List<T>> tags;
 
 		[ContractInvariantMethod]
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
@@ -18,40 +19,33 @@ namespace DEngine.Entities {
 		}
 
 		public TagManager() {
-			entityLUT = new Dictionary<string, Entity>();
-			tags = new Dictionary<Entity, List<string>>();
+			entityLUT = new Dictionary<T, Entity>();
+			tags = new Dictionary<Entity, List<T>>();
 		}
 
-		public void Register(String tag, Entity e) {
+		public void Register(Entity e, T tag) {
 			Contract.Requires<ArgumentNullException>(e != null);
-			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
-
+			
 			entityLUT.Add(tag, e);
 			if (!tags.ContainsKey(e)) {
-				tags.Add(e, new List<string>());
+				tags.Add(e, new List<T>());
 			}
 			Contract.Assume(tags.ContainsKey(e));
 			tags[e].Add(tag);
 		}
 
-		public void Unregister(String tag) {
-			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
-
+		public void Unregister(T tag) {
 			if (entityLUT.ContainsKey(tag)) {
 				tags[entityLUT[tag]].Remove(tag);
 				entityLUT.Remove(tag);
 			}
 		}
 
-		public bool IsRegistered(String tag) {
-			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
-
+		public bool IsRegistered(T tag) {
 			return entityLUT.ContainsKey(tag);
 		}
 
-		public Entity GetEntity(String tag) {
-			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
-
+		public Entity GetEntity(T tag) {
 			return entityLUT[tag];
 		}
 
@@ -66,22 +60,21 @@ namespace DEngine.Entities {
 			}
 		}
 
-		public IEnumerable<string> GetTags(Entity e) {
+		public IEnumerable<T> GetTags(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
-
 			return tags[e];
 		}
 
-		public Entity this[string tag] {
+		public Entity this[T tag] {
 			get {
-				Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
 				return GetEntity(tag);
 			}
 			set {
-				Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(tag));
 				Contract.Requires<ArgumentNullException>(value != null, "value");
-				Register(tag, value);
+				Register(value, tag);
 			}
 		}
 	}
+	// ReSharper restore CompareNonConstrainedGenericWithNull
+
 }

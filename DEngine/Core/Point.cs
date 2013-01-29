@@ -5,7 +5,7 @@ namespace DEngine.Core {
 	/// <summary>
 	/// Pair of ints (x, y) representing 2d coordinates position
 	/// </summary>
-	public struct Point {
+	public struct Point : IEquatable<Point> {
 		public static readonly Point Zero = new Point(0, 0);
 		public static readonly Point Origin = new Point(0, 0);
 		public static readonly Point One = new Point(1, 1);
@@ -117,22 +117,22 @@ namespace DEngine.Core {
 
 		// override object.Equals
 		public override bool Equals(object obj) {
-			//       
-			// See the full list of guidelines at
-			//   http://go.microsoft.com/fwlink/?LinkID=85237  
-			// and also the guidance for operator== at
-			//   http://go.microsoft.com/fwlink/?LinkId=85238
-			//
-
-			if (obj == null || GetType() != obj.GetType())
+			if (ReferenceEquals(null, obj))
 				return false;
-
-			return this == (Point) obj;
+			if (obj.GetType() != typeof(Point))
+				return false;
+			return Equals((Point) obj);
 		}
 
 		// override object.GetHashCode
 		public override int GetHashCode() {
-			return X ^ Y;
+			unchecked {
+				return (X * 397) ^ Y;
+			}
+		}
+
+		public bool Equals(Point other) {
+			return other.X == X && other.Y == Y;
 		}
 
 		public override string ToString() {
