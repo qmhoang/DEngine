@@ -131,8 +131,7 @@ namespace DEngine.Entities {
 					c.Remove(this);
 				}
 			});
-
-			Messages -= manager.Components.Get<T>(Id).Notify;
+			
 			// Remove from the component manager
 			manager.Components.Remove<T>(this);
 			return this;
@@ -210,6 +209,20 @@ namespace DEngine.Entities {
 		}
 
 		/// <summary>
+		/// Notifies all attached components with a message containing arbitrary data.
+		/// </summary>
+		public void Broadcast(string message, EventArgs e) {
+			MessageEvent<EventArgs> handler = Messages;
+			if (handler != null)
+				handler(message, e);
+		}
+
+		public delegate void MessageEvent<in T>(string message, T e) where T : EventArgs;
+
+		public event MessageEvent<EventArgs> Messages;
+
+
+		/// <summary>
 		/// Deep clone
 		/// </summary>
 		/// <returns></returns>
@@ -224,18 +237,5 @@ namespace DEngine.Entities {
 
 			return entity;
 		}
-
-		/// <summary>
-		/// Notifies all attached components with a message containing arbitrary data.
-		/// </summary>
-		public void Broadcast(string message, EventArgs e) {
-			MessageEvent<EventArgs> handler = Messages;
-			if (handler != null)
-				handler(message, e);
-		}
-
-		public delegate void MessageEvent<in T>(string message, T e) where T : EventArgs;
-
-		public event MessageEvent<EventArgs> Messages;
 	}
 }
