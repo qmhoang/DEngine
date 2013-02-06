@@ -19,7 +19,7 @@ namespace DEngine.Entities {
 	/// </summary>
 	public abstract class Component {
 		private Entity entity;
-		internal Entity Entity {
+		public Entity Entity {
 			get { return entity; }
 			set { 				
 				// Ensure that the owner has not been set, and that it is being set to something valid
@@ -61,6 +61,7 @@ namespace DEngine.Entities {
 			if (Entity != null)
 				Entity.Broadcast(message, e);
 		}
+
 
 		public delegate void ComponentEventHandler<in TEventArgs>(Component sender, TEventArgs e) where TEventArgs : EventArgs;
 	}

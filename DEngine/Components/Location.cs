@@ -23,8 +23,8 @@ namespace DEngine.Components {
 			get { return position; }
 			set {
 				var eventArgs = new PositionChangedEvent(position, value);
-				Notify("OnPositionChanged", eventArgs);
 				OnPositionChanged(eventArgs);
+				Notify("OnPositionChanged", eventArgs);
 				position = value;
 			}
 		}
@@ -34,7 +34,6 @@ namespace DEngine.Components {
 			get { return level; }
 			set {
 				level = value;
-				Notify("OnLevelChanged", new EventArgs<Level>(Level));
 			}
 		}
 
@@ -116,17 +115,6 @@ namespace DEngine.Components {
 		public override Component Copy() {
 			var location = new Location(X, Y, Level);
 			return location;
-		}
-
-		public static bool ProcessPositionChangedEvent(string msg, EventArgs e, out Point previous, out Point current) {
-			if (msg == "OnPositionChanged") {
-				previous = ((PositionChangedEvent)e).Previous;
-				current = ((PositionChangedEvent)e).Current;
-				return true;
-			}
-			current = Point.Zero;
-			previous = Point.Zero;
-			return false;
 		}
 	}
 }
