@@ -95,21 +95,6 @@ namespace DEngineTests {
 		public static void TestDirectionsAndComparison() {
 			Assert.IsTrue(Point.Zero == new Point(0, 0));
 			Assert.IsTrue(Point.One == new Point(1, 1));
-			Assert.IsTrue(Point.North == new Point(0, -1));
-			Assert.IsTrue(Point.South == new Point(0, 1));
-			Assert.IsTrue(Point.West == new Point(-1, 0));
-			Assert.IsTrue(Point.East == new Point(1, 0));
-
-			Assert.IsTrue(Point.North + Point.South == Point.Zero);
-			Assert.IsTrue(Point.East + Point.West == Point.Zero);
-
-			Assert.AreEqual(Point.Southeast + Point.Northwest, Point.Zero);
-			Assert.AreEqual(Point.Southwest + Point.Northeast, Point.Zero);
-
-			Assert.AreEqual(Point.North + Point.East, Point.Northeast);
-			Assert.AreEqual(Point.North + Point.West, Point.Northwest);
-			Assert.AreEqual(Point.South + Point.East, Point.Southeast);
-			Assert.AreEqual(Point.South + Point.West, Point.Southwest);
 		}
 
 		[Test]
@@ -125,15 +110,6 @@ namespace DEngineTests {
 
 			Assert.AreEqual(p1 * 3, new Point(333, 666));
 			Assert.AreEqual(p2 * -1, new Point(-333, -444));
-		}
-
-		[Test]
-		public static void TestBasicLeftRight() {
-			Assert.AreEqual(Point.North.Left, Point.West);
-			Assert.AreEqual(Point.North.Right, Point.East);
-
-			Assert.AreEqual(Point.West.Right, Point.North);
-			Assert.AreEqual(Point.West.Left, Point.South);
 		}
 
 		[Test, TestCaseSource(typeof (PointTestFactory), "AddCases")]
@@ -155,8 +131,7 @@ namespace DEngineTests {
 		public static Point TestScalarDiv(Point p, int scalar) {
 			return p / scalar;
 		}
-
-
+		
 		[TestCaseSource(typeof (PointTestFactory), "LengthCases")]
 		public static double TestLength(Point point) {
 			return point.Length();

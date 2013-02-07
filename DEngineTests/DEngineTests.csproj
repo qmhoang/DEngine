@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectionTests.cs" />
     <Compile Include="Entity\GroupManagerTests.cs" />
     <Compile Include="Entity\TagManagerTests.cs" />
     <Compile Include="Random\GaussianDistributionTests.cs" />

@@ -309,7 +309,6 @@ namespace DEngineTests.Random {
 					},
 					() => Rng.GaussianInt(5, 5, 3));
 			Statistics.TestFrequencies(
-
 					new float[]
 					{
 							0,
