@@ -50,7 +50,6 @@ namespace DEngine.Entities {
 		public void Add<T>(Entity e, T o)
 				where T : Component {
 			o.Entity = e;
-			e.Messages += o.Receive;			
 			this[o.GetType()].Add(e.Id, o);
 		}
 
@@ -81,7 +80,6 @@ namespace DEngine.Entities {
 		/// <returns></returns>
 		public bool Remove<T>(Entity e)
 				where T : Component {
-			e.Messages -= this[typeof(T)][e.Id].Receive;
 			return this[typeof(T)].Remove(e.Id);
 		}
 

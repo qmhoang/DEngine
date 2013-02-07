@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using DEngine.Actor;
+using DEngine.Components;
+using DEngine.Components.Actions;
 using DEngine.Extensions;
 
 namespace DEngine.Entities {
@@ -208,19 +211,9 @@ namespace DEngine.Entities {
 			return Id.ToString();
 		}
 
-		/// <summary>
-		/// Notifies all attached components with a message containing arbitrary data.
-		/// </summary>
-		public void Broadcast(string message, EventArgs e) {
-			MessageEvent<EventArgs> handler = Messages;
-			if (handler != null)
-				handler(message, e);
+		public void Broadcast<T>(Action<T> action) where T : class, IComponentEvent {			
+			Components.Where(c => c is T).Each(c => action(c as T));
 		}
-
-		public delegate void MessageEvent<in T>(string message, T e) where T : EventArgs;
-
-		public event MessageEvent<EventArgs> Messages;
-
 
 		/// <summary>
 		/// Deep clone

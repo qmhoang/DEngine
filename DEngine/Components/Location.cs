@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
+using DEngine.Components.Actions;
 using DEngine.Core;
 using DEngine.Entities;
+using DEngine.Extensions;
 
 namespace DEngine.Components {
 	public class PositionChangedEvent : EventArgs {
@@ -24,7 +26,9 @@ namespace DEngine.Components {
 			set {
 				var eventArgs = new PositionChangedEvent(position, value);
 				OnPositionChanged(eventArgs);
-				Notify("OnPositionChanged", eventArgs);
+
+				Broadcast<IPositionChanged>(c => c.Move(position, value));
+				
 				position = value;
 			}
 		}
