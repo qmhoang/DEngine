@@ -97,6 +97,7 @@
     <Compile Include="Components\Sprite.cs" />
     <Compile Include="Core\Bresenham.cs" />
     <Compile Include="Core\AStarPathFinder.cs" />
+    <Compile Include="Core\Direction.cs" />
     <Compile Include="Core\ShadowCastingFOV.cs" />
     <Compile Include="Core\Level.cs" />
     <Compile Include="Core\VisionMap.cs" />

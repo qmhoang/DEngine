@@ -5,19 +5,11 @@ namespace DEngine.Core {
 	/// <summary>
 	/// Pair of ints (x, y) representing 2d coordinates position
 	/// </summary>
-	public struct Point : IEquatable<Point> {
-		public static readonly Point Zero = new Point(0, 0);
-		public static readonly Point Origin = new Point(0, 0);
-		public static readonly Point One = new Point(1, 1);
-		public static readonly Point North = new Point(0, -1);
-		public static readonly Point South = new Point(0, 1);
-		public static readonly Point West = new Point(-1, 0);
-		public static readonly Point East = new Point(1, 0);
-		public static readonly Point Northwest = North + West;
-		public static readonly Point Northeast = North + East;
-		public static readonly Point Southwest = South + West;
-		public static readonly Point Southeast = South + East;
-		public static readonly Point Invalid = new Point(-1, -1);
+	public struct Point : IEquatable<Point>, IEquatable<Direction> {
+		public static Point Zero { get { return new Point(0, 0); } }
+		public static Point Origin { get { return Zero; } }
+		public static Point One { get { return new Point(1, 1); } }
+		public static Point Invalid { get { return new Point(-1, -1); } }
 
 		public int X { get; set; }
 		public int Y { get; set; }
@@ -27,22 +19,6 @@ namespace DEngine.Core {
 		public Point(int x, int y) : this() {
 			X = x;
 			Y = y;
-		}
-
-		/// <summary>
-		/// Get direction left of heading, same magnitude
-		/// </summary>
-		/// <returns></returns>
-		public Point Left {
-			get { return new Point(Y, -X); }
-		}
-
-		/// <summary>
-		/// Get direction right of heading, same magnitude
-		/// </summary>
-		/// <returns></returns>
-		public Point Right {
-			get { return new Point(-Y, X); }
 		}
 
 		public static Point operator +(Point v1, Point v2) {
@@ -62,13 +38,14 @@ namespace DEngine.Core {
 			return new Point(v.X / scalar, v.Y / scalar);
 		}
 
-		public static bool operator ==(Point v1, Point v2) {
-			return v1.X == v2.X && v1.Y == v2.Y;
+		public static bool operator ==(Point left, Point right) {
+			return left.Equals(right);
 		}
 
-		public static bool operator !=(Point v1, Point v2) {
-			return !(v1 == v2);
+		public static bool operator !=(Point left, Point right) {
+			return !left.Equals(right);
 		}
+		
 
 		public double Length() {
 			return DistanceTo(Zero);
@@ -135,8 +112,14 @@ namespace DEngine.Core {
 			return other.X == X && other.Y == Y;
 		}
 
+		public bool Equals(Direction other) {
+			return Equals(other.Offset);
+		}
+
 		public override string ToString() {
 			return String.Format("({0}, {1})", X, Y);
 		}
+
+
 	}
 }
