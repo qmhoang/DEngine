@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Actor\ActionResult.cs" />
     <Compile Include="Components\ActionPoint.cs" />
+    <Compile Include="Components\Actions\IPositionChanged.cs" />
     <Compile Include="Components\Location.cs" />
     <Compile Include="Components\Identifier.cs" />
     <Compile Include="Components\ReferenceId.cs" />

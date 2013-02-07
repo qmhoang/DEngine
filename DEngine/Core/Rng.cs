@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace DEngine.Core {
@@ -28,7 +29,7 @@ namespace DEngine.Core {
 		/// Gets a random int between 0 (inclusive) and max (exclusive).
 		/// </summary>
 		public static int Int(int max) {
-			Contract.Requires(max > 0);
+			Contract.Requires<ArgumentOutOfRangeException>(max > 0);
 			Contract.Ensures(Contract.Result<int>() >= 0 && Contract.Result<int>() < max);
 			return random.Next(max);
 		}
@@ -37,7 +38,7 @@ namespace DEngine.Core {
 		/// Gets a random int between min (inclusive) and max (exclusive).
 		/// </summary>
 		public static int Int(int min, int max) {
-			Contract.Requires(min < max);
+			Contract.Requires<ArgumentOutOfRangeException>(min < max);
 			Contract.Ensures(Contract.Result<int>() >= min && Contract.Result<int>() < max);
 
 			return Int(max - min) + min;
@@ -47,7 +48,7 @@ namespace DEngine.Core {
 		/// Gets a random int between 0 and max (inclusive).
 		/// </summary>
 		public static int IntInclusive(int max) {
-			Contract.Requires(max >= 0);
+			Contract.Requires<ArgumentOutOfRangeException>(max >= 0);
 			Contract.Ensures(Contract.Result<int>() >= 0 && Contract.Result<int>() <= max);
 			return random.Next(max + 1);
 		}
@@ -56,7 +57,7 @@ namespace DEngine.Core {
 		/// Gets a random int between min and max (inclusive).
 		/// </summary>
 		public static int IntInclusive(int min, int max) {
-			Contract.Requires(min <= max);
+			Contract.Requires<ArgumentOutOfRangeException>(min <= max);
 			Contract.Ensures(Contract.Result<int>() >= min && Contract.Result<int>() <= max);
 			return IntInclusive(max - min) + min;
 		}
@@ -226,10 +227,7 @@ namespace DEngine.Core {
 		/// <returns></returns>        
 		public static int GaussianInt(int center, int range, int stddev) {
 			Contract.Requires<ArgumentOutOfRangeException>(range >= 0, "The argument \"range\" must be zero or greater.");
-			Contract.Requires<ArgumentOutOfRangeException>(range > stddev, "The argument \"range\" must be greater than standard deviation \"stddev\"");
-			double random = Double();
-
-			int gaussianInt = (int) Math.Round(GaussianDistribution.InverseCumulativeTo(random, center, stddev));
+			int gaussianInt = (int) Math.Round(GaussianDistribution.InverseCumulativeTo(Double(), center, stddev));
 
 			if (gaussianInt < center - range)
 				return center - range;
@@ -239,59 +237,62 @@ namespace DEngine.Core {
 				return gaussianInt;
 		}
 
-//		/// <summary>
-//		/// Randomly walks the given starting value repeatedly up and/or down
-//		/// with the given probabilities. Will only walk in one direction.
-//		/// </summary>
-//		/// <param name="start">Value to start at.</param>
-//		/// <param name = "chanceOfDec"></param>
-//		/// <param name = "chanceOfInc"></param>
-//		public static int Walk(int start, int chanceOfDec, int chanceOfInc) {
-//			// make sure we won't get stuck in an infinite loop
-//			Contract.Requires<ArgumentOutOfRangeException>(chanceOfDec != 1, "chanceOfDec must be zero or greater than one.");
-//			Contract.Requires<ArgumentOutOfRangeException>(chanceOfInc != 1, "chanceOfInc must be zero greater than one.");
-//
-//			// decide if walking up or down
-//			int direction = Int(chanceOfDec + chanceOfInc);
-//			if (direction < chanceOfDec) {
-//				// exponential chance of decrementing
-//				int sanity = 10000;
-//				while (Rng.OneIn(chanceOfDec) && (sanity-- > 0))
-//					start--;
-//			} else if (direction < chanceOfDec + chanceOfInc) {
-//				// exponential chance of incrementing
-//				int sanity = 10000;
-//				while (Rng.OneIn(chanceOfInc) && (sanity-- > 0))
-//					start++;
-//			}
-//
-//			return start;
-//		}
+		/// <summary>
+		/// Randomly walks the given starting value repeatedly up and/or down
+		/// with the given probabilities. Will only walk in one direction.
+		/// </summary>
+		/// <param name="start">Value to start at.</param>
+		/// <param name = "chanceOfDec"></param>
+		/// <param name = "chanceOfInc"></param>
+		public static int Walk(int start, int chanceOfDec, int chanceOfInc) {
+			// make sure we won't get stuck in an infinite loop
+			Contract.Requires<ArgumentOutOfRangeException>(chanceOfDec != 1, "chanceOfDec must be zero or greater than one.");
+			Contract.Requires<ArgumentOutOfRangeException>(chanceOfInc != 1, "chanceOfInc must be zero greater than one.");
 
-//		/// <summary>
-//		/// Randomly walks the given level using a... unique distribution (triangle). The
-//		/// goal is to return a value that approximates a bell curve centered
-//		/// on the start level whose wideness increases as the level increases.
-//		/// Thus, starting at a low start level will only walk a short distance,
-//		/// while starting at a higher level can wander a lot farther.
-//		/// </summary>
-//		/// <returns></returns>
-//		public static int WalkLevelTriangle(int level) {
-//			int result = level;
-//
-//			// stack a few triangles to approximate a bell
-//			for (int i = 0; i < Math.Min(5, level); i++) {
-//				// the width of the triangle is based on the level
-//				result += Rng.TriangleInt(0, 1 + (level / 20));
-//			}
-//
-//			// also have an exponentially descreasing change of going out of depth
-//			while (Rng.OneIn(10)) {
-//				result += 1 + Rng.Int(2 + (level / 5));
-//			}
-//
-//			return result;
-//		}
+			if (chanceOfDec == 0 && chanceOfInc == 0)
+				return start;
+
+			// decide if walking up or down
+			int direction = Int(chanceOfDec + chanceOfInc);
+			if (direction < chanceOfDec) {
+				// exponential chance of decrementing
+				int sanity = 10000;
+				while (Rng.OneIn(chanceOfDec) && (sanity-- > 0))
+					start--;
+			} else if (direction < chanceOfDec + chanceOfInc) {
+				// exponential chance of incrementing
+				int sanity = 10000;
+				while (Rng.OneIn(chanceOfInc) && (sanity-- > 0))
+					start++;
+			}
+
+			return start;
+		}
+
+		/// <summary>
+		/// Randomly walks the given level using a... unique distribution (triangle). The
+		/// goal is to return a value that approximates a bell curve centered
+		/// on the start level whose wideness increases as the level increases.
+		/// Thus, starting at a low start level will only walk a short distance,
+		/// while starting at a higher level can wander a lot farther.
+		/// </summary>
+		/// <returns></returns>
+		public static int WalkLevelTriangle(int level) {
+			int result = level;
+
+			// stack a few triangles to approximate a bell
+			for (int i = 0; i < Math.Min(5, level); i++) {
+				// the width of the triangle is based on the level
+				result += Rng.TriangleInt(0, 1 + (level / 20));
+			}
+
+			// also have an exponentially descreasing change of going out of depth
+			while (Rng.OneIn(10)) {
+				result += 1 + Rng.Int(2 + (level / 5));
+			}
+
+			return result;
+		}
 
 		/// <summary>
 		/// Repeatedly adds an increment to a given starting value as long as random
@@ -306,7 +307,7 @@ namespace DEngine.Core {
 		/// is successful.</param>
 		/// <returns>The resulting value.</returns>
 		public static int Taper(int start, int increment, int chance, int outOf) {
-			Contract.Requires<ArgumentOutOfRangeException>(increment == 0, "The increment cannot be zero.");
+			Contract.Requires<ArgumentOutOfRangeException>(increment != 0, "The increment cannot be zero.");
 			Contract.Requires<ArgumentOutOfRangeException>(chance > 0, "The chance must be greater than zero.");
 			Contract.Requires<ArgumentOutOfRangeException>(chance < outOf, "The chance must be less than the range.");
 			Contract.Requires<ArgumentOutOfRangeException>(outOf > 0, "The range must be positive.");
@@ -336,47 +337,57 @@ namespace DEngine.Core {
 		/// <returns>The parsed Roller or <c>null</c> if unsuccessful.</returns>
 		public static Rand Parse(string text) {
 			// ignore whitespace
-			text = text.Trim();
+//			text = text.Trim();
 
 			// compile the regex if needed
 			if (parser == null) {
-				const string PATTERN = @"^((?<die>(?<dice>\d+)d(?<sides>\d+))|(?<tri>(?<center>\d+)t(?<range>\d+))|(?<range>(?<min>\d+)-(?<max>\d+))|(?<fixed>(?<value>-?\d+)))(?<taper>\((?<chance>\d+)\:(?<outof>\d+)\))?$";
+				const string PATTERN = @"^((?<die>(?<dice>\d+)d(?<sides>\d+))|(?<tri>(?<center>\d+)t(?<range>\d+))|(?<range>(?<min>\d+)-(?<max>\d+))|(?<fixed>(?<value>-?\d+)))|(?<taper>\((?<chance>\d+)\:(?<outof>\d+)\))?$";
 
 				parser = new Regex(PATTERN, RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 			}
 
-			// parse it
-			Match match = parser.Match(text);
-
-			if (!match.Success)
-				return null;
-
-			Rand rand;
+			var rands = text.Split(new char[] {'+'}, StringSplitOptions.RemoveEmptyEntries);
 			
-			if (match.Groups["die"].Success) {
-				int dice = Int32.Parse(match.Groups["dice"].Value);
-				int sides = Int32.Parse(match.Groups["sides"].Value);
-				rand = Rand.Dice(dice, sides);
-			} else if (match.Groups["tri"].Success) {
-				int center = Int32.Parse(match.Groups["center"].Value);
-				int range = Int32.Parse(match.Groups["range"].Value);
-				rand = Rand.Triangle(center, range);
-			} else if (match.Groups["range"].Success) {
-				int min = Int32.Parse(match.Groups["min"].Value);
-				int max = Int32.Parse(match.Groups["max"].Value);
-				rand = Rand.Range(min, max);
-			} else // fixed
-			{
-				int value = Int32.Parse(match.Groups["value"].Value);
-				rand = Rand.Constant(value);
-			}
+			Rand rand = null;
+			Rand prev = null;
 
-			// add the taper
-			if (match.Groups["taper"].Success) {
-				int chance = Int32.Parse(match.Groups["chance"].Value);
-				int outOf = Int32.Parse(match.Groups["outof"].Value);
+			foreach (var s in rands) {
+				Match m = parser.Match(s.Trim());
 
-				rand.nextRand = Taper(chance, outOf);
+				if (!m.Success)
+					continue;
+
+				Rand r;
+
+				if (m.Groups["die"].Success) {
+					int dice = Int32.Parse(m.Groups["dice"].Value);
+					int sides = Int32.Parse(m.Groups["sides"].Value);
+					r = Rand.Dice(dice, sides);
+				} else if (m.Groups["tri"].Success) {
+					int center = Int32.Parse(m.Groups["center"].Value);
+					int range = Int32.Parse(m.Groups["range"].Value);
+					r = Rand.Triangle(center, range);
+				} else if (m.Groups["range"].Success) {
+					int min = Int32.Parse(m.Groups["min"].Value);
+					int max = Int32.Parse(m.Groups["max"].Value);
+					r = Rand.Range(min, max);
+				} else if (m.Groups["taper"].Success) { // add the taper
+					int chance = Int32.Parse(m.Groups["chance"].Value);
+					int outOf = Int32.Parse(m.Groups["outof"].Value);
+
+					r = Taper(chance, outOf);
+				} else { // fixed
+					int value = Int32.Parse(m.Groups["value"].Value);
+					r = Rand.Constant(value);
+				}
+
+				if (prev == null) {
+					prev = r;
+					rand = r;
+				} else {
+					prev.nextRand = r;
+					prev = r;
+				}				
 			}
 
 			return rand;
@@ -419,7 +430,7 @@ namespace DEngine.Core {
 			return new Rand(
 					() => Rng.GaussianInt(mean, range, stddev),
 					mean - range, mean, mean + range + 1,
-					String.Format("μ={0}, r=[{2}-{3}], σ={1}", mean, stddev, mean - range, mean + range));
+					String.Format("[μ={0}, r=[{2}-{3}], σ={1}]", mean, stddev, mean - range, mean + range));
 		}
 
 		/// <summary>

@@ -1,10 +1,15 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using DEngine.Components.Actions;
 using DEngine.Core;
 using DEngine.Entities;
 
 namespace DEngine.Components {
+	public interface IUpdateable : IComponentEvent {
+		void Update();
+	}
+
 	public class ActionPoint : Component {
 		/// <summary>
 		/// How much action points an entity has
@@ -23,14 +28,6 @@ namespace DEngine.Components {
 		/// Can entity call update right now?
 		/// </summary>
 		public bool Updateable { get { return ActionPoints > 0; } }
-
-		public event ComponentEventHandler<EventArgs<int>> Update;
-
-		public void OnUpdate(EventArgs<int> e) {
-			ComponentEventHandler<EventArgs<int>> handler = Update;
-			if (handler != null)
-				handler(this, e);
-		}
 
 		public ActionPoint(int actionPoints = 0, int speed = DEFAULT_SPEED) {
 			Contract.Requires<ArgumentException>(speed > 0);

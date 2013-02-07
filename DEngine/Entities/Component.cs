@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using DEngine.Actor;
+using DEngine.Components;
+using DEngine.Components.Actions;
 
 namespace DEngine.Entities {
 	/// <summary>
@@ -50,18 +52,10 @@ namespace DEngine.Entities {
 		/// <returns></returns>
 		public abstract Component Copy();
 
-		/// <summary>
-		/// Receives a message containing arbitrary data.
-		/// </summary>
-		public virtual void Receive(string message, EventArgs e) { }
-		/// <summary>
-		/// Notifies all attached components with a message containing arbitrary data.
-		/// </summary>
-		public void Notify(string message, EventArgs e) {
+		public void Broadcast<T>(Action<T> action) where T : class, IComponentEvent {
 			if (Entity != null)
-				Entity.Broadcast(message, e);
+				Entity.Broadcast(action);
 		}
-
 
 		public delegate void ComponentEventHandler<in TEventArgs>(Component sender, TEventArgs e) where TEventArgs : EventArgs;
 	}
