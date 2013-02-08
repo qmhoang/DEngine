@@ -2,7 +2,7 @@ using System;
 using DEngine.Core;
 using NUnit.Framework;
 
-namespace DEngineTests {
+namespace DEngineTests.Rng {
 	[TestFixture]
 	public class GaussianDistributionTests {
 		private const double ERROR_TOLERANCE = 0.000001;
