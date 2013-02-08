@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Timers;
 using DEngine.Core;
 using NUnit.Framework;
 
-namespace DEngineTests {
+namespace DEngineTests.Rng {
 	[TestFixture]
 	internal class RngTests {
 		[SetUp]
 		public static void SetUp() {
-			Rng.Seed(0);
+			DEngine.Core.Rng.Seed(0);
 		}
 
 //		[Test]
@@ -68,7 +66,7 @@ namespace DEngineTests {
 			int[] list = new int[20];
 
 			for (int i = 0; i < 100000; i++)
-				list[Rng.TriangleInt(10, 8)]++;
+				list[DEngine.Core.Rng.TriangleInt(10, 8)]++;
 
 			int index = 0;
 			foreach (var i in list) {
@@ -82,7 +80,7 @@ namespace DEngineTests {
 			int[] list = new int[51];
 
 			for (int i = 0; i < 400000; i++) {
-				int j = Rng.GaussianInt(10, 10, 3);
+				int j = DEngine.Core.Rng.GaussianInt(10, 10, 3);
 //                Console.WriteLine(j);
 				list[j]++;
 			}
