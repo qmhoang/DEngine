@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
+using DEngine.Entities;
 
 namespace DEngine.Extensions {
 	public static class EnumerableExtension {
@@ -12,6 +13,17 @@ namespace DEngine.Extensions {
 			foreach (var element in collection)
 				action(element);
 			return collection;
+		}
+
+		public static IEnumerable<Entity> FilteredBy<T1>(this IEnumerable<Entity> collection) where T1 : Component {
+			Contract.Requires<ArgumentNullException>(collection != null, "collection");
+			return collection.Where(e => e.Has<T1>());
+		}
+
+		public static IEnumerable<Entity> FilteredBy(this IEnumerable<Entity> collection, params Type[] types) {
+			Contract.Requires<ArgumentNullException>(collection != null, "collection");
+
+			return collection.Where(e => types.Contains(e.GetType()));
 		}
 	}
 }

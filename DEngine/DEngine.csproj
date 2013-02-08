@@ -88,19 +88,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\ActorAction.cs" />
     <Compile Include="Actor\ActionResult.cs" />
+    <Compile Include="Actor\AP.cs" />
     <Compile Include="Components\ActionPoint.cs" />
     <Compile Include="Components\Actions\IPositionChanged.cs" />
+    <Compile Include="Components\Actor.cs" />
     <Compile Include="Components\Location.cs" />
     <Compile Include="Components\Identifier.cs" />
+    <Compile Include="Components\Player.cs" />
     <Compile Include="Components\ReferenceId.cs" />
     <Compile Include="Components\Sprite.cs" />
+    <Compile Include="Core\AbstractWorld.cs" />
     <Compile Include="Core\Bresenham.cs" />
     <Compile Include="Core\AStarPathFinder.cs" />
     <Compile Include="Core\Direction.cs" />
+    <Compile Include="Core\Log.cs" />
+    <Compile Include="Core\MessageEntry.cs" />
     <Compile Include="Core\ShadowCastingFOV.cs" />
     <Compile Include="Core\Level.cs" />
     <Compile Include="Core\VisionMap.cs" />
+    <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Entities\EventSubsystem.cs" />
     <Compile Include="Entities\GroupManager.cs" />
     <Compile Include="Entities\TagManager.cs" />
