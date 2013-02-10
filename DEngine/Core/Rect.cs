@@ -27,12 +27,30 @@ namespace DEngine.Core {
 			                     bottomRight.Y - topLeft.Y + 1);
 		}
 
-		public Rect(int x1, int y1, int x2, int y2)
-				: this(new Point(x1, y1), new Point(x2, y2)) {}
+//		public Rect(int x1, int y1, int x2, int y2)
+//				: this(new Point(x1, y1), new Point(x2, y2)) {}
+
+		public Rect(int x, int y, int width, int height) : this(new Point(x, y), new Size(width, height)) { }
 
 		#endregion
 
 		#region Properties
+
+		public int X {
+			get { return TopLeft.X; }
+		}
+
+		public int Y {
+			get { return TopLeft.Y; }
+		}
+
+		public int Width {
+			get { return Size.Width; }
+		}
+
+		public int Height {
+			get { return Size.Height; }
+		}
 
 		public Size Size {
 			get { return size; }
@@ -51,11 +69,11 @@ namespace DEngine.Core {
 		}
 
 		public int Bottom {
-			get { return topLeft.Y + size.Height - 1; }
+			get { return topLeft.Y + size.Height; }
 		}
 
 		public int Right {
-			get { return topLeft.X + size.Width - 1; }
+			get { return topLeft.X + size.Width; }
 		}
 
 		public Point BottomRight {
@@ -72,10 +90,7 @@ namespace DEngine.Core {
 
 		public Point Center {
 			get {
-				int hCtr = (Left + Right) / 2;
-				int vCtr = (Bottom + Top) / 2;
-
-				return new Point(hCtr, vCtr);
+				return new Point((Left + Right) / 2, (Bottom + Top) / 2);
 			}
 		}
 
@@ -105,6 +120,28 @@ namespace DEngine.Core {
 				return true;
 
 			return false;
+		}
+
+		/// <summary>
+		/// Determines if this rectangle completely contains the specified rectangle
+		/// </summary>
+		/// <param name="rectangle"></param>
+		/// <returns></returns>
+		public bool Contains(Rect rectangle) {
+			return Top <= rectangle.Top && Bottom >= rectangle.Bottom &&
+			       Left <= rectangle.Left && Right >= rectangle.Right;
+		}
+
+		/// <summary>
+		/// Determines if this rectangle intersects the specified rectangle
+		/// </summary>
+		/// <param name="rectangle"></param>
+		/// <returns></returns>
+		public bool Intersects(Rect rectangle) {
+			return !(Left < rectangle.Left
+			         && Right > rectangle.Right
+			         && Top > rectangle.Top
+			         && Bottom < rectangle.Bottom);
 		}
 
 		#endregion

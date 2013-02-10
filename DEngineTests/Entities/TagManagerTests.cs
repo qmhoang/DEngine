@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DEngine.Entities;
 using NUnit.Framework;
 
-namespace DEngineTests.Entity {
+namespace DEngineTests.Entities {
 	[TestFixture]
 	public class TagManagerTests {
 		private EntityManager manager;
