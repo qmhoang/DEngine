@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 
 namespace DEngine.Core {
 	/// <summary>
-	/// Pair of ints (x, y) representing 2d coordinates position
+	/// Immutable type representing 2d coordinates position in ints
 	/// </summary>
 	public struct Point : IEquatable<Point>, IEquatable<Direction> {
 		public static Point Zero { get { return new Point(0, 0); } }
@@ -11,8 +11,8 @@ namespace DEngine.Core {
 		public static Point One { get { return new Point(1, 1); } }
 		public static Point Invalid { get { return new Point(-1, -1); } }
 
-		public int X { get; set; }
-		public int Y { get; set; }
+		public int X { get; private set; }
+		public int Y { get; private set; }
 
 		public Point(Point v) : this(v.X, v.Y) {}
 
@@ -46,9 +46,8 @@ namespace DEngine.Core {
 			return !left.Equals(right);
 		}
 		
-
-		public double Length() {
-			return DistanceTo(Zero);
+		public double Length {
+			get { return DistanceTo(Zero); }
 		}
 
 		public static double Distance(Point v1, Point v2) {
@@ -88,10 +87,6 @@ namespace DEngine.Core {
 			return (this.X - x) * (this.X - x) + (this.Y - y) * (this.Y - y) <= r * r;
 		}
 
-		//        public bool IsInRectangle(Position topLeft, Position bottomRight) {
-		//            return X >= topLeft.X && X <= bottomRight.X && Y >= topLeft.Y && Y <= bottomRight.Y;
-		//        }
-
 		// override object.Equals
 		public override bool Equals(object obj) {
 			if (ReferenceEquals(null, obj))
@@ -119,7 +114,5 @@ namespace DEngine.Core {
 		public override string ToString() {
 			return String.Format("({0}, {1})", X, Y);
 		}
-
-
 	}
 }

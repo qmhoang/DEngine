@@ -105,14 +105,14 @@ namespace DEngineTests.Random {
 
 		[Test]
 		public void TestChaining() {
-			var r0 = Rand.Constant(3);
+			var r0 = Rand.Constant(-3);
 			var r1 = Rand.Dice(2, 4);
 			var r2 = Rand.Range(2, 10);
 			var r3 = Rand.Taper(1, 6);
 			var r4 = Rand.Triangle(10, 7);
 
 			var chain = r0 + r1 + r2 + r3 + r4;
-			TestParse("10t7 + (1:6) + 2-10 + 2d4 + 3", chain.ToString(), r0.Average + r1.Average + r2.Average + r3.Average + r4.Average);
+			TestParse("10t7 + (1:6) + 2-10 + 2d4 + -3", chain.ToString(), r0.Average + r1.Average + r2.Average + r3.Average + r4.Average);
 		}
 
 		#endregion

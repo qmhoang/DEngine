@@ -2,16 +2,13 @@
 
 namespace DEngine.Core {
 	public class Bresenham {
-		public static List<Point> GeneratePointsFromLine(Point origin, Point end) {
-			var list = new List<Point>();
+		public static IEnumerable<Point> GeneratePointsFromLine(Point origin, Point end) {
 			Bresenham b = new Bresenham(origin.X, origin.Y, end.X, end.Y);
 
 			int x = origin.X;
 			int y = origin.Y;
 			while (!b.Step(ref x, ref y))
-				list.Add(new Point(x, y));
-
-			return list;
+				yield return new Point(x, y);
 		}
 
 		private Bresenham(int xFrom, int yFrom, int xTo, int yTo) {

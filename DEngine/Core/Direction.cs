@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 
@@ -29,7 +31,15 @@ namespace DEngine.Core {
 		public static Direction Southwest { get { return SW; } }
 		public static Direction Southeast { get { return SE; } }
 
-		public Point Offset { get { return mOffset; } }
+		public Point Offset { get; private set; }
+
+		public static implicit operator Point(Direction direction) {
+			return direction.Offset;
+		}
+
+		public static implicit operator Direction(Point point) {
+			return Towards(point);
+		}
 
 		/// <summary>
 		/// Adds the offset of the given Direction to the Point.
@@ -78,14 +88,14 @@ namespace DEngine.Core {
 		/// <param name="pos"></param>
 		/// <returns></returns>
 		public static Direction Towards(Point pos) {
-			Point offset = Point.Zero;
+			int x = 0, y = 0;
 
-			if (pos.X < 0) offset.X = -1;
-			if (pos.X > 0) offset.X = 1;
-			if (pos.Y < 0) offset.Y = -1;
-			if (pos.Y > 0) offset.Y = 1;
+			if (pos.X < 0) x = -1;
+			if (pos.X > 0) x = 1;
+			if (pos.Y < 0) y = -1;
+			if (pos.Y > 0) y = 1;
 
-			return new Direction(offset);
+			return new Direction(new Point(x, y));
 		}
 
 		public static bool operator ==(Direction left, Direction right) {
@@ -152,7 +162,7 @@ namespace DEngine.Core {
 
 		public Direction RotateRight90 { get { return Clockwise.Clockwise; } }
 
-		public Direction Rotate180 { get { return new Direction(mOffset * -1); } }
+		public Direction Rotate180 { get { return new Direction(Offset * -1); } }
 
 		public override bool Equals(object obj) {
 			// check the type
@@ -189,10 +199,15 @@ namespace DEngine.Core {
 			return Offset.ToString();
 		}
 
-		private Direction(Point direction) {
-			mOffset = direction;
+		private Direction(Point direction) : this() {
+			Offset = direction;
 		}
 
-		private Point mOffset;
+		[ContractInvariantMethod]
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+		private void ObjectInvariant() {
+			Contract.Invariant(Offset.X >= -1 && Offset.X <= 1 &&
+			                   Offset.Y >= -1 && Offset.Y <= 1);
+		}
 	}
 }

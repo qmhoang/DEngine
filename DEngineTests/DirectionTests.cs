@@ -23,5 +23,16 @@ namespace DEngineTests {
 			Assert.AreEqual(Direction.North.Rotate180, Direction.South);
 		}
 
+		[Test]
+		public void TestImplicits() {
+			Direction north = new Point(0, -1);
+			Assert.AreEqual(north, Direction.N);
+
+			Point south = Direction.S;
+			Assert.AreEqual(south, new Point(0, 1));
+
+			Direction west = new Point(-5, 0);
+			Assert.AreEqual(west, Direction.W);
+		}
 	}
 }
