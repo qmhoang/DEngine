@@ -53,8 +53,9 @@
   <ItemGroup>
     <Compile Include="DirectionTests.cs" />
     <Compile Include="EntityFactoryTests.cs" />
-    <Compile Include="Entity\GroupManagerTests.cs" />
-    <Compile Include="Entity\TagManagerTests.cs" />
+    <Compile Include="Entities\GroupManagerTests.cs" />
+    <Compile Include="Entities\TagManagerTests.cs" />
+    <Compile Include="Entities\EntityTests.cs" />
     <Compile Include="Random\GaussianDistributionTests.cs" />
     <Compile Include="PointTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Random\RngTests.cs" />
     <Compile Include="Random\Statistics.cs" />
     <Compile Include="AbstractWorldTest.cs" />
+    <Compile Include="RectTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DEngine\DEngine.csproj">

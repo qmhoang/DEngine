@@ -20,6 +20,21 @@ namespace DEngine.Extensions {
 			return collection.Where(e => e.Has<T1>());
 		}
 
+		public static IEnumerable<Entity> FilteredBy<T1, T2>(this IEnumerable<Entity> collection)
+			where T1 : Component
+			where T2 : Component {
+			Contract.Requires<ArgumentNullException>(collection != null, "collection");
+			return collection.Where(e => e.Has<T1>() && e.Has<T2>());
+		}
+
+		public static IEnumerable<Entity> FilteredBy<T1, T2, T3>(this IEnumerable<Entity> collection)
+			where T1 : Component
+			where T2 : Component
+			where T3 : Component {
+			Contract.Requires<ArgumentNullException>(collection != null, "collection");
+			return collection.Where(e => e.Has<T1>() && e.Has<T2>() && e.Has<T3>());
+		}
+
 		public static IEnumerable<Entity> FilteredBy(this IEnumerable<Entity> collection, params Type[] types) {
 			Contract.Requires<ArgumentNullException>(collection != null, "collection");
 
