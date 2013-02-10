@@ -105,6 +105,7 @@
     <Compile Include="Core\Direction.cs" />
     <Compile Include="Core\Log.cs" />
     <Compile Include="Core\MessageEntry.cs" />
+    <Compile Include="Core\Rand.cs" />
     <Compile Include="Core\ShadowCastingFOV.cs" />
     <Compile Include="Core\Level.cs" />
     <Compile Include="Core\VisionMap.cs" />

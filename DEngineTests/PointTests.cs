@@ -134,7 +134,7 @@ namespace DEngineTests {
 		
 		[TestCaseSource(typeof (PointTestFactory), "LengthCases")]
 		public static double TestLength(Point point) {
-			return point.Length();
+			return point.Length;
 		}
 
 		[TestCaseSource(typeof (PointTestFactory), "DistanceToCases")]
