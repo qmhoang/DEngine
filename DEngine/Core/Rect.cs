@@ -36,14 +36,6 @@ namespace DEngine.Core {
 
 		#region Properties
 
-		public int X {
-			get { return TopLeft.X; }
-		}
-
-		public int Y {
-			get { return TopLeft.Y; }
-		}
-
 		public int Width {
 			get { return Size.Width; }
 		}
@@ -69,11 +61,11 @@ namespace DEngine.Core {
 		}
 
 		public int Bottom {
-			get { return topLeft.Y + size.Height; }
+			get { return topLeft.Y + size.Height - 1; }
 		}
 
 		public int Right {
-			get { return topLeft.X + size.Width; }
+			get { return topLeft.X + size.Width - 1; }
 		}
 
 		public Point BottomRight {
@@ -115,11 +107,11 @@ namespace DEngine.Core {
 		#region Public Methods
 
 		public bool Contains(Point point) {
-			if ((point.X >= topLeft.X) && (point.Y >= topLeft.Y) &&
-			    (point.X <= BottomRight.X) && (point.Y <= BottomRight.Y))
-				return true;
+			return Contains(point.X, point.Y);
+		}
 
-			return false;
+		public bool Contains(int x, int y) {
+			return x >= 0 && y >= 0 && x < Width && y < Height;			
 		}
 
 		/// <summary>
@@ -138,10 +130,7 @@ namespace DEngine.Core {
 		/// <param name="rectangle"></param>
 		/// <returns></returns>
 		public bool Intersects(Rect rectangle) {
-			return !(Left < rectangle.Left
-			         && Right > rectangle.Right
-			         && Top > rectangle.Top
-			         && Bottom < rectangle.Bottom);
+			return Left < rectangle.Right && Right >= rectangle.Left && Top < rectangle.Bottom && Bottom >= rectangle.Top;
 		}
 
 		#endregion

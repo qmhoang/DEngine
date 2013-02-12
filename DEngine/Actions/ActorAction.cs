@@ -11,14 +11,15 @@ using DEngine.Entities;
 namespace DEngine.Actions {
 	public abstract class ActorAction {
 		public Entity Entity { get; private set; }
-		public int APCost { get; private set; }
+		public abstract int APCost { get; }
 
-		protected ActorAction(Entity entity, int apcost) {
-			Contract.Requires<ArgumentNullException>(entity != null, "entity");
-			Contract.Requires<ArgumentException>(apcost >= 0);
+		public virtual bool RequiresPrompt { get { return false; } }
+		
+
+		protected ActorAction(Entity entity) {
+			Contract.Requires<ArgumentNullException>(entity != null, "entity");			
 			Contract.Requires<ArgumentException>(entity.Has<Components.ActorComponent>());
-			Entity = entity;
-			APCost = apcost;
+			Entity = entity;			
 		}
 		
 		[ContractInvariantMethod]
@@ -27,7 +28,15 @@ namespace DEngine.Actions {
 			Contract.Invariant(Entity != null);
 		}
 
-		public abstract ActionResult OnProcess();
-		private bool usesAP;
+		public abstract ActionResult OnProcess();		
+	}
+
+	public abstract class ActionRequiresPrompt<T> : ActorAction {
+		protected ActionRequiresPrompt(Entity entity) : base(entity) { }
+
+		public override bool RequiresPrompt { get { return true; }
+		}
+
+		public abstract IEnumerable<T> Options { get; }		
 	}
 }
