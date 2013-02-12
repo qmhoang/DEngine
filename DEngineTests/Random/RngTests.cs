@@ -9,7 +9,7 @@ namespace DEngineTests.Random {
 		#region Seed
 
 		[Test]
-		public void TestSeed() {
+		public void Seed() {
 			for (int seed = 0; seed < 100; seed++) {
 				// get a seeded sequence
 				Queue<int> results = new Queue<int>();
@@ -35,70 +35,70 @@ namespace DEngineTests.Random {
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestIntMaxThrowsIfNegative() {
+		public void IntMaxThrowsIfNegative() {
 			Rng.Int(-2);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestIntMaxThrowsIfZero() {
+		public void IntMaxThrowsIfZero() {
 			Rng.Int(0);
 		}
 
 		[Test]
-		public void TestIntMax() {
+		public void IntMax() {
 			//			Statistics.TestFrequencies(new float[] { 1.0f }, () => Rng.Int(0));
-			Statistics.TestFrequencies(new float[] {1.0f}, () => Rng.Int(1));
-			Statistics.TestFrequencies(new float[] {0.5f, 0.5f}, () => Rng.Int(2));
-			Statistics.TestFrequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.Int(5));
+			Statistics.Frequencies(new float[] {1.0f}, () => Rng.Int(1));
+			Statistics.Frequencies(new float[] {0.5f, 0.5f}, () => Rng.Int(2));
+			Statistics.Frequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.Int(5));
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestIntMinMaxThrowsBadRange() {
+		public void IntMinMaxThrowsBadRange() {
 			Rng.Int(5, 3);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestIntMinMaxThrowsIfMaxEqualsMin() {
+		public void IntMinMaxThrowsIfMaxEqualsMin() {
 			Rng.Int(5, 5);
 		}
 
 		[Test]
-		public void TestIntMinMax() {
+		public void IntMinMax() {
 			//			Statistics.TestFrequencies(new float[] { 1.0f }, () => Rng.Int(5, 5) - 5);
-			Statistics.TestFrequencies(new float[] {1.0f}, () => Rng.Int(3, 4) - 3);
-			Statistics.TestFrequencies(new float[] {0.5f, 0.5f}, () => Rng.Int(-4, -2) + 4);
-			Statistics.TestFrequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.Int(4, 9) - 4);
+			Statistics.Frequencies(new float[] {1.0f}, () => Rng.Int(3, 4) - 3);
+			Statistics.Frequencies(new float[] {0.5f, 0.5f}, () => Rng.Int(-4, -2) + 4);
+			Statistics.Frequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.Int(4, 9) - 4);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestIntInclusiveMaxThrowsIfNegative() {
+		public void IntInclusiveMaxThrowsIfNegative() {
 			Rng.IntInclusive(-2);
 		}
 
 		[Test]
-		public void TestIntInclusiveMax() {
-			Statistics.TestFrequencies(new float[] {1.0f}, () => Rng.IntInclusive(0));
-			Statistics.TestFrequencies(new float[] {0.5f, 0.5f}, () => Rng.IntInclusive(1));
-			Statistics.TestFrequencies(new float[] {0.25f, 0.25f, 0.25f, 0.25f}, () => Rng.IntInclusive(3));
-			Statistics.TestFrequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.IntInclusive(4));
+		public void IntInclusiveMax() {
+			Statistics.Frequencies(new float[] {1.0f}, () => Rng.IntInclusive(0));
+			Statistics.Frequencies(new float[] {0.5f, 0.5f}, () => Rng.IntInclusive(1));
+			Statistics.Frequencies(new float[] {0.25f, 0.25f, 0.25f, 0.25f}, () => Rng.IntInclusive(3));
+			Statistics.Frequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.IntInclusive(4));
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestIntInclusiveMinMaxThrowsBadRange() {
+		public void IntInclusiveMinMaxThrowsBadRange() {
 			Rng.IntInclusive(5, 3);
 		}
 
 		[Test]
-		public void TestIntInclusiveMinMax() {
-			Statistics.TestFrequencies(new float[] {1.0f}, () => Rng.IntInclusive(5, 5) - 5);
-			Statistics.TestFrequencies(new float[] {0.5f, 0.5f}, () => Rng.IntInclusive(3, 4) - 3);
-			Statistics.TestFrequencies(new float[] {0.25f, 0.25f, 0.25f, 0.25f}, () => Rng.IntInclusive(-5, -2) + 5);
-			Statistics.TestFrequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.IntInclusive(4, 8) - 4);
+		public void IntInclusiveMinMax() {
+			Statistics.Frequencies(new float[] {1.0f}, () => Rng.IntInclusive(5, 5) - 5);
+			Statistics.Frequencies(new float[] {0.5f, 0.5f}, () => Rng.IntInclusive(3, 4) - 3);
+			Statistics.Frequencies(new float[] {0.25f, 0.25f, 0.25f, 0.25f}, () => Rng.IntInclusive(-5, -2) + 5);
+			Statistics.Frequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.IntInclusive(4, 8) - 4);
 		}
 
 		#endregion
@@ -107,30 +107,30 @@ namespace DEngineTests.Random {
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestFloatMaxThrowsIfNegative() {
+		public void FloatMaxThrowsIfNegative() {
 			Rng.Double(-2);
 		}
 
 		[Test]
-		public void TestFloatMax() {
-			Statistics.TestFrequencies(new float[] {1.0f}, () => (int) Rng.Double(0));
-			Statistics.TestFrequencies(new float[] {1.0f}, () => (int) Rng.Double(1));
-			Statistics.TestFrequencies(new float[] {0.5f, 0.5f}, () => (int) Rng.Double(2));
-			Statistics.TestFrequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => (int) (Rng.Double(0.5f) * 10.0f));
+		public void FloatMax() {
+			Statistics.Frequencies(new float[] {1.0f}, () => (int) Rng.Double(0));
+			Statistics.Frequencies(new float[] {1.0f}, () => (int) Rng.Double(1));
+			Statistics.Frequencies(new float[] {0.5f, 0.5f}, () => (int) Rng.Double(2));
+			Statistics.Frequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => (int) (Rng.Double(0.5f) * 10.0f));
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestFloatMinMaxThrowsBadRange() {
+		public void FloatMinMaxThrowsBadRange() {
 			Rng.Double(0.2f, 0.1f);
 		}
 
 		[Test]
-		public void TestFloatMinMax() {
-			Statistics.TestFrequencies(new float[] {1.0f}, () => (int) (Rng.Double(1.5f, 1.5f) - 1.5f));
-			Statistics.TestFrequencies(new float[] {1.0f}, () => (int) (Rng.Double(3.2f, 4.2f) - 3.2f));
-			Statistics.TestFrequencies(new float[] {0.5f, 0.5f}, () => (int) (Rng.Double(-4.5f, -2.5f) + 4.5f));
-			Statistics.TestFrequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => (int) ((Rng.Double(0.4f, 0.9f) - 0.4f) * 10.0f));
+		public void FloatMinMax() {
+			Statistics.Frequencies(new float[] {1.0f}, () => (int) (Rng.Double(1.5f, 1.5f) - 1.5f));
+			Statistics.Frequencies(new float[] {1.0f}, () => (int) (Rng.Double(3.2f, 4.2f) - 3.2f));
+			Statistics.Frequencies(new float[] {0.5f, 0.5f}, () => (int) (Rng.Double(-4.5f, -2.5f) + 4.5f));
+			Statistics.Frequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => (int) ((Rng.Double(0.4f, 0.9f) - 0.4f) * 10.0f));
 		}
 
 		#endregion
@@ -147,22 +147,22 @@ namespace DEngineTests.Random {
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestOneInThrowsIfNegative() {
+		public void OneInThrowsIfNegative() {
 			Rng.OneIn(-2);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestOneInThrowsIfZero() {
+		public void OneInThrowsIfZero() {
 			Rng.OneIn(0);
 		}
 
 		[Test]
-		public void TestOneIn() {
-			TestOneIn(1, 1.0f);
-			TestOneIn(2, 0.5f);
-			TestOneIn(3, 1.0f / 3.0f);
-			TestOneIn(10, 0.1f);
+		public void OneIn() {
+			OneIn(1, 1.0f);
+			OneIn(2, 0.5f);
+			OneIn(3, 1.0f / 3.0f);
+			OneIn(10, 0.1f);
 		}
 
 		#endregion
@@ -171,42 +171,42 @@ namespace DEngineTests.Random {
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestRollThrowsIfDiceIsZero() {
+		public void RollThrowsIfDiceIsZero() {
 			Rng.Roll(0, 6);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestRollThrowsIfDiceIsNegative() {
+		public void RollThrowsIfDiceIsNegative() {
 			Rng.Roll(-3, 6);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestRollThrowsIfSidesIsZero() {
+		public void RollThrowsIfSidesIsZero() {
 			Rng.Roll(1, 0);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestRollThrowsIfSidesIsNegative() {
+		public void RollThrowsIfSidesIsNegative() {
 			Rng.Roll(1, -3);
 		}
 
 		[Test]
-		public void TestRoll() {
+		public void Roll() {
 			// 5d1
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {0, 0, 0, 0, 0, 1.0f},
 					() => Rng.Roll(5, 1));
 
 			// 1d4
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {0, 0.25f, 0.25f, 0.25f, 0.25f},
 					() => Rng.Roll(1, 4));
 
 			// 2d6
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[]
 					{
 							0,
@@ -232,27 +232,27 @@ namespace DEngineTests.Random {
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestTriangleIntThrowsIfRangeIsNegative() {
+		public void TriangleIntThrowsIfRangeIsNegative() {
 			Rng.TriangleInt(5, -1);
 		}
 
 		[Test]
-		public void TestTriangleInt() {
+		public void TriangleInt() {
 			// 3t0
 			Console.WriteLine("3t0");
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {0, 0, 0, 1.0f, 0, 0},
 					() => Rng.TriangleInt(3, 0));
 
 			// 2t1
 			Console.WriteLine("2t1");
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {0, 0.25f, 0.5f, 0.25f, 0},
 					() => Rng.TriangleInt(2, 1));
 
 			// 2t4 (+3)
 			Console.WriteLine("2t4 + 3");
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[]
 					{
 							0,
@@ -275,13 +275,13 @@ namespace DEngineTests.Random {
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestGaussianIntThrowsOnNegativeRange() {
+		public void GaussianIntThrowsOnNegativeRange() {
 			Rng.GaussianInt(5, -1, 3);
 		}
 
 		[Test]
-		public void TestGaussianInt() {
-			Statistics.TestFrequencies(
+		public void GaussianInt() {
+			Statistics.Frequencies(
 					new float[]
 					{
 							// 0
@@ -308,7 +308,7 @@ namespace DEngineTests.Random {
 							(float) GaussianDistribution.At(10, 5, 3) + (float) GaussianDistribution.At(11, 5, 3) + (float) GaussianDistribution.At(12, 5, 3),
 					},
 					() => Rng.GaussianInt(5, 5, 3));
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[]
 					{
 							0,
@@ -341,35 +341,35 @@ namespace DEngineTests.Random {
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestWalkThrowsIfDecIsOne() {
+		public void WalkThrowsIfDecIsOne() {
 			Rng.Walk(1, 1, 2);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestWalkThrowsIfIncIsOne() {
+		public void WalkThrowsIfIncIsOne() {
 			Rng.Walk(1, 2, 1);
 		}
 
 		[Test]
-		public void TestWalk() {
+		public void Walk() {
 			// walk neither
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {0, 0, 1.0f, 0, 0},
 					() => Rng.Walk(2, 0, 0));
 
 			// walk up
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {1.0f / 2.0f, 1.0f / 4.0f, 1.0f / 8.0f, 1.0f / 16.0f},
 					() => Rng.Walk(0, 0, 2));
 
 			// walk down
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {3.0f / 64.0f, 3.0f / 16.0f, 3.0f / 4.0f},
 					() => Rng.Walk(2, 4, 0));
 
 			// walk both
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {1 / 32.0f, 1 / 16.0f, 1 / 8.0f, 1 / 2.0f, 1 / 8.0f, 1 / 16.0f, 1 / 32.0f},
 					() => Rng.Walk(3, 2, 2));
 		}
@@ -380,60 +380,60 @@ namespace DEngineTests.Random {
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestTaperThrowsIfIncrementIsZero() {
+		public void TaperThrowsIfIncrementIsZero() {
 			Rng.Taper(5, 0, 1, 2);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestTaperThrowsIfChanceIsNegative() {
+		public void TaperThrowsIfChanceIsNegative() {
 			Rng.Taper(5, 1, -2, 2);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestTaperThrowsIfChanceIsZero() {
+		public void TaperThrowsIfChanceIsZero() {
 			Rng.Taper(5, 1, 0, 2);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestTaperThrowsIfChanceIsRange() {
+		public void TaperThrowsIfChanceIsRange() {
 			Rng.Taper(5, 1, 2, 2);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestTaperThrowsIfChanceIsGreaterThanRange() {
+		public void TaperThrowsIfChanceIsGreaterThanRange() {
 			Rng.Taper(5, 1, 3, 2);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestTaperThrowsIfOutOfIsNegative() {
+		public void TaperThrowsIfOutOfIsNegative() {
 			Rng.Taper(5, 1, 1, -3);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void TestTaperThrowsIfOutOfIsZero() {
+		public void TaperThrowsIfOutOfIsZero() {
 			Rng.Taper(5, 1, 1, 0);
 		}
 
 		[Test]
-		public void TestTaper() {
+		public void Taper() {
 			// start at 3, increment by 1 50% of the time
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {0, 0, 0, 0.5f, 0.25f, 0.125f, 0.0625f},
 					() => Rng.Taper(3, 1, 1, 2));
 
 			// start at 1, increment by 2 50% of the time
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {0, 0.5f, 0, 0.25f, 0, 0.125f, 0, 0.0625f},
 					() => Rng.Taper(1, 2, 3, 6));
 
 			// start at 3, decrement by 1 25% of the time
-			Statistics.TestFrequencies(
+			Statistics.Frequencies(
 					new float[] {0.01171875f, 0.046875f, 0.1875f, 0.75f},
 					() => Rng.Taper(3, -1, 1, 4));
 		}
@@ -442,8 +442,8 @@ namespace DEngineTests.Random {
 
 		#region Helper methods
 
-		private void TestOneIn(int max, float expected) {
-			Statistics.TestFrequency(expected, () => Rng.OneIn(max));
+		private void OneIn(int max, float expected) {
+			Statistics.Frequency(expected, () => Rng.OneIn(max));
 		}
 
 		#endregion

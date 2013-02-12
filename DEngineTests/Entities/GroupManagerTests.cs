@@ -16,7 +16,7 @@ namespace DEngineTests.Entities {
 		}
 
 		[Test]
-		public void TestSets() {
+		public void Sets() {
 			var entity = manager.Create();
 			Assert.IsFalse(groupManager.IsGrouped(entity));
 
@@ -32,7 +32,7 @@ namespace DEngineTests.Entities {
 		}
 
 		[Test]
-		public void TestRemove() {
+		public void Remove() {
 			var entity = manager.Create();
 			groupManager.Set(entity, "group");
 			Assert.IsTrue(groupManager.IsGrouped(entity));
@@ -44,7 +44,7 @@ namespace DEngineTests.Entities {
 		}
 
 		[Test]
-		public void TestGetters() {
+		public void Getters() {
 			var entity = manager.Create();
 
 			Assert.IsFalse(groupManager.IsValidGroup("group"));
@@ -69,7 +69,7 @@ namespace DEngineTests.Entities {
 		}
 
 		[Test]
-		public void TestGetEntities() {
+		public void GetEntities() {
 			var list = new List<DEngine.Entities.Entity>();
 
 			list.Add(manager.Create());

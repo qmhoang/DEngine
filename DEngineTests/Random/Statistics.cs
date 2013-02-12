@@ -13,8 +13,8 @@ namespace DEngineTests.Random {
 		/// </summary>
 		/// <param name="expected">Expected frequency of true results, out of 1.0.</param>
 		/// <param name="predicate">Predicate function to test.</param>
-		public static void TestFrequency(float expected, Func<bool> predicate) {
-			TestFrequencies(new float[] {1.0f - expected, expected},
+		public static void Frequency(float expected, Func<bool> predicate) {
+			Frequencies(new float[] {1.0f - expected, expected},
 			                () => predicate() ? 1 : 0);
 		}
 
@@ -25,7 +25,7 @@ namespace DEngineTests.Random {
 		/// <param name="expected">Expected frequencies of results, out of 1.0. The index
 		/// in the array corresponds to the value returned from <c>func</c>.</param>
 		/// <param name="func">Function to test.</param>
-		public static void TestFrequencies(float[] expected, Func<int> func) {
+		public static void Frequencies(float[] expected, Func<int> func) {
 			int runs = 100000 * expected.Length;
 
 			int[] counts = new int[expected.Length];

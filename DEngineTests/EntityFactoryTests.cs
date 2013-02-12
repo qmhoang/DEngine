@@ -15,11 +15,24 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void TestInheritance() {
+		public void Add() {
+			ef.Add("base", new Identifier("Item"), new Sprite("base", 1));
+
+			var anObject = ef.Create("base", em);
+			Assert.NotNull(anObject);
+			Assert.IsTrue(anObject.Has<ReferenceId>());
+			Assert.AreEqual(anObject.Get<ReferenceId>().RefId, "base");
+			Assert.AreEqual(anObject.Get<Identifier>().Name, "Item");
+			Assert.AreEqual(anObject.Get<Sprite>().Asset, "base");
+		}
+
+		[Test]
+		public void Inheritance() {
 			ef.Add("base", new Identifier("Item"), new Sprite("base", 1));
 			ef.Inherits("inherited", "base", new Sprite("inherited", 2));
 			ef.Compile();
 
+			// should not modify base
 			var anObject = ef.Create("base", em);
 			Assert.NotNull(anObject);
 			Assert.IsTrue(anObject.Has<ReferenceId>());
@@ -37,7 +50,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void TestIdentity() {
+		public void Identity() {
 			var i1 = ef.Create("item", em);
 			var i2 = ef.Create("item", em);
 

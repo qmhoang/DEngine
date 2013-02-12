@@ -7,7 +7,7 @@ namespace DEngineTests {
 	class AbstractWorldTest {
 		
 		[Test]
-		public static void TestAPFunctions() {
+		public static void APFunctions() {
 			// an action that takes 2 second should equal 200  AP
 			Assert.AreEqual(AbstractWorld.SecondsToActionPoints(2), 200);
 
@@ -23,7 +23,7 @@ namespace DEngineTests {
 		[TestCase(50)]
 		[TestCase(200)]
 		[TestCase(150)]
-		public void TestStaticConversion(int value) {
+		public void StaticConversion(int value) {
 			Assert.AreEqual(AbstractWorld.SecondsToSpeed(AbstractWorld.SpeedToSeconds(value)), value);
 			Assert.AreEqual(AbstractWorld.SecondsToActionPoints(AbstractWorld.SpeedToSeconds(AbstractWorld.ActionPointsToSpeed(value))), value);
 		}
