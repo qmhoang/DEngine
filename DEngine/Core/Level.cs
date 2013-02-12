@@ -7,18 +7,20 @@ using DEngine.Components;
 using DEngine.Entities;
 
 namespace DEngine.Core {
-	public abstract class Map {
-		public abstract int Width { get; }
-		public abstract int Height { get; }
+	public class Map {
+		private Rect map;
+
+		public Map(Size size) {
+			this.map = new Rect(new Point(0, 0), size);
+		}
+
+		public int Width { get { return map.Width; } }
+		public int Height { get { return map.Height; } }
+		public Size Size { get { return map.Size; } }
 
 		[Pure]
 		public bool IsInBounds(Point v) {
-			return IsInBounds(v.X, v.Y);
-		}
-
-		[Pure]
-		public bool IsInBoundsOrBorder(Point v) {
-			return IsInBoundsOrBorder(v.X, v.Y);
+			return map.Contains(v);
 		}
 
 		[Pure]
@@ -28,12 +30,7 @@ namespace DEngine.Core {
 
 		[Pure]
 		public bool IsInBounds(int x, int y) {
-			return x >= 1 && y >= 1 && x < Width - 1 && y < Height - 1;
-		}
-
-		[Pure]
-		public bool IsInBoundsOrBorder(int x, int y) {
-			return x >= 0 && y >= 0 && x < Width && y < Height;
+			return map.Contains(x, y);
 		}
 
 		[Pure]
@@ -43,19 +40,8 @@ namespace DEngine.Core {
 	}
 
 	public abstract class Level : Map {
-		public Size Size { get; protected set; }
-
-		protected Level(Size size) {
-			Size = size;
-		}
-
-		public override int Width {
-			get { return Size.Width; }
-		}
-
-		public override int Height {
-			get { return Size.Height; }
-		}
+		
+		protected Level(Size size) : base(size) { }
 
 		public abstract bool IsTransparent(int x, int y);
 		public abstract bool IsWalkable(int x, int y);
