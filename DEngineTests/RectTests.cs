@@ -30,12 +30,22 @@ namespace DEngineTests {
 		}
 
 		[Test]
+		public void ConstructorEquality() {
+			var r1 = new Rect(0, 0, 2, 2);
+			var r2 = new Rect(new Point(0, 0), new Size(2, 2));
+			var r3 = new Rect(new Point(0, 0), new Point(1, 1));
+
+			Assert.AreEqual(r1, r2);
+			Assert.AreEqual(r2, r3); // by transitive r1 = r3 also
+		}
+
+		[Test]
 		public void Edges() {
 			var r = new Rect(0, 0, 2, 2);
 			Assert.AreEqual(0, r.Top);
 			Assert.AreEqual(0, r.Left);
-			Assert.AreEqual(2, r.Right);
-			Assert.AreEqual(2, r.Bottom);
+			Assert.AreEqual(1, r.Right);
+			Assert.AreEqual(1, r.Bottom);			
 		}
 
 		[Test]
@@ -43,8 +53,8 @@ namespace DEngineTests {
 			var r = new Rect(-15, -15, 30, 30);
 			Assert.AreEqual(-15, r.Top);
 			Assert.AreEqual(-15, r.Left);
-			Assert.AreEqual(15, r.Right);
-			Assert.AreEqual(15, r.Bottom);
+			Assert.AreEqual(14, r.Right);
+			Assert.AreEqual(14, r.Bottom);
 		}
 
 		[Test]
@@ -57,6 +67,10 @@ namespace DEngineTests {
 		[Test]
 		public void OffCenter() {
 			var r = new Rect(0, 0, 2, 2);
+			Assert.AreEqual(0, r.Center.X);	// center will always be bias to the top and left because of of truncation in the division
+			Assert.AreEqual(0, r.Center.Y);
+
+			r = new Rect(0, 0, 3, 3);
 			Assert.AreEqual(1, r.Center.X);
 			Assert.AreEqual(1, r.Center.Y);
 		}

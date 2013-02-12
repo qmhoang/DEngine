@@ -5,7 +5,7 @@ namespace DEngineTests {
 	[TestFixture]
 	public class DirectionTests {
 		[Test]
-		public void TestEqual() {
+		public void Equality() {
 			Assert.IsTrue(Direction.North == new Point(0, -1));
 			Assert.IsTrue(Direction.South == new Point(0, 1));
 			Assert.IsTrue(Direction.West == new Point(-1, 0));
@@ -13,7 +13,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestRotations() {
+		public static void Rotations() {
 			Assert.AreEqual(Direction.North.RotateLeft90, Direction.West);
 			Assert.AreEqual(Direction.North.RotateRight90, Direction.East);
 
@@ -24,7 +24,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void TestImplicits() {
+		public void Implicits() {
 			Direction north = new Point(0, -1);
 			Assert.AreEqual(north, Direction.N);
 

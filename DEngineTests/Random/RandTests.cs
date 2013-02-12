@@ -11,7 +11,7 @@ namespace DEngineTests.Random {
 		#region Parse
 
 		[Test]
-		public void TestParseFixed() {
+		public void ParseFixed() {
 			for (int outOf = 2; outOf < 10; outOf++) {
 				for (int chance = 1; chance < outOf; chance++) {
 					float ave = Rand.Taper(chance, outOf).Average;
@@ -19,23 +19,23 @@ namespace DEngineTests.Random {
 				}
 			}
 
-			TestParse("3", "3", 3, new float[] { 0, 0, 0, 1.0f, 0 });
-			TestParse(" 2", "2", 2, new float[] { 0, 0, 1.0f, 0 });
-			TestParse(" 1  ", "1", 1, new float[] { 0, 1.0f, 0 });
+			Parse("3", "3", 3, new float[] { 0, 0, 0, 1.0f, 0 });
+			Parse(" 2", "2", 2, new float[] { 0, 0, 1.0f, 0 });
+			Parse(" 1  ", "1", 1, new float[] { 0, 1.0f, 0 });
 		}
 
 		[Test]
-		public void TestParseRange() {
-			TestParse("2-6", "2-6", 4, new float[] { 0, 0, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0 });
-			TestParse(" 1-2", "1-2", 1.5f, new float[] { 0, 0.5f, 0.5f, 0 });
-			TestParse(" 3-3  ", "3-3", 3, new float[] { 0, 0, 0, 1.0f, 0 });
+		public void ParseRange() {
+			Parse("2-6", "2-6", 4, new float[] { 0, 0, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0 });
+			Parse(" 1-2", "1-2", 1.5f, new float[] { 0, 0.5f, 0.5f, 0 });
+			Parse(" 3-3  ", "3-3", 3, new float[] { 0, 0, 0, 1.0f, 0 });
 		}
 
 		[Test]
-		public void TestParseDice() {
-			TestParse(" 1d5", "1d5", 3, new float[] { 0, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0 });
+		public void ParseDice() {
+			Parse(" 1d5", "1d5", 3, new float[] { 0, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0 });
 
-			TestParse(" 2d3  ", "2d3", 4, new float[] {
+			Parse(" 2d3  ", "2d3", 4, new float[] {
 				0,
 				0,
 				1 / 9.0f,
@@ -47,10 +47,10 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void TestParseTriangle() {
-			TestParse(" 2t1  ", "2t1", 2, new float[] { 0, 0.25f, 0.5f, 0.25f, 0 });
+		public void ParseTriangle() {
+			Parse(" 2t1  ", "2t1", 2, new float[] { 0, 0.25f, 0.5f, 0.25f, 0 });
 
-			TestParse("2t4", "2t4", 2, new float[] { 
+			Parse("2t4", "2t4", 2, new float[] { 
 					3 / 25.0f,
 					4 / 25.0f,
 					5 / 25.0f,
@@ -59,52 +59,52 @@ namespace DEngineTests.Random {
 					2 / 25.0f,
 					1 / 25.0f });
 
-			TestParse(" 3t0", "3t0", 3, new float[] { 0, 0, 0, 1.0f, 0, 0 });
+			Parse(" 3t0", "3t0", 3, new float[] { 0, 0, 0, 1.0f, 0, 0 });
 		}
 
 		[Test]
-		public void TestParseFixedTaper() {
+		public void ParseFixedTaper() {
 			// geometric series sums
 			float taperAverageFour = 1.0f / 3.0f; // 1 in 4
 			float taperAverageTwo = 1.0f; // 1 in 2
 
-			TestParse("3+(1:4)", "3 + (1:4)", 3 + taperAverageFour);
-			TestParse(" 2+(1:2)", "2 + (1:2)", 2 + taperAverageTwo);
-			TestParse("1+(3:4)", "1 + (3:4)", 1 + (3.0f / (4.0f - 3.0f)));
+			Parse("3+(1:4)", "3 + (1:4)", 3 + taperAverageFour);
+			Parse(" 2+(1:2)", "2 + (1:2)", 2 + taperAverageTwo);
+			Parse("1+(3:4)", "1 + (3:4)", 1 + (3.0f / (4.0f - 3.0f)));
 		}
 
 		[Test]
-		public void TestParseRangeTaper() {
+		public void ParseRangeTaper() {
 			// geometric series sums
 			float taperAverageFour = 1.0f / 3.0f; // 1 in 4
 			float taperAverageTwo = 1.0f; // 1 in 2
 
-			TestParse("2-6+(1:4)", "2-6 + (1:4)", 4 + taperAverageFour);
-			TestParse(" 1-2+(1:2)", "1-2 + (1:2)", 1.5f + taperAverageTwo);
+			Parse("2-6+(1:4)", "2-6 + (1:4)", 4 + taperAverageFour);
+			Parse(" 1-2+(1:2)", "1-2 + (1:2)", 1.5f + taperAverageTwo);
 		}
 
 		[Test]
-		public void TestParseDiceTaper() {
+		public void ParseDiceTaper() {
 			// geometric series sums
 			float taperAverageFour = 1.0f / 3.0f; // 1 in 4
 			float taperAverageTwo = 1.0f; // 1 in 2
 
-			TestParse("1d5 + (1:4)", "1d5 + (1:4)", 3 + taperAverageFour);
-			TestParse(" 2d3+(1:2)", "2d3 + (1:2)", 4 + taperAverageTwo);
+			Parse("1d5 + (1:4)", "1d5 + (1:4)", 3 + taperAverageFour);
+			Parse(" 2d3+(1:2)", "2d3 + (1:2)", 4 + taperAverageTwo);
 		}
 
 		[Test]
-		public void TestParseTriangleTaper() {
+		public void ParseTriangleTaper() {
 			// geometric series sums
 			float taperAverageFour = 1.0f / 3.0f; // 1 in 4
 			float taperAverageTwo = 1.0f; // 1 in 2
 
-			TestParse("2t1+(1:4)", "2t1 + (1:4)", 2 + taperAverageFour);
-			TestParse(" 2t4+(1:2)", "2t4 + (1:2)", 2 + taperAverageTwo);
+			Parse("2t1+(1:4)", "2t1 + (1:4)", 2 + taperAverageFour);
+			Parse(" 2t4+(1:2)", "2t4 + (1:2)", 2 + taperAverageTwo);
 		}
 
 		[Test]
-		public void TestChaining() {
+		public void Chaining() {
 			var r0 = Rand.Constant(-3);
 			var r1 = Rand.Dice(2, 4);
 			var r2 = Rand.Range(2, 10);
@@ -112,26 +112,22 @@ namespace DEngineTests.Random {
 			var r4 = Rand.Triangle(10, 7);
 
 			var chain = r0 + r1 + r2 + r3 + r4;
-			TestParse("10t7 + (1:6) + 2-10 + 2d4 + -3", chain.ToString(), r0.Average + r1.Average + r2.Average + r3.Average + r4.Average);
+			Parse("10t7 + (1:6) + 2-10 + 2d4 + -3", chain.ToString(), r0.Average + r1.Average + r2.Average + r3.Average + r4.Average);
 		}
 
 		#endregion
 
 		#region Helper methods
 
-		private void TestParse(string text, string expected, float average, float[] frequencies) {
+		private void Parse(string text, string expected, float average, float[] frequencies = null) {
 			Rand rand = Rand.Parse(text);
 
 			Assert.AreEqual(expected, rand.ToString());
 			Assert.AreEqual(average, rand.Average);
 
 			if (frequencies != null) {
-				Statistics.TestFrequencies(frequencies, () => rand.Roll());
+				Statistics.Frequencies(frequencies, rand.Roll);
 			}
-		}
-
-		private void TestParse(string text, string expected, float average) {
-			TestParse(text, expected, average, null);
 		}
 
 		#endregion

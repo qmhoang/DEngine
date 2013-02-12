@@ -29,7 +29,7 @@
 //		}
 //
 //		[Test]
-//		public void TestGetBase() {
+//		public void GetBase() {
 //			entity.Add(new B());
 //
 //			Assert.IsTrue(entity.Has<B>());

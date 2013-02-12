@@ -85,20 +85,20 @@ namespace DEngineTests {
 
 
 		[Test]
-		public static void TestCreationAndAccess() {
+		public static void CreationAndAccess() {
 			Point p = new Point(1, 2);
 			Assert.AreEqual(p.X, 1);
 			Assert.AreEqual(p.Y, 2);
 		}
 
 		[Test]
-		public static void TestDirectionsAndComparison() {
+		public static void DirectionsAndComparison() {
 			Assert.IsTrue(Point.Zero == new Point(0, 0));
 			Assert.IsTrue(Point.One == new Point(1, 1));
 		}
 
 		[Test]
-		public static void TestMinorMathCases() {
+		public static void MinorMathCases() {
 			Point p1 = new Point(111, 222);
 			Point p2 = new Point(333, 444);
 
@@ -113,42 +113,42 @@ namespace DEngineTests {
 		}
 
 		[Test, TestCaseSource(typeof (PointTestFactory), "AddCases")]
-		public static Point TestAddition(Point p1, Point p2) {
+		public static Point Addition(Point p1, Point p2) {
 			return p1 + p2;
 		}
 
 		[Test, TestCaseSource(typeof (PointTestFactory), "SubCases")]
-		public static Point TestSubstraction(Point p1, Point p2) {
+		public static Point Substraction(Point p1, Point p2) {
 			return p1 - p2;
 		}
 
 		[Test, TestCaseSource(typeof (PointTestFactory), "MultCases")]
-		public static Point TestScalarMult(Point p, int scalar) {
+		public static Point ScalarMult(Point p, int scalar) {
 			return p * scalar;
 		}
 
 		[Test, TestCaseSource(typeof (PointTestFactory), "DivCases")]
-		public static Point TestScalarDiv(Point p, int scalar) {
+		public static Point ScalarDiv(Point p, int scalar) {
 			return p / scalar;
 		}
 		
 		[TestCaseSource(typeof (PointTestFactory), "LengthCases")]
-		public static double TestLength(Point point) {
+		public static double Length(Point point) {
 			return point.Length;
 		}
 
 		[TestCaseSource(typeof (PointTestFactory), "DistanceToCases")]
-		public static double TestDistanceTo(Point p1, Point p2) {
+		public static double DistanceTo(Point p1, Point p2) {
 			return p1.DistanceTo(p2);
 		}
 
 		[TestCaseSource(typeof (PointTestFactory), "CircleCases")]
-		public static bool TestInCircle(Point p, Point origin, int radius) {
+		public static bool InCircle(Point p, Point origin, int radius) {
 			return p.IsInCircle(origin, radius);
 		}
 
 		[TestCaseSource(typeof (PointTestFactory), "ShiftCases")]
-		public static Point TestShift(Point p, int x, int y) {
+		public static Point Shift(Point p, int x, int y) {
 			return p.Shift(x, y);
 		}
 	}
