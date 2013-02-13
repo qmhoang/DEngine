@@ -63,7 +63,7 @@
     <Compile Include="Random\RngTests.cs" />
     <Compile Include="Random\Statistics.cs" />
     <Compile Include="AbstractWorldTest.cs" />
-    <Compile Include="RectTests.cs" />
+    <Compile Include="RectangleTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DEngine\DEngine.csproj">
