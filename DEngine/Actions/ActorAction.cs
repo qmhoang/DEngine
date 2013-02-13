@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using DEngine.Actor;
+using DEngine.Components.Actions;
 using DEngine.Core;
 using DEngine.Entities;
 
@@ -28,15 +29,6 @@ namespace DEngine.Actions {
 			Contract.Invariant(Entity != null);
 		}
 
-		public abstract ActionResult OnProcess();		
-	}
-
-	public abstract class ActionRequiresPrompt<T> : ActorAction {
-		protected ActionRequiresPrompt(Entity entity) : base(entity) { }
-
-		public override bool RequiresPrompt { get { return true; }
-		}
-
-		public abstract IEnumerable<T> Options { get; }		
+		public abstract ActionResult OnProcess();
 	}
 }

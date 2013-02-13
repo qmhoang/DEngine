@@ -46,7 +46,7 @@ namespace DEngine.Core {
 		public abstract bool IsTransparent(int x, int y);
 		public abstract bool IsWalkable(int x, int y);
 		public abstract bool IsWalkable(Point v);
-		public abstract bool IsTransparent(Point v);
+		public abstract bool IsTransparent(Point v);		
 
 		public abstract IEnumerable<Entity> GetEntitiesAt(Point location);
 		public abstract IEnumerable<Entity> GetEntities();

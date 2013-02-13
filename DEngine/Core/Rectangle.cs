@@ -128,7 +128,8 @@ namespace DEngine.Core {
 		}
 
 		public bool Contains(int x, int y) {
-			return x >= 0 && y >= 0 && x < Width && y < Height;			
+			return (x >= Left) && (y >= Top) &&
+			       (x <= Right) && (y <= Bottom);
 		}
 
 		/// <summary>

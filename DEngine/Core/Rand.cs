@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace DEngine.Core {
 	/// <summary>
-	/// A roller rolls random numbers with certain parameters. It encapsulates a call
+	/// Rolls random numbers with certain parameters. It encapsulates a call
 	/// to one of the Rng functions, and the parameters passed in.
 	/// </summary>
 	[Serializable]
