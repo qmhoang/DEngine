@@ -22,12 +22,15 @@ namespace DEngine.Components {
 
 		public AbstractActor Actor { get; private set; }
 		public AP AP { get; private set; }
-		public Queue<ActorAction> Actions { get; private set; }
 
 		public ActorComponent(AbstractActor actor, AP ap) {
 			Actor = actor;
 			AP = ap;
 			Actor.Holder = this;
+		}
+
+		public void Enqueue(ActorAction action) {
+			Actor.Actions.Enqueue(action);
 		}
 
 		public override Component Copy() {
@@ -47,7 +50,10 @@ namespace DEngine.Components {
 		public virtual void Cancel() { }
 
 		public ActorComponent Holder { get; protected internal set; }
+		public Queue<ActorAction> Actions { get; private set; }
 
-		protected AbstractActor() { }		
+		protected AbstractActor() {
+			Actions = new Queue<ActorAction>();
+		}		
 	}
 }
