@@ -12,12 +12,15 @@ namespace DEngineTests {
 		public void SetUp() {
 			ef = new EntityFactory();
 			em = new EntityManager();
+
+			ef.Add("base", new Identifier("Item"), new Sprite("base", 1));
+			ef.Add("item", new Identifier("Item"), new Sprite("item", 1));
+			ef.Inherits("inherited", "base", new Sprite("inherited", 2));
+			ef.Compile();
 		}
 
 		[Test]
 		public void Add() {
-			ef.Add("base", new Identifier("Item"), new Sprite("base", 1));
-
 			var anObject = ef.Create("base", em);
 			Assert.NotNull(anObject);
 			Assert.IsTrue(anObject.Has<ReferenceId>());
@@ -28,10 +31,6 @@ namespace DEngineTests {
 
 		[Test]
 		public void Inheritance() {
-			ef.Add("base", new Identifier("Item"), new Sprite("base", 1));
-			ef.Inherits("inherited", "base", new Sprite("inherited", 2));
-			ef.Compile();
-
 			// should not modify base
 			var anObject = ef.Create("base", em);
 			Assert.NotNull(anObject);

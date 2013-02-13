@@ -51,7 +51,7 @@ namespace DEngine.Core {
 		}
 
 		public override string ToString() {
-			return string.Format("({0}, {1})", Width, Height);
+			return string.Format("(Width={0}, Height={1})", Width, Height);
 		}
 
 		public static bool operator ==(Size left, Size right) {

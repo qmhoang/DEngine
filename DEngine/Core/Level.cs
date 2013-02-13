@@ -8,10 +8,10 @@ using DEngine.Entities;
 
 namespace DEngine.Core {
 	public class Map {
-		private Rect map;
+		private Rectangle map;
 
 		public Map(Size size) {
-			this.map = new Rect(new Point(0, 0), size);
+			this.map = new Rectangle(new Point(0, 0), size);
 		}
 
 		public int Width { get { return map.Width; } }

@@ -91,14 +91,14 @@ namespace DEngine.Core {
 		/// <summary>
 		/// Gets a random Point within the given Rect (half-inclusive).
 		/// </summary>
-		public static Point Point(Rect rect) {
+		public static Point Point(Rectangle rect) {
 			return new Point(Int(rect.Left, rect.Right), Int(rect.Top, rect.Bottom));
 		}
 
 		/// <summary>
 		/// Gets a random Point within the given Rect (inclusive).
 		/// </summary>
-		public static Point PointInclusive(Rect rect) {
+		public static Point PointInclusive(Rectangle rect) {
 			return new Point(IntInclusive(rect.Left, rect.Right), IntInclusive(rect.Top, rect.Bottom));
 		}
 
