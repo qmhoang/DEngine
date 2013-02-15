@@ -17,7 +17,7 @@ namespace DEngine.Core {
 													{0,1,1,0,0,-1,-1,0},
 													{1,0,0,1,-1,0,0,-1}};
 
-		private static void CastLight(VisionMap vision, Level level, int cx, int cy, int row, float start, float end, int radius, int r2, int xx, int xy, int yx, int yy, int id, bool light_walls) 
+		private static void CastLight(VisionMap vision, AbstractLevel level, int cx, int cy, int row, float start, float end, int radius, int r2, int xx, int xy, int yx, int yy, int id, bool light_walls) 
 		{
 			Contract.Requires<ArgumentNullException>(vision != null, "vision");
 			Contract.Requires<ArgumentNullException>(level != null, "level");
@@ -80,7 +80,7 @@ namespace DEngine.Core {
 			}
 		}
 
-		public static void ComputeRecursiveShadowcasting(VisionMap vision, Level level, int playerX, int playerY, int maxRadius, bool lightWalls)
+		public static void ComputeRecursiveShadowcasting(VisionMap vision, AbstractLevel level, int playerX, int playerY, int maxRadius, bool lightWalls)
 		{
 			Contract.Requires<ArgumentNullException>(level != null, "level");
 			Contract.Requires<ArgumentNullException>(vision != null, "vision");

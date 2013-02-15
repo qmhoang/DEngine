@@ -11,12 +11,13 @@ using DEngine.Entities;
 
 namespace DEngine.Actions {
 	public abstract class ActorAction {
+		protected static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		public Entity Entity { get; private set; }
 		public abstract int APCost { get; }
 
-		public virtual bool RequiresPrompt { get { return false; } }
+		public virtual bool RequiresPrompt { get { return false; } }	
 		
-
 		protected ActorAction(Entity entity) {
 			Contract.Requires<ArgumentNullException>(entity != null, "entity");			
 			Contract.Requires<ArgumentException>(entity.Has<Components.ActorComponent>());
