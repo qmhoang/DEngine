@@ -52,11 +52,6 @@ namespace DEngine.Entities {
 		/// <returns></returns>
 		public abstract Component Copy();
 
-		public void Broadcast<T>(Action<T> action) where T : class, IComponentEvent {
-			if (Entity != null)
-				Entity.Broadcast(action);
-		}
-
 		public delegate void ComponentEventHandler<in TEventArgs>(Component sender, TEventArgs e) where TEventArgs : EventArgs;
 	}
 
