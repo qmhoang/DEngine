@@ -211,10 +211,6 @@ namespace DEngine.Entities {
 			return Id.ToString();
 		}
 
-		public void Broadcast<T>(Action<T> action) where T : class, IComponentEvent {			
-			Components.Where(c => c is T).Each(c => action(c as T));
-		}
-
 		/// <summary>
 		/// Deep clone
 		/// </summary>

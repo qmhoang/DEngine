@@ -62,7 +62,6 @@
     <Compile Include="Random\RandTests.cs" />
     <Compile Include="Random\RngTests.cs" />
     <Compile Include="Random\Statistics.cs" />
-    <Compile Include="AbstractWorldTest.cs" />
     <Compile Include="RectangleTests.cs" />
   </ItemGroup>
   <ItemGroup>

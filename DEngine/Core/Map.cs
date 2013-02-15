@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using DEngine.Components;
-using DEngine.Entities;
 
 namespace DEngine.Core {
 	public class Map {
@@ -37,18 +31,5 @@ namespace DEngine.Core {
 		public bool IsOnBorder(int x, int y) {
 			return x == 0 || y == 0 || x == Width - 1 && y == Height - 1;
 		}
-	}
-
-	public abstract class Level : Map {
-		
-		protected Level(Size size) : base(size) { }
-
-		public abstract bool IsTransparent(int x, int y);
-		public abstract bool IsWalkable(int x, int y);
-		public abstract bool IsWalkable(Point v);
-		public abstract bool IsTransparent(Point v);		
-
-		public abstract IEnumerable<Entity> GetEntitiesAt(Point location);
-		public abstract IEnumerable<Entity> GetEntities();
 	}
 }

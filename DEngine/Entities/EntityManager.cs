@@ -173,7 +173,7 @@ namespace DEngine.Entities {
 			FilteredCollections.Each(c => c.Add(entity));   // Add to filtered collections
 
 			return entity;
-		}
+		}		
 
 		/// <summary>
 		/// Remove an entity by id
