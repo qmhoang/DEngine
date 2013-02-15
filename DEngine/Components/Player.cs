@@ -8,6 +8,8 @@ namespace DEngine.Components {
 	public class Player : AbstractActor {
 		public Player() : base() { }
 
+		protected Player(Queue<ActorAction> actions) : base(actions) {}
+
 		public override bool RequiresInput {
 			get { return base.Actions.Count == 0; }
 		}
@@ -20,6 +22,10 @@ namespace DEngine.Components {
 			base.Cancel();
 
 			Actions.Dequeue();
+		}
+
+		public override AbstractActor Copy() {
+			return new Player(new Queue<ActorAction>(Actions));					
 		}
 
 		public override void Disturb() {

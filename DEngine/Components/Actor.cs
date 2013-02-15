@@ -34,7 +34,7 @@ namespace DEngine.Components {
 		}
 
 		public override Component Copy() {
-			throw new NotImplementedException();
+			return new ActorComponent(Actor.Copy(), new AP(AP.ActionPointPerTurn, AP.ActionPoints));
 		}
 	}
 
@@ -54,6 +54,12 @@ namespace DEngine.Components {
 
 		protected AbstractActor() {
 			Actions = new Queue<ActorAction>();
-		}		
+		}
+
+		protected AbstractActor(Queue<ActorAction> actions) {
+			Actions = actions;
+		}
+
+		public abstract AbstractActor Copy();
 	}
 }

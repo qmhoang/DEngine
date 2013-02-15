@@ -68,7 +68,7 @@ namespace DEngine.Core {
 			Contract.Invariant(prev != null);			
 		}
 
-		private Level level;
+		private AbstractLevel level;
 
 		#region Heap Functions
 
@@ -231,7 +231,7 @@ namespace DEngine.Core {
 
 		#endregion
 
-		public AStarPathFinder(Level level, float diagonalCost) {
+		public AStarPathFinder(AbstractLevel level, float diagonalCost) {
 			Contract.Requires<ArgumentNullException>(level != null, "level");
 			w = level.Width;
 			h = level.Height;

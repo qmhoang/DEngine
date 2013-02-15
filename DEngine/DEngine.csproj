@@ -91,7 +91,6 @@
     <Compile Include="Actions\ActorAction.cs" />
     <Compile Include="Actor\ActionResult.cs" />
     <Compile Include="Actor\AP.cs" />
-    <Compile Include="Components\ActionPoint.cs" />
     <Compile Include="Components\Actions\IPositionChanged.cs" />
     <Compile Include="Components\Actor.cs" />
     <Compile Include="Components\Position.cs" />
@@ -107,7 +106,7 @@
     <Compile Include="Core\MessageEntry.cs" />
     <Compile Include="Core\Rand.cs" />
     <Compile Include="Core\ShadowCastingFOV.cs" />
-    <Compile Include="Core\Level.cs" />
+    <Compile Include="Core\AbstractLevel.cs" />
     <Compile Include="Core\VisionMap.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Entities\EventSubsystem.cs" />

@@ -28,8 +28,8 @@ namespace DEngine.Core {
 		/// <param name="bottomRight"></param>
 		public Rectangle(Point topLeft, Point bottomRight) {
 			this.topLeft = topLeft;
-			this.size = new Size(bottomRight.X - topLeft.X + 1,
-			                     bottomRight.Y - topLeft.Y + 1);
+			this.size = new Size(bottomRight.X - topLeft.X,
+			                     bottomRight.Y - topLeft.Y);
 		}
 
 //		public Rect(int x1, int y1, int x2, int y2)
@@ -72,17 +72,17 @@ namespace DEngine.Core {
 		}
 
 		/// <summary>
-		/// Gets the y-coordinate of the bottom edge (top + height - 1) of the rectangle
+		/// Gets the y-coordinate of the bottom edge (top + height) of the rectangle
 		/// </summary>
 		public int Bottom {
-			get { return topLeft.Y + size.Height - 1; }
+			get { return topLeft.Y + size.Height; }
 		}
 
 		/// <summary>
-		/// Gets the x-coordinate of the right edge (left + width - 1) of the rectangle
+		/// Gets the x-coordinate of the right edge (left + width) of the rectangle
 		/// </summary>
 		public int Right {
-			get { return topLeft.X + size.Width - 1; }
+			get { return topLeft.X + size.Width; }
 		}
 
 		public Point BottomRight {
@@ -129,7 +129,7 @@ namespace DEngine.Core {
 
 		public bool Contains(int x, int y) {
 			return (x >= Left) && (y >= Top) &&
-			       (x <= Right) && (y <= Bottom);
+			       (x < Right) && (y < Bottom);
 		}
 
 		/// <summary>
@@ -142,14 +142,14 @@ namespace DEngine.Core {
 			       Left <= rectangle.Left && Right >= rectangle.Right;
 		}
 
-		/// <summary>
-		/// Determines if this rectangle intersects the specified rectangle
-		/// </summary>
-		/// <param name="rectangle"></param>
-		/// <returns></returns>
-		public bool Intersects(Rectangle rectangle) {
-			return Left < rectangle.Right && Right >= rectangle.Left && Top < rectangle.Bottom && Bottom >= rectangle.Top;
-		}
+//		/// <summary>
+//		/// Determines if this rectangle intersects the specified rectangle
+//		/// </summary>
+//		/// <param name="rectangle"></param>
+//		/// <returns></returns>
+//		public bool Intersects(Rectangle rectangle) {
+//			return Left < rectangle.Right && Right >= rectangle.Left && Top < rectangle.Bottom && Bottom >= rectangle.Top;
+//		}
 
 		#endregion
 
