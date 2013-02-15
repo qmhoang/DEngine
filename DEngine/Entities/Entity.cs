@@ -5,7 +5,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using DEngine.Actor;
 using DEngine.Components;
-using DEngine.Components.Actions;
 using DEngine.Extensions;
 
 namespace DEngine.Entities {
