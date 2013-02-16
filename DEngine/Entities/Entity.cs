@@ -149,7 +149,7 @@ namespace DEngine.Entities {
 		[Pure] 
 		public T Get<T>() where T : Component {
 			Contract.Ensures(Contract.Result<T>() != null);
-			return manager.Components.Get<T>(Id);
+			return manager.Components.Get<T>(this);
 		}
 
 		/// <summary>
@@ -170,7 +170,7 @@ namespace DEngine.Entities {
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		internal bool Has(Type t) {
-			return manager.Components.Contains(Id, t);
+			return manager.Components.Contains(this, t);
 		}
 
 		/// <summary>

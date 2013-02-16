@@ -189,7 +189,7 @@ namespace DEngine.Entities {
 		/// <param name="entity"></param>
 		public void Remove(Entity entity) {			
 			FilteredCollections.Each(c => c.Remove(entity));    // Remove from filtered collections
-			Components.Remove(entity.Id);                       // Remove components
+			Components.Remove(entity);                       // Remove components
 			entities.Remove(entity.Id);                        // Remove from entity dictionary
 		}
 

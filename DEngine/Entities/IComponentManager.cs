@@ -29,8 +29,8 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// Remove all components belonging to an entity
 		/// </summary>
-		/// <param name="id"></param>
-		void Remove(UniqueId id);
+		/// <param name="e"></param>
+		void Remove(Entity e);
 
 		/// <summary>
 		/// Remove a component belonging to an entity
@@ -43,17 +43,17 @@ namespace DEngine.Entities {
 		/// Get a component beloning to an entity
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <param name="id"></param>
+		/// <param name="e"></param>
 		/// <returns></returns>
-		T Get<T>(UniqueId id) where T : Component;
+		T Get<T>(Entity e) where T : Component;
 
 		/// <summary>
 		/// Check if an entity has a component type
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="e"></param>
 		/// <param name="t"></param>
 		/// <returns></returns>
-		bool Contains(UniqueId id, Type t);
+		bool Contains(Entity e, Type t);
 
 		IEnumerable<Component> All(UniqueId id);
 	}
@@ -72,8 +72,8 @@ namespace DEngine.Entities {
 			Contract.Requires<ArgumentNullException>(components != null, "comps");	
 		}
 
-		public void Remove(UniqueId id) {
-			Contract.Requires<ArgumentNullException>(id != null, "id");			
+		public void Remove(Entity e) {
+			Contract.Requires<ArgumentNullException>(e != null, "id");			
 		}
 
 		public bool Remove<T>(Entity e) where T : Component {
@@ -81,14 +81,14 @@ namespace DEngine.Entities {
 			return false;
 		}
 
-		public T Get<T>(UniqueId id) where T : Component {
-			Contract.Requires<ArgumentNullException>(id != null, "id");
+		public T Get<T>(Entity e) where T : Component {
+			Contract.Requires<ArgumentNullException>(e != null, "id");
 			Contract.Ensures(Contract.Result<T>() != null);
 			return default(T);
 		}
 
-		public bool Contains(UniqueId id, Type t) {
-			Contract.Requires<ArgumentNullException>(id != null, "id");
+		public bool Contains(Entity e, Type t) {
+			Contract.Requires<ArgumentNullException>(e != null, "id");
 			return false;
 		}
 

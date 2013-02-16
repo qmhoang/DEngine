@@ -65,10 +65,10 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// Remove an entity from the manager
 		/// </summary>
-		/// <param name="id"></param>
-		public void Remove(UniqueId id) {
+		/// <param name="e"></param>
+		public void Remove(Entity e) {
 			foreach (var c in components.Values) {
-				c.Remove(id);
+				c.Remove(e.Id);
 			}
 		}
 
@@ -87,22 +87,22 @@ namespace DEngine.Entities {
 		/// Try to get a component from an entity
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <param name="id"></param>
+		/// <param name="e"></param>
 		/// <returns></returns>
-		public T Get<T>(UniqueId id) where T : Component {
+		public T Get<T>(Entity e) where T : Component {
 			Component o;
-			this[typeof(T)].TryGetValue(id, out o);
+			this[typeof(T)].TryGetValue(e.Id, out o);
 			return (T)o;
 		}
 
 		/// <summary>
 		/// Determine if the entity contains a component type
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="e"></param>
 		/// <param name="t"></param>
 		/// <returns></returns>
-		public bool Contains(UniqueId id, Type t) {
-			return this[t].ContainsKey(id);
+		public bool Contains(Entity e, Type t) {
+			return this[t].ContainsKey(e.Id);
 		}
 
 		#region IEnumerable
