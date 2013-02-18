@@ -8,81 +8,12 @@ using NUnit.Framework;
 
 namespace DEngineTests {
 	public class PointTestFactory {
-		public static IEnumerable AddCases {
-			get {
-				yield return new TestCaseData(new Point(111, 222), new Point(333, 444)).Returns(new Point(444, 666));
-				yield return new TestCaseData(new Point(300, 400), new Point(100, 200)).Returns(new Point(400, 600));
-				yield return new TestCaseData(new Point(-111, 222), new Point(333, -444)).Returns(new Point(222, -222));
-				yield return new TestCaseData(new Point(111, 222), Point.Zero).Returns(new Point(111, 222));
-			}
-		}
-
-		public static IEnumerable ShiftCases {
-			get {
-				yield return new TestCaseData(new Point(111, 222), 333, 444).Returns(new Point(444, 666));
-				yield return new TestCaseData(new Point(300, 400), 100, 200).Returns(new Point(400, 600));
-				yield return new TestCaseData(new Point(-111, 222), 333, -444).Returns(new Point(222, -222));
-				yield return new TestCaseData(new Point(111, 222), 0, 0).Returns(new Point(111, 222));
-			}
-		}
-
-		public static IEnumerable SubCases {
-			get {
-				yield return new TestCaseData(new Point(111, 222), new Point(333, 444)).Returns(new Point(-222, -222));
-				yield return new TestCaseData(new Point(300, 400), new Point(100, 200)).Returns(new Point(200, 200));
-				yield return new TestCaseData(new Point(-111, 222), new Point(333, -444)).Returns(new Point(-444, 666));
-				yield return new TestCaseData(new Point(111, 222), Point.Zero).Returns(new Point(111, 222));
-			}
-		}
-
-		public static IEnumerable MultCases {
-			get {
-				yield return new TestCaseData(new Point(111, 222), 1).Returns(new Point(111, 222));
-				yield return new TestCaseData(new Point(300, 400), -1).Returns(new Point(-300, -400));
-				yield return new TestCaseData(new Point(-111, 222), 0).Returns(new Point(-0, 0));
-				yield return new TestCaseData(new Point(111, 222), 154).Returns(new Point(17094, 34188));
-			}
-		}
-
-		public static IEnumerable DivCases {
-			get {
-				yield return new TestCaseData(new Point(111, 222), 1).Returns(new Point(111, 222));
-				yield return new TestCaseData(new Point(300, 400), -1).Returns(new Point(-300, -400));
-				yield return new TestCaseData(new Point(-111, 222), 0).Throws(typeof (DivideByZeroException)).SetName("DivideByZero");
-				yield return new TestCaseData(new Point(111, 222), 111).Returns(new Point(1, 2));
-			}
-		}
-
-		public static IEnumerable LengthCases {
-			get {
-				yield return new TestCaseData(new Point(3, 4)).Returns(5);
-				yield return new TestCaseData(new Point(3, 6)).Returns(6.7082039324993690892275210061938);
-				yield return new TestCaseData(new Point(5, 10)).Returns(11.180339887498948482045868343656);
-				yield return new TestCaseData(new Point(1, 10)).Returns(10.04987562112089027021926491276);
-			}
-		}
-
-		public static IEnumerable DistanceToCases {
-			get {
-				yield return new TestCaseData(new Point(3, 4), new Point(0, 0)).Returns(5);
-				yield return new TestCaseData(new Point(3, 6), new Point(7, 3)).Returns(5);
-			}
-		}
-
-		public static IEnumerable CircleCases {
-			get {
-				yield return new TestCaseData(new Point(1, 2), new Point(0, 0), 3).Returns(true);
-				yield return new TestCaseData(new Point(3, 2), new Point(0, 0), 3).Returns(false);
-				yield return new TestCaseData(new Point(111, 222), new Point(333, 444), 300).Returns(false);
-				yield return new TestCaseData(new Point(111, 222), new Point(333, 444), 543).Returns(true);
-			}
-		}
+		
 	}
 
 	[TestFixture]
 	internal class PointTests {
 		public const double ErrorTolerance = 0.00001;
-
 
 		[Test]
 		public static void CreationAndAccess() {
@@ -112,42 +43,114 @@ namespace DEngineTests {
 			Assert.AreEqual(p2 * -1, new Point(-333, -444));
 		}
 
-		[Test, TestCaseSource(typeof (PointTestFactory), "AddCases")]
+		public static IEnumerable AddCases {
+			get {
+				yield return new TestCaseData(new Point(111, 222), new Point(333, 444)).Returns(new Point(444, 666));
+				yield return new TestCaseData(new Point(300, 400), new Point(100, 200)).Returns(new Point(400, 600));
+				yield return new TestCaseData(new Point(-111, 222), new Point(333, -444)).Returns(new Point(222, -222));
+				yield return new TestCaseData(new Point(111, 222), Point.Zero).Returns(new Point(111, 222));
+			}
+		}
+
+		[Test, TestCaseSource("AddCases")]
 		public static Point Addition(Point p1, Point p2) {
 			return p1 + p2;
 		}
 
-		[Test, TestCaseSource(typeof (PointTestFactory), "SubCases")]
+
+		public static IEnumerable SubCases {
+			get {
+				yield return new TestCaseData(new Point(111, 222), new Point(333, 444)).Returns(new Point(-222, -222));
+				yield return new TestCaseData(new Point(300, 400), new Point(100, 200)).Returns(new Point(200, 200));
+				yield return new TestCaseData(new Point(-111, 222), new Point(333, -444)).Returns(new Point(-444, 666));
+				yield return new TestCaseData(new Point(111, 222), Point.Zero).Returns(new Point(111, 222));
+			}
+		}
+
+
+		[Test, TestCaseSource("SubCases")]
 		public static Point Substraction(Point p1, Point p2) {
 			return p1 - p2;
 		}
 
-		[Test, TestCaseSource(typeof (PointTestFactory), "MultCases")]
+		public static IEnumerable MultCases {
+			get {
+				yield return new TestCaseData(new Point(111, 222), 1).Returns(new Point(111, 222));
+				yield return new TestCaseData(new Point(300, 400), -1).Returns(new Point(-300, -400));
+				yield return new TestCaseData(new Point(-111, 222), 0).Returns(new Point(-0, 0));
+				yield return new TestCaseData(new Point(111, 222), 154).Returns(new Point(17094, 34188));
+			}
+		}
+
+		[Test, TestCaseSource("MultCases")]
 		public static Point ScalarMult(Point p, int scalar) {
 			return p * scalar;
 		}
 
-		[Test, TestCaseSource(typeof (PointTestFactory), "DivCases")]
+		public static IEnumerable DivCases {
+			get {
+				yield return new TestCaseData(new Point(111, 222), 1).Returns(new Point(111, 222));
+				yield return new TestCaseData(new Point(300, 400), -1).Returns(new Point(-300, -400));
+				yield return new TestCaseData(new Point(-111, 222), 0).Throws(typeof(DivideByZeroException)).SetName("DivideByZero");
+				yield return new TestCaseData(new Point(111, 222), 111).Returns(new Point(1, 2));
+			}
+		}
+
+		[Test, TestCaseSource("DivCases")]
 		public static Point ScalarDiv(Point p, int scalar) {
 			return p / scalar;
 		}
-		
-		[TestCaseSource(typeof (PointTestFactory), "LengthCases")]
+
+		public static IEnumerable LengthCases {
+			get {
+				yield return new TestCaseData(new Point(3, 4)).Returns(5);
+				yield return new TestCaseData(new Point(3, 6)).Returns(6.7082039324993690892275210061938);
+				yield return new TestCaseData(new Point(5, 10)).Returns(11.180339887498948482045868343656);
+				yield return new TestCaseData(new Point(1, 10)).Returns(10.04987562112089027021926491276);
+			}
+		}
+	
+		[TestCaseSource("LengthCases")]
 		public static double Length(Point point) {
 			return point.Length;
 		}
 
-		[TestCaseSource(typeof (PointTestFactory), "DistanceToCases")]
+		public static IEnumerable DistanceToCases {
+			get {
+				yield return new TestCaseData(new Point(3, 4), new Point(0, 0)).Returns(5);
+				yield return new TestCaseData(new Point(3, 6), new Point(7, 3)).Returns(5);
+			}
+		}
+
+		[TestCaseSource( "DistanceToCases")]
 		public static double DistanceTo(Point p1, Point p2) {
 			return p1.DistanceTo(p2);
 		}
 
-		[TestCaseSource(typeof (PointTestFactory), "CircleCases")]
+		public static IEnumerable CircleCases {
+			get {
+				yield return new TestCaseData(new Point(1, 2), new Point(0, 0), 3).Returns(true);
+				yield return new TestCaseData(new Point(3, 2), new Point(0, 0), 3).Returns(false);
+				yield return new TestCaseData(new Point(111, 222), new Point(333, 444), 300).Returns(false);
+				yield return new TestCaseData(new Point(111, 222), new Point(333, 444), 543).Returns(true);
+			}
+		}
+
+		[TestCaseSource("CircleCases")]
 		public static bool InCircle(Point p, Point origin, int radius) {
 			return p.IsInCircle(origin, radius);
 		}
 
-		[TestCaseSource(typeof (PointTestFactory), "ShiftCases")]
+		public static IEnumerable ShiftCases {
+			get {
+				yield return new TestCaseData(new Point(111, 222), 333, 444).Returns(new Point(444, 666));
+				yield return new TestCaseData(new Point(300, 400), 100, 200).Returns(new Point(400, 600));
+				yield return new TestCaseData(new Point(-111, 222), 333, -444).Returns(new Point(222, -222));
+				yield return new TestCaseData(new Point(111, 222), 0, 0).Returns(new Point(111, 222));
+			}
+		}
+
+		[TestCaseSource("ShiftCases")]
 		public static Point Shift(Point p, int x, int y) {
 			return p.Shift(x, y);
 		}

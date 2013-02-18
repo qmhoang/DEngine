@@ -15,8 +15,8 @@ namespace DEngine.Entities {
 	/// A entity can only belong to one group at a time.
 	/// </summary>
 	public sealed class GroupManager<T> where T : IEquatable<T> {
-		private Dictionary<UniqueId, T> IdToGroupLUT;
-		private Dictionary<T, HashSet<Entity>> entitiesByGroup;
+		private readonly Dictionary<UniqueId, T> IdToGroupLUT;
+		private readonly Dictionary<T, HashSet<Entity>> entitiesByGroup;
 
 		public GroupManager() {
 			IdToGroupLUT = new Dictionary<UniqueId, T>();

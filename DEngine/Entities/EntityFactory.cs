@@ -7,6 +7,16 @@ using DEngine.Components;
 using log4net;
 
 namespace DEngine.Entities {
+	public class IllegalInheritanceException : Exception {
+		public string IllegalInheritanceId { get; private set; }
+		public string TemplateId { get; private set; }
+
+		public IllegalInheritanceException(string illegalInheritanceId, string templateId) : base("Cannot find template to inherit from.") {
+			IllegalInheritanceId = illegalInheritanceId;
+			TemplateId = templateId;
+		}
+	}
+
 	public class EntityFactory {
 		public class Template : IEnumerable<Component> {
 			private readonly Dictionary<Type, Component> components;
@@ -94,8 +104,8 @@ namespace DEngine.Entities {
 			#endregion
 		}
 
-		private Dictionary<string, Template> compiledTemplates;
-		private Dictionary<string, Tuple<string, Template>> inheritanceTemplates;
+		private readonly Dictionary<string, Template> compiledTemplates;
+		private readonly Dictionary<string, Tuple<string, Template>> inheritanceTemplates;
 		private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 		public EntityFactory() {
@@ -104,6 +114,12 @@ namespace DEngine.Entities {
 		}
 
 		public void Compile() {
+			foreach (var t in inheritanceTemplates) {
+				if (!(inheritanceTemplates.ContainsKey(t.Value.Item1) || compiledTemplates.ContainsKey(t.Value.Item1))) {
+					throw new IllegalInheritanceException(t.Value.Item1, t.Key);
+				}
+			}
+
 			Queue<string> queues = new Queue<string>();
 			foreach (var t in inheritanceTemplates) {
 				queues.Enqueue(t.Key);

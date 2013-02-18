@@ -92,11 +92,12 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void ContainsPoint() {
-			var outer = new Rectangle(0, 0, 10, 10);
-			var inner = new Point(5, 5);
-
-			Assert.IsTrue(outer.Contains(inner));
+		public void ContainsPoint([Random(0, 99, 5)] int px,
+								  [Random(0, 99, 5)] int py) {
+			var outer = new Rectangle(0, 0, 100, 100);
+			var point = new Point(px, py);
+			
+			Assert.IsTrue(outer.Contains(point));			
 		}
 
 		[Test]

@@ -45,12 +45,13 @@ namespace DEngineTests.Random {
 			Rng.Int(0);
 		}
 
-		[Test]
-		public void IntMax() {
-			//			Statistics.TestFrequencies(new float[] { 1.0f }, () => Rng.Int(0));
-			Statistics.Frequencies(new float[] {1.0f}, () => Rng.Int(1));
-			Statistics.Frequencies(new float[] {0.5f, 0.5f}, () => Rng.Int(2));
-			Statistics.Frequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.Int(5));
+		[Test, Sequential]
+		public void IntMax(
+						[Values(1, 2, 5)] int max,
+						[Values(new float[] { 1.0f },
+								new float[] { 0.5f, 0.5f },
+								new float[] { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f })] float[] expected) {
+			Statistics.Frequencies(expected, () => Rng.Int(max));
 		}
 
 		[Test]
@@ -66,8 +67,7 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void IntMinMax() {
-			//			Statistics.TestFrequencies(new float[] { 1.0f }, () => Rng.Int(5, 5) - 5);
+		public void IntMinMax() {			
 			Statistics.Frequencies(new float[] {1.0f}, () => Rng.Int(3, 4) - 3);
 			Statistics.Frequencies(new float[] {0.5f, 0.5f}, () => Rng.Int(-4, -2) + 4);
 			Statistics.Frequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.Int(4, 9) - 4);
@@ -80,11 +80,12 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void IntInclusiveMax() {
-			Statistics.Frequencies(new float[] {1.0f}, () => Rng.IntInclusive(0));
-			Statistics.Frequencies(new float[] {0.5f, 0.5f}, () => Rng.IntInclusive(1));
-			Statistics.Frequencies(new float[] {0.25f, 0.25f, 0.25f, 0.25f}, () => Rng.IntInclusive(3));
-			Statistics.Frequencies(new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}, () => Rng.IntInclusive(4));
+		public void IntInclusiveMax([Values(0, 1, 3, 4)] int max,
+						[Values(new float[] { 1.0f },
+								new float[] { 0.5f, 0.5f },
+								new float[] {0.25f, 0.25f, 0.25f, 0.25f},
+								new float[] { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f })] float[] expected) {
+			Statistics.Frequencies(expected, () => Rng.IntInclusive(max));
 		}
 
 		[Test]
@@ -135,7 +136,7 @@ namespace DEngineTests.Random {
 
 		#endregion
 
-		#region Vec
+		#region Point
 
 		#endregion
 
@@ -157,12 +158,10 @@ namespace DEngineTests.Random {
 			Rng.OneIn(0);
 		}
 
-		[Test]
-		public void OneIn() {
-			OneIn(1, 1.0f);
-			OneIn(2, 0.5f);
-			OneIn(3, 1.0f / 3.0f);
-			OneIn(10, 0.1f);
+		[Test, Sequential]
+		public void OneIn([Values(1, 2, 3, 10)] int max,
+						  [Values(1.0f, 0.5f, 1.0f / 3.0f, 0.1f)] float expected) {
+			Statistics.Frequency(expected, () => Rng.OneIn(max));
 		}
 
 		#endregion
@@ -438,15 +437,7 @@ namespace DEngineTests.Random {
 					() => Rng.Taper(3, -1, 1, 4));
 		}
 
-		#endregion
-
-		#region Helper methods
-
-		private void OneIn(int max, float expected) {
-			Statistics.Frequency(expected, () => Rng.OneIn(max));
-		}
-
-		#endregion
+		#endregion		
 
 	}
 }
