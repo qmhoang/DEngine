@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 
 namespace DEngine.Entities {
-	// ReSharper disable CompareNonConstrainedGenericWithNull
 	public sealed class TagManager<T> {
-		private Dictionary<T, Entity> entityLUT;
-		private Dictionary<Entity, List<T>> tags;
+		private readonly Dictionary<T, Entity> entityLUT;
+		private readonly Dictionary<Entity, List<T>> tags;
 
 		[ContractInvariantMethod]
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
@@ -75,6 +74,5 @@ namespace DEngine.Entities {
 			}
 		}
 	}
-	// ReSharper restore CompareNonConstrainedGenericWithNull
 
 }

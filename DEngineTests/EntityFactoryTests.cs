@@ -1,4 +1,5 @@
-﻿using DEngine.Components;
+﻿using System;
+using DEngine.Components;
 using DEngine.Entities;
 using NUnit.Framework;
 
@@ -54,6 +55,16 @@ namespace DEngineTests {
 			var i2 = ef.Create("item", em);
 
 			Assert.AreNotSame(i1, i2);
+		}
+
+		[Test]
+		[ExpectedException(typeof(IllegalInheritanceException))]
+		public void IllegalInherits() {
+			EntityFactory entityFactory = new EntityFactory();
+
+			entityFactory.Inherits("1", "2", new Identifier("blah"));
+
+			entityFactory.Compile();
 		}
 	}
 }
