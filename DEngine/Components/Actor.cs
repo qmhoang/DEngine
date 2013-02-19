@@ -8,7 +8,7 @@ using DEngine.Entities;
 
 namespace DEngine.Components {
 	public class ActorComponent : Component {
-		public ActorAction NextAction() {
+		public IAction NextAction() {
 			return Actor.NextAction();
 		}
 
@@ -43,20 +43,20 @@ namespace DEngine.Components {
 			get { return false; }
 		}
 
-		public abstract ActorAction NextAction();
+		public abstract IAction NextAction();
 
 		public virtual void Disturb() { }
 
 		public virtual void Cancel() { }
 
 		public ActorComponent Holder { get; protected internal set; }
-		public Queue<ActorAction> Actions { get; private set; }
+		public Queue<IAction> Actions { get; private set; }
 
 		protected AbstractActor() {
-			Actions = new Queue<ActorAction>();
+			Actions = new Queue<IAction>();
 		}
 
-		protected AbstractActor(Queue<ActorAction> actions) {
+		protected AbstractActor(Queue<IAction> actions) {
 			Actions = actions;
 		}
 

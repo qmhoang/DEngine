@@ -29,7 +29,7 @@ namespace DEngine.Core {
 
 		[Pure]
 		public bool IsOnBorder(int x, int y) {
-			return x == 0 || y == 0 || x == Width - 1 && y == Height - 1;
+			return x == 0 || y == 0 || x == Width - 1 || y == Height - 1;
 		}
 	}
 }
