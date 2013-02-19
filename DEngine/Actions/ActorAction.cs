@@ -9,9 +9,13 @@ using DEngine.Core;
 using DEngine.Entities;
 
 namespace DEngine.Actions {
-	public abstract class ActorAction {
-		protected static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+	public interface IAction {
+		int APCost { get; }
+		bool RequiresPrompt { get; }
+		ActionResult OnProcess();
+	}
 
+	public abstract class ActorAction : IAction {
 		public Entity Entity { get; private set; }
 		public abstract int APCost { get; }
 

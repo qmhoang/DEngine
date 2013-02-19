@@ -6,15 +6,15 @@ using DEngine.Entities;
 
 namespace DEngine.Components {
 	public class Player : AbstractActor {
-		public Player() : base() { }
+		public Player() { }
 
-		protected Player(Queue<ActorAction> actions) : base(actions) {}
+		protected Player(Queue<IAction> actions) : base(actions) { }
 
 		public override bool RequiresInput {
-			get { return base.Actions.Count == 0; }
+			get { return Actions.Count == 0; }
 		}
 
-		public override ActorAction NextAction() {
+		public override IAction NextAction() {
 			return Actions.Dequeue();
 		}
 
@@ -25,7 +25,7 @@ namespace DEngine.Components {
 		}
 
 		public override AbstractActor Copy() {
-			return new Player(new Queue<ActorAction>(Actions));					
+			return new Player(new Queue<IAction>(Actions));					
 		}
 
 		public override void Disturb() {

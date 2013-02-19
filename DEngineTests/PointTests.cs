@@ -7,14 +7,8 @@ using DEngine.Core;
 using NUnit.Framework;
 
 namespace DEngineTests {
-	public class PointTestFactory {
-		
-	}
-
 	[TestFixture]
 	internal class PointTests {
-		public const double ErrorTolerance = 0.00001;
-
 		[Test]
 		public static void CreationAndAccess() {
 			Point p = new Point(1, 2);

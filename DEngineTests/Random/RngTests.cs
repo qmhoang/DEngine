@@ -79,11 +79,11 @@ namespace DEngineTests.Random {
 			Rng.IntInclusive(-2);
 		}
 
-		[Test]
+		[Test, Sequential]
 		public void IntInclusiveMax([Values(0, 1, 3, 4)] int max,
 						[Values(new float[] { 1.0f },
 								new float[] { 0.5f, 0.5f },
-								new float[] {0.25f, 0.25f, 0.25f, 0.25f},
+								new float[] { 0.25f, 0.25f, 0.25f, 0.25f },
 								new float[] { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f })] float[] expected) {
 			Statistics.Frequencies(expected, () => Rng.IntInclusive(max));
 		}
@@ -138,9 +138,43 @@ namespace DEngineTests.Random {
 
 		#region Point
 
+		[Test, Repeat(10)]
+		public void PointSize() {
+			var size = new Size(5, 5);
+			var point = Rng.Point(size);
+			Assert.That(point.X >= 0 && point.Y >= 0 && point.X < size.Width && point.Y < size.Height, Is.True);
+		}
+
+		[Test, Repeat(10)]
+		public void PointRect() {
+			var rect = new Rectangle(3, 3, 7, 8);
+			var point = Rng.Point(rect);
+
+			Assert.That(rect.Contains(point), Is.True);
+		}
+
+		[Test, Repeat(10)]
+		public void PointInclusiveRect() {
+			var rect = new Rectangle(3, 3, 7, 8);
+			var point = Rng.PointInclusive(rect);
+
+			Assert.That(point.X >= rect.TopLeft.X && point.Y >= rect.TopLeft.Y && point.X <= rect.BottomRight.X && point.Y <= rect.BottomRight.Y, Is.True);
+		}
+
 		#endregion
 
 		#region Item
+
+		[Test, Repeat(10)]
+		public void Item() {
+			var intList = new List<int>();
+
+			for (int i = 0; i < 10; i++) {
+				intList.Add(Rng.Int(Int32.MaxValue));
+			}
+
+			Assert.That(intList.Contains(Rng.Item(intList)), Is.True);
+		}
 
 		#endregion
 
