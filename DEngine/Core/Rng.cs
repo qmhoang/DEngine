@@ -221,14 +221,20 @@ namespace DEngine.Core {
 		public static int GaussianInt(int center, int range, int stddev) {
 			Contract.Requires<ArgumentOutOfRangeException>(range >= 0, "The argument \"range\" must be zero or greater.");
 
-			int gaussianInt = (int) Math.Round(GaussianDistribution.InverseCumulativeTo(Double(), center, stddev));
+			return (int) Math.Round(GaussianDouble(center, range, stddev));
+		}
 
-			if (gaussianInt < center - range)
+		public static double GaussianDouble(double center, double range, double stddev) {
+			Contract.Requires<ArgumentOutOfRangeException>(range >= 0, "The argument \"range\" must be zero or greater.");
+
+			double gaussianDouble = GaussianDistribution.InverseCumulativeTo(Double(), center, stddev);
+
+			if (gaussianDouble < center - range)
 				return center - range;
-			else if (gaussianInt > center + range)
+			else if (gaussianDouble > center + range)
 				return center + range;
 			else
-				return gaussianInt;
+				return gaussianDouble;
 		}
 
 		/// <summary>

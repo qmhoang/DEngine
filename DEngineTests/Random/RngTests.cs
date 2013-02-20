@@ -45,12 +45,10 @@ namespace DEngineTests.Random {
 			Rng.Int(0);
 		}
 
-		[Test, Sequential]
-		public void IntMax(
-						[Values(1, 2, 5)] int max,
-						[Values(new float[] { 1.0f },
-								new float[] { 0.5f, 0.5f },
-								new float[] { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f })] float[] expected) {
+		[TestCase(1, new float[] { 1.0f })]
+		[TestCase(2, new float[] { 0.5f, 0.5f })]
+		[TestCase(5, new float[] { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f })]
+		public void IntMax(int max, float[] expected) {
 			Statistics.Frequencies(expected, () => Rng.Int(max));
 		}
 
@@ -79,12 +77,11 @@ namespace DEngineTests.Random {
 			Rng.IntInclusive(-2);
 		}
 
-		[Test, Sequential]
-		public void IntInclusiveMax([Values(0, 1, 3, 4)] int max,
-						[Values(new float[] { 1.0f },
-								new float[] { 0.5f, 0.5f },
-								new float[] { 0.25f, 0.25f, 0.25f, 0.25f },
-								new float[] { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f })] float[] expected) {
+		[TestCase(0, new float[] { 1.0f })]
+		[TestCase(1, new float[] { 0.5f, 0.5f })]
+		[TestCase(3, new float[] { 0.25f, 0.25f, 0.25f, 0.25f })]
+		[TestCase(4, new float[] { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f })]
+		public void IntInclusiveMax(int max, float[] expected) {
 			Statistics.Frequencies(expected, () => Rng.IntInclusive(max));
 		}
 
@@ -192,9 +189,11 @@ namespace DEngineTests.Random {
 			Rng.OneIn(0);
 		}
 
-		[Test, Sequential]
-		public void OneIn([Values(1, 2, 3, 10)] int max,
-						  [Values(1.0f, 0.5f, 1.0f / 3.0f, 0.1f)] float expected) {
+		[TestCase(1, 1.0f)]
+		[TestCase(2, 0.5f)]
+		[TestCase(3, 1.0f / 3.0f)]
+		[TestCase(10, 0.1f)]
+		public void OneIn(int max, float expected) {
 			Statistics.Frequency(expected, () => Rng.OneIn(max));
 		}
 
