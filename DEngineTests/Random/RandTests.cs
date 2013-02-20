@@ -11,7 +11,7 @@ namespace DEngineTests.Random {
 		#region Parse
 
 		[Test]
-		public void ParseFixed() {
+		public static void TestParseFixed() {
 			for (int outOf = 2; outOf < 10; outOf++) {
 				for (int chance = 1; chance < outOf; chance++) {
 					float ave = Rand.Taper(chance, outOf).Average;
@@ -19,51 +19,55 @@ namespace DEngineTests.Random {
 				}
 			}
 
-			Parse("3", "3", 3, new float[] { 0, 0, 0, 1.0f, 0 });
-			Parse(" 2", "2", 2, new float[] { 0, 0, 1.0f, 0 });
-			Parse(" 1  ", "1", 1, new float[] { 0, 1.0f, 0 });
+			Parse("3", "3", 3,		new[] { 0, 0, 0, 1.0f, 0 });
+			Parse(" 2", "2", 2,		new[] { 0, 0, 1.0f, 0 });
+			Parse(" 1  ", "1", 1,	new[] { 0, 1.0f, 0 });
 		}
 
 		[Test]
-		public void ParseRange() {
-			Parse("2-6", "2-6", 4, new float[] { 0, 0, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0 });
-			Parse(" 1-2", "1-2", 1.5f, new float[] { 0, 0.5f, 0.5f, 0 });
-			Parse(" 3-3  ", "3-3", 3, new float[] { 0, 0, 0, 1.0f, 0 });
+		public static void TestParseRange() {
+			Parse("2-6", "2-6", 4,		new[] { 0, 0, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0 });
+			Parse(" 1-2", "1-2", 1.5f,	new[] { 0, 0.5f, 0.5f, 0 });
+			Parse(" 3-3  ", "3-3", 3,	new[] { 0, 0, 0, 1.0f, 0 });
 		}
 
 		[Test]
-		public void ParseDice() {
-			Parse(" 1d5", "1d5", 3, new float[] { 0, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0 });
+		public static void TestParseDice() {
+			Parse(" 1d5", "1d5", 3,		new[] { 0, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0 });
 
-			Parse(" 2d3  ", "2d3", 4, new float[] {
-				0,
-				0,
-				1 / 9.0f,
-				2 / 9.0f,
-				3 / 9.0f,
-				2 / 9.0f,
-				1 / 9.0f,
-				0 });
+			Parse(" 2d3  ", "2d3", 4, new[]
+			                          {
+			                          		0,
+			                          		0,
+			                          		1 / 9.0f,
+			                          		2 / 9.0f,
+			                          		3 / 9.0f,
+			                          		2 / 9.0f,
+			                          		1 / 9.0f,
+			                          		0
+			                          });
 		}
 
 		[Test]
-		public void ParseTriangle() {
-			Parse(" 2t1  ", "2t1", 2, new float[] { 0, 0.25f, 0.5f, 0.25f, 0 });
+		public static void TestParseTriangle() {
+			Parse(" 2t1  ", "2t1", 2, new[] { 0, 0.25f, 0.5f, 0.25f, 0 });
 
-			Parse("2t4", "2t4", 2, new float[] { 
-					3 / 25.0f,
-					4 / 25.0f,
-					5 / 25.0f,
-					4 / 25.0f,
-					3 / 25.0f,
-					2 / 25.0f,
-					1 / 25.0f });
+			Parse("2t4", "2t4", 2, new[]
+			                       {
+			                       		3 / 25.0f,
+			                       		4 / 25.0f,
+			                       		5 / 25.0f,
+			                       		4 / 25.0f,
+			                       		3 / 25.0f,
+			                       		2 / 25.0f,
+			                       		1 / 25.0f
+			                       });
 
-			Parse(" 3t0", "3t0", 3, new float[] { 0, 0, 0, 1.0f, 0, 0 });
+			Parse(" 3t0", "3t0", 3, new[] { 0, 0, 0, 1.0f, 0, 0 });
 		}
 
 		[Test]
-		public void ParseFixedTaper() {
+		public static void TestParseFixedTaper() {
 			// geometric series sums
 			float taperAverageFour = 1.0f / 3.0f; // 1 in 4
 			float taperAverageTwo = 1.0f; // 1 in 2
@@ -74,7 +78,7 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void ParseRangeTaper() {
+		public static void TestParseRangeTaper() {
 			// geometric series sums
 			float taperAverageFour = 1.0f / 3.0f; // 1 in 4
 			float taperAverageTwo = 1.0f; // 1 in 2
@@ -84,7 +88,7 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void ParseDiceTaper() {
+		public static void TestParseDiceTaper() {
 			// geometric series sums
 			float taperAverageFour = 1.0f / 3.0f; // 1 in 4
 			float taperAverageTwo = 1.0f; // 1 in 2
@@ -94,7 +98,7 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void ParseTriangleTaper() {
+		public static void TestParseTriangleTaper() {
 			// geometric series sums
 			float taperAverageFour = 1.0f / 3.0f; // 1 in 4
 			float taperAverageTwo = 1.0f; // 1 in 2
@@ -104,7 +108,7 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void Chaining() {
+		public static void TestChaining() {
 			var r0 = Rand.Constant(-3);
 			var r1 = Rand.Dice(2, 4);
 			var r2 = Rand.Range(2, 10);
@@ -119,7 +123,7 @@ namespace DEngineTests.Random {
 
 		#region Helper methods
 
-		private void Parse(string text, string expected, float average, float[] frequencies = null) {
+		private static void Parse(string text, string expected, float average, float[] frequencies = null) {
 			Rand rand = Rand.Parse(text);
 
 			Assert.AreEqual(expected, rand.ToString());

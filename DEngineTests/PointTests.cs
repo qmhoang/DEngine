@@ -10,20 +10,20 @@ namespace DEngineTests {
 	[TestFixture]
 	internal class PointTests {
 		[Test]
-		public static void CreationAndAccess() {
+		public static void TestCreationAndAccess() {
 			Point p = new Point(1, 2);
 			Assert.AreEqual(p.X, 1);
 			Assert.AreEqual(p.Y, 2);
 		}
 
 		[Test]
-		public static void DirectionsAndComparison() {
+		public static void TestDirectionsAndComparison() {
 			Assert.IsTrue(Point.Zero == new Point(0, 0));
 			Assert.IsTrue(Point.One == new Point(1, 1));
 		}
 
 		[Test]
-		public static void MinorMathCases() {
+		public static void TestMinorMathCases() {
 			Point p1 = new Point(111, 222);
 			Point p2 = new Point(333, 444);
 
@@ -47,7 +47,7 @@ namespace DEngineTests {
 		}
 
 		[Test, TestCaseSource("AddCases")]
-		public static Point Addition(Point p1, Point p2) {
+		public static Point TestAddition(Point p1, Point p2) {
 			return p1 + p2;
 		}
 
@@ -63,7 +63,7 @@ namespace DEngineTests {
 
 
 		[Test, TestCaseSource("SubCases")]
-		public static Point Substraction(Point p1, Point p2) {
+		public static Point TestSubstraction(Point p1, Point p2) {
 			return p1 - p2;
 		}
 
@@ -77,7 +77,7 @@ namespace DEngineTests {
 		}
 
 		[Test, TestCaseSource("MultCases")]
-		public static Point ScalarMult(Point p, int scalar) {
+		public static Point TestScalarMult(Point p, int scalar) {
 			return p * scalar;
 		}
 
@@ -91,7 +91,7 @@ namespace DEngineTests {
 		}
 
 		[Test, TestCaseSource("DivCases")]
-		public static Point ScalarDiv(Point p, int scalar) {
+		public static Point TestScalarDiv(Point p, int scalar) {
 			return p / scalar;
 		}
 
@@ -105,7 +105,7 @@ namespace DEngineTests {
 		}
 	
 		[TestCaseSource("LengthCases")]
-		public static double Length(Point point) {
+		public static double TestLength(Point point) {
 			return point.Length;
 		}
 
@@ -117,7 +117,7 @@ namespace DEngineTests {
 		}
 
 		[TestCaseSource( "DistanceToCases")]
-		public static double DistanceTo(Point p1, Point p2) {
+		public static double TestDistanceTo(Point p1, Point p2) {
 			return p1.DistanceTo(p2);
 		}
 
@@ -131,7 +131,7 @@ namespace DEngineTests {
 		}
 
 		[TestCaseSource("CircleCases")]
-		public static bool InCircle(Point p, Point origin, int radius) {
+		public static bool TestInCircle(Point p, Point origin, int radius) {
 			return p.IsInCircle(origin, radius);
 		}
 
@@ -145,7 +145,7 @@ namespace DEngineTests {
 		}
 
 		[TestCaseSource("ShiftCases")]
-		public static Point Shift(Point p, int x, int y) {
+		public static Point TestShift(Point p, int x, int y) {
 			return p.Shift(x, y);
 		}
 	}

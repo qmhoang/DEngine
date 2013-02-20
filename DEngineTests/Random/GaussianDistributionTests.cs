@@ -8,21 +8,21 @@ namespace DEngineTests.Random {
 		private const double ERROR_TOLERANCE = 0.000001;
 
 		[Test]
-		public void CumulativeTo() {
+		public static void TestCumulativeTo() {
 			// Verified with WolframAlpha
 			// (e.g. http://www.wolframalpha.com/input/?i=CDF%5BNormalDistribution%5B0%2C1%5D%2C+0.5%5D )
 			Assert.AreEqual(0.691462, GaussianDistribution.CumulativeTo(0.5), ERROR_TOLERANCE);
 		}
 
 		[Test]
-		public void At() {
+		public static void TestAt() {
 			// Verified with WolframAlpha
 			// (e.g. http://www.wolframalpha.com/input/?i=PDF%5BNormalDistribution%5B0%2C1%5D%2C+0.5%5D )
 			Assert.AreEqual(0.352065, GaussianDistribution.At(0.5), ERROR_TOLERANCE);
 		}
 
 		[Test]
-		public void Multiplication() {
+		public static void TestMultiplication() {
 			// I verified this against the formula at http://www.tina-vision.net/tina-knoppix/tina-memo/2003-003.pdf
 			var standardNormal = new GaussianDistribution(0, 1);
 			var shiftedGaussian = new GaussianDistribution(2, 3);
@@ -46,7 +46,7 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void Division() {
+		public static void TestDivision() {
 			// Since the multiplication was worked out by hand, we use the same numbers but work backwards
 			var product = new GaussianDistribution(0.2, 3.0 / Math.Sqrt(10));
 			var standardNormal = new GaussianDistribution(0, 1);
@@ -64,7 +64,7 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void LogProductNormalization() {
+		public static void TestLogProductNormalization() {
 			// Verified with Ralf Herbrich's F# implementation
 			var standardNormal = new GaussianDistribution(0, 1);
 			var lpn = GaussianDistribution.LogProductNormalization(standardNormal, standardNormal);
@@ -77,7 +77,7 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void LogRatioNormalization() {
+		public static void TestLogRatioNormalization() {
 			// Verified with Ralf Herbrich's F# implementation            
 			var m1s2 = new GaussianDistribution(1, 2);
 			var m3s4 = new GaussianDistribution(3, 4);
@@ -86,7 +86,7 @@ namespace DEngineTests.Random {
 		}
 
 		[Test]
-		public void AbsoluteDifference() {
+		public static void TestAbsoluteDifference() {
 			// Verified with Ralf Herbrich's F# implementation            
 			var standardNormal = new GaussianDistribution(0, 1);
 			var absDiff = GaussianDistribution.AbsoluteDifference(standardNormal, standardNormal);

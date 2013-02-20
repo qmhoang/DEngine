@@ -21,7 +21,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void Add() {
+		public void TestAdd() {
 			var anObject = ef.Create("base", em);
 			Assert.NotNull(anObject);
 			Assert.IsTrue(anObject.Has<ReferenceId>());
@@ -31,7 +31,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void Inheritance() {
+		public void TestInheritance() {
 			// should not modify base
 			var anObject = ef.Create("base", em);
 			Assert.NotNull(anObject);
@@ -50,7 +50,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void Identity() {
+		public void TestIdentity() {
 			var i1 = ef.Create("item", em);
 			var i2 = ef.Create("item", em);
 
@@ -59,7 +59,7 @@ namespace DEngineTests {
 
 		[Test]
 		[ExpectedException(typeof(IllegalInheritanceException))]
-		public void IllegalInherits() {
+		public void TestIllegalInherits() {
 			EntityFactory entityFactory = new EntityFactory();
 
 			entityFactory.Inherits("1", "2", new Identifier("blah"));

@@ -112,6 +112,26 @@ namespace DEngine.Core {
 		}
 
 		/// <summary>
+		/// Gets a random item from the given list.
+		/// </summary>
+		public static T ItemWeighted<T>(IList<T> items, Func<T, int> weightFunction) {
+			Contract.Requires<ArgumentNullException>(items != null, "items");
+			Contract.Requires<ArgumentException>(items.Count > 0);
+
+			var r = Rng.Int(items.Sum(weightFunction));
+
+			int total = 0;
+			foreach (var i in items) {
+				total += weightFunction(i);
+
+				if (r <= total)
+					return i;
+			}
+
+			throw new Exception("How did we get here?");
+		}
+
+		/// <summary>
 		/// Returns true if a random int chosen between 1 and chance was 1.
 		/// </summary>
 		public static bool OneIn(int chance) {
