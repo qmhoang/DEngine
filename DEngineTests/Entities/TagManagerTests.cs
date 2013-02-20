@@ -16,7 +16,7 @@ namespace DEngineTests.Entities {
 		}
 
 		[Test]
-		public void GettersAndIndexers() {
+		public void TestGettersAndIndexers() {
 			var entity = manager.Create();
 			tagManager.Register(entity, "player");
 			tagManager.Register(entity, "player1");
@@ -33,7 +33,7 @@ namespace DEngineTests.Entities {
 		}
 
 		[Test]
-		public void Register() {
+		public void TestRegister() {
 			var entity = manager.Create();
 			tagManager.Register(entity, "player");
 			tagManager.Register(entity, "player1");			
@@ -53,7 +53,7 @@ namespace DEngineTests.Entities {
 		}
 
 		[Test]
-		public void Unregister() {
+		public void TestUnregister() {
 			var entity = manager.Create();
 			tagManager.Register(entity, "player");
 

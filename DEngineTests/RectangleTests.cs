@@ -9,7 +9,7 @@ namespace DEngineTests {
 	[TestFixture]
 	public class RectangleTests {
 		[Test]
-		public void EmptyConstructor() {
+		public static void TestEmptyConstructor() {
 			var r = new Rectangle();
 			Assert.AreEqual(0, r.TopLeft.X);
 			Assert.AreEqual(0, r.TopLeft.Y);
@@ -21,7 +21,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void FilledConstructor() {
+		public static void TestFilledConstructor() {
 			var r = new Rectangle(15, 25, 35, 45);
 			Assert.AreEqual(15, r.TopLeft.X);
 			Assert.AreEqual(25, r.TopLeft.Y);
@@ -30,7 +30,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void ConstructorEquality() {
+		public static void TestConstructorEquality() {
 			var r1 = new Rectangle(0, 0, 2, 2);
 			var r2 = new Rectangle(new Point(0, 0), new Size(2, 2));
 			var r3 = new Rectangle(new Point(0, 0), new Point(2, 2));
@@ -40,7 +40,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void Edges() {
+		public static void TestEdges() {
 			var r = new Rectangle(0, 0, 2, 2);
 			Assert.AreEqual(0, r.Top);
 			Assert.AreEqual(0, r.Left);
@@ -49,7 +49,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void EdgesNegative() {
+		public static void TestEdgesNegative() {
 			var r = new Rectangle(-15, -15, 30, 30);
 			Assert.AreEqual(-15, r.Top);
 			Assert.AreEqual(-15, r.Left);
@@ -58,14 +58,14 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void Center() {
+		public static void TestCenter() {
 			var r = new Rectangle(-1, -1, 2, 2); // 2x2, centered on 0,0
 			Assert.AreEqual(0, r.Center.X);
 			Assert.AreEqual(0, r.Center.Y);
 		}
 
 		[Test]
-		public void OffCenter() {
+		public static void TestOffCenter() {
 			var r = new Rectangle(0, 0, 2, 2);
 			Assert.AreEqual(1, r.Center.X);
 			Assert.AreEqual(1, r.Center.Y);
@@ -76,7 +76,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void ContainsRect() {
+		public static void TestContainsRect() {
 			var outer = new Rectangle(0, 0, 10, 10);
 			var inner = new Rectangle(5, 5, 2, 2);
 
@@ -84,7 +84,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void EmptyContainsRect() {
+		public static void TestEmptyContainsRect() {
 			var outer = new Rectangle(-1, -1, 2, 2);
 			var inner = new Rectangle();
 
@@ -92,16 +92,17 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void ContainsPoint([Random(0, 99, 5)] int px,
-								  [Random(0, 99, 5)] int py) {
+		public static void TestContainsPoint(
+									[Random(0, 99, 4)] int px,
+									[Random(0, 99, 4)] int py) {
 			var outer = new Rectangle(0, 0, 100, 100);
 			var point = new Point(px, py);
-			
-			Assert.IsTrue(outer.Contains(point));			
+
+			Assert.IsTrue(outer.Contains(point));
 		}
 
 		[Test]
-		public void DoesNotContainRect() {
+		public static void TestDoesNotContainRect() {
 			var outer = new Rectangle(0, 1, 2, 2);
 			var inner = new Rectangle(0, 0, 2, 2);
 
@@ -109,7 +110,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void DoesNotContainPoint() {
+		public static void TestDoesNotContainPoint() {
 			var outer = new Rectangle(0, 0, 1, 1);
 			var inner = new Point(5, 5);
 
@@ -117,7 +118,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void EmptyDoesNotContainPoint() {
+		public static void TestEmptyDoesNotContainPoint() {
 			var outer = new Rectangle();
 			var inner = new Point(5, 5);
 
@@ -125,7 +126,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void EmptyDoesNotContainOrigin() {
+		public static void TestEmptyDoesNotContainOrigin() {
 			var outer = new Rectangle();
 			var inner = new Point();
 
@@ -133,7 +134,7 @@ namespace DEngineTests {
 		}
 
 //		[Test]
-//		public void EmptyIntersectsFails() {
+//		public static void TestEmptyIntersectsFails() {
 //			var outer = new Rectangle();
 //			var inner = new Rectangle();
 //
@@ -141,7 +142,7 @@ namespace DEngineTests {
 //		}
 //
 //		[Test]
-//		public void Intersects() {
+//		public static void TestIntersects() {
 //			var r1 = new Rectangle(0, 0, 20, 20);
 //			var r2 = new Rectangle(5, 5, 20, 20);
 //
@@ -156,7 +157,7 @@ namespace DEngineTests {
 //		}
 //
 //		[Test]
-//		public void DoesNotIntersect() {
+//		public static void TestDoesNotIntersect() {
 //			var r1 = new Rectangle(0, 0, 2, 2);
 //			var r2 = new Rectangle(5, 5, 2, 2);
 //
