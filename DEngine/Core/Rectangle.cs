@@ -42,7 +42,7 @@ namespace DEngine.Core {
 		#region Properties
 
 		public int Width {
-			get { return Size.Width; }
+			get { return Size.Width; }			
 		}
 
 		public int Height {
