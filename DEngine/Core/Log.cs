@@ -5,10 +5,10 @@ using System.Diagnostics.Contracts;
 
 namespace DEngine.Core {
 	public class Log {
-		public event EventHandler<EventArgs> Logged;
+		public event EventHandler<Log, EventArgs> Logged;
 
 		private void OnLogged(EventArgs e) {
-			EventHandler<EventArgs> handler = Logged;
+			var handler = Logged;
 			if (handler != null)
 				handler(this, e);
 		}
@@ -41,8 +41,8 @@ namespace DEngine.Core {
 			Write(MessageType.Bad, text);
 		}
 
-		public void Normal(string text) {
-			Write(MessageType.Normal, text);
+		public void Normal(string text) {			
+			Write(MessageType.Normal, text);			
 		}
 
 		public void Good(string text) {

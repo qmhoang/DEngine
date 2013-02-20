@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 
 namespace DEngine.Core {
+	public delegate void EventHandler<TSender, TEventArgs>(TSender sender, TEventArgs e) where TEventArgs : EventArgs;
+
 	public class EventArgs<T> : EventArgs {
 		private readonly T data1;
 
