@@ -15,7 +15,7 @@ namespace DEngine.Components {
 		}
 
 		public override IAction NextAction() {
-			return Actions.Dequeue();
+			return RequiresInput ? new RequiresPlayerInputAction() : Actions.Dequeue();
 		}
 
 		public override void Cancel() {

@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using DEngine.Entities;
 
 namespace DEngine.Extensions {
 	public static class EnumerableExtension {
+		public static Iterator<T> GetIterator<T>(this IEnumerable<T> collection) {
+			return new Iterator<T>(collection.GetEnumerator());
+		}
+
 		public static IEnumerable<T> Each<T>(this IEnumerable<T> collection, Action<T> action) {
 			Contract.Requires<ArgumentNullException>(action != null, "action");
 			Contract.Requires<ArgumentNullException>(collection != null, "collection");

@@ -49,7 +49,7 @@ namespace DEngine.Core {
 	/// </summary>
 	/// <typeparam name="TKey"></typeparam>
 	/// <typeparam name="TValue"></typeparam>
-	public class StaticDictionary<TKey, TValue> : IStaticDictionary<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>> {
+	public class StaticDictionary<TKey, TValue> : IStaticDictionary<TKey, TValue> {
 		/// <summary>
 		/// Construct a StaticDictionary instance given an array of key value pairs.
 		/// </summary>
@@ -154,7 +154,7 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <returns></returns>
 		IEnumerator IEnumerable.GetEnumerator() {
-			return (IEnumerator) GetEnumerator();
+			return GetEnumerator();
 		}
 
 		private Dictionary<TKey, TValue> dictionary;

@@ -29,8 +29,8 @@ namespace DEngine.Components {
 			Actor.Holder = this;
 		}
 
-		public void Enqueue(ActorAction action) {
-			Actor.Actions.Enqueue(action);
+		public void Enqueue(IAction action) {
+			Actor.Enqueue(action);
 		}
 
 		public override Component Copy() {
@@ -41,6 +41,10 @@ namespace DEngine.Components {
 	public abstract class AbstractActor {
 		public virtual bool RequiresInput {
 			get { return false; }
+		}
+
+		public virtual void Enqueue(IAction action) {
+			Actions.Enqueue(action);
 		}
 
 		public abstract IAction NextAction();
