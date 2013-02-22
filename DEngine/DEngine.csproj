@@ -121,6 +121,7 @@
     <Compile Include="Core\Rng.cs" />
     <Compile Include="Core\EventArgs.cs" />
     <Compile Include="Core\Rectangle.cs" />
+    <Compile Include="Extensions\Iterator.cs" />
     <Compile Include="Extensions\LambdaComparer.cs" />
     <Compile Include="Entities\ComponentManager.cs" />
     <Compile Include="Entities\Entity.cs" />
