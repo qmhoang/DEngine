@@ -24,8 +24,12 @@ namespace DEngine.Entities {
 
 		public void Register(Entity e, T tag) {
 			Contract.Requires<ArgumentNullException>(e != null);
-			
-			entityLUT.Add(tag, e);
+
+			if (entityLUT.ContainsKey(tag))
+				entityLUT[tag] = e;
+			else
+				entityLUT.Add(tag, e);
+
 			if (!tags.ContainsKey(e)) {
 				tags.Add(e, new List<T>());
 			}
@@ -62,6 +66,11 @@ namespace DEngine.Entities {
 		public IEnumerable<T> GetTags(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
 			return tags[e];
+		}
+
+		public bool HasTags(Entity e) {
+			Contract.Requires<ArgumentNullException>(e != null, "e");
+			return tags.ContainsKey(e);
 		}
 
 		public Entity this[T tag] {

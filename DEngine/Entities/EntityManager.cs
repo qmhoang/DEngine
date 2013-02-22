@@ -67,6 +67,28 @@ namespace DEngine.Entities {
 			}
 		}
 
+		/// <summary>
+		/// Event for EntitySystems to run on adding an entity
+		/// </summary>
+		public event EntityEventHandler EntityAdded;
+
+		private void OnEntityAdded(Entity e) {
+			var handler = EntityAdded;
+			if (handler != null)
+				handler(e);
+		}
+
+		/// <summary>
+		/// Event for EntitySystems to run on removal of an entity
+		/// </summary>
+		public event EntityEventHandler EntityRemoved;
+
+		private void OnEntityRemoved(Entity e) {
+			var handler = EntityRemoved;
+			if (handler != null)
+				handler(e);
+		}
+
 		#region Constructors
 
 		public EntityManager()
@@ -171,7 +193,7 @@ namespace DEngine.Entities {
 			var entity = comps == null ? new Entity(this, nextId) : new Entity(this, nextId, comps);
 			
 			FilteredCollections.Each(c => c.Add(entity));   // Add to filtered collections
-
+			OnEntityAdded(entity);
 			return entity;
 		}		
 
@@ -191,6 +213,7 @@ namespace DEngine.Entities {
 			FilteredCollections.Each(c => c.Remove(entity));    // Remove from filtered collections
 			Components.Remove(entity);                       // Remove components
 			entities.Remove(entity.Id);                        // Remove from entity dictionary
+			OnEntityRemoved(entity);
 		}
 
 		#endregion
