@@ -53,6 +53,32 @@ namespace DEngineTests.Entities {
 		}
 
 		[Test]
+		public void TestReregister() {
+			var e1 = manager.Create();
+			var e2 = manager.Create();
+			tagManager.Register(e1, "player");
+
+			Assert.AreSame(tagManager["player"], e1);
+
+			tagManager.Register(e2, "player");
+
+			Assert.AreSame(tagManager["player"], e2);
+
+		}
+
+		[Test]
+		public void TestHasTags() {
+			var e1 = manager.Create();
+			var e2 = manager.Create();
+
+			tagManager.Register(e1, "tagged");
+
+			Assert.IsTrue(tagManager.IsRegistered("tagged"));
+			Assert.IsTrue(tagManager.HasTags(e1));
+			Assert.IsFalse(tagManager.HasTags(e2));
+		}
+
+		[Test]
 		public void TestUnregister() {
 			var entity = manager.Create();
 			tagManager.Register(entity, "player");

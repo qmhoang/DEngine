@@ -38,11 +38,12 @@ namespace DEngine.Extensions {
 		/// <exception cref=""></exception>
 		public T Next() {
 			var prev = Current;
-			HasNext = enumerator.MoveNext();
-			Current = enumerator.Current;
 
 			if (!HasNext)
 				throw new NoSuchElementException();
+
+			HasNext = enumerator.MoveNext();
+			Current = enumerator.Current;
 
 			return prev;
 		}
