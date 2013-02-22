@@ -96,7 +96,6 @@
     <Compile Include="Components\Actor.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Components\Identifier.cs" />
-    <Compile Include="Components\Player.cs" />
     <Compile Include="Components\ReferenceId.cs" />
     <Compile Include="Components\Sprite.cs" />
     <Compile Include="Core\Bresenham.cs" />
