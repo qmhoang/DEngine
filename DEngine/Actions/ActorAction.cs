@@ -9,7 +9,7 @@ using DEngine.Core;
 using DEngine.Entities;
 
 namespace DEngine.Actions {
-	public enum PromptRequired {
+	public enum PromptType {
 		None,
 		Boolean,
 		Number,
@@ -20,33 +20,37 @@ namespace DEngine.Actions {
 	}
 	public interface IAction {
 		int APCost { get; }
-		PromptRequired RequiresPrompt { get; }
+		PromptType RequiresPrompt { get; }
 		ActionResult OnProcess();		
 	}
 
-	public interface IBooleanAction : IAction {
+	public interface IPromptAction : IAction {
 		string Message { get; }
-		bool SetBoolean(bool b);
 	}
 
-	public interface INumberAction : IAction {
-		string Message { get; }
-		bool SetNumber(int i);
+	public interface IBooleanAction : IPromptAction {
+		bool Default { get; }
+		void SetBoolean(bool b);
 	}
 
-	public interface ILocationAction : IAction {
-		string Message { get; }
-		bool SetLocation(Point p);
+	public interface INumberAction : IPromptAction {
+		int Mininum { get; }
+		int Maximum { get; }
+		int Initial { get; }
+		void SetNumber(int i);
 	}
 
-	public interface IDirectionAction : IAction {
-		string Message { get; }
-		bool SetDirection(Direction d);
+	public interface ILocationAction : IPromptAction {
+		void SetLocation(Point p);
 	}
 
-	public interface IOptionsAction : IAction {
-		string Message { get; }
-		bool SetOption(string o);
+	public interface IDirectionAction : IPromptAction {
+		void SetDirection(Direction d);
+	}
+
+	public interface IOptionsAction : IPromptAction {
+		void Fail();
+		void SetOption(string o);
 		IEnumerable<string> Options { get; }
 	}
 
@@ -59,19 +63,19 @@ namespace DEngine.Actions {
 			get { return 1; }
 		}
 
-		public PromptRequired RequiresPrompt { get; private set; }
+		public PromptType RequiresPrompt { get; private set; }
 
 		public ActionResult OnProcess() {
 			return ActionResult.SuccessNoTime;
 		}
 
 		public bool SetFinished() {
-			RequiresPrompt = PromptRequired.None;
+			RequiresPrompt = PromptType.None;
 			return true;
 		}
 
 		public RequiresPlayerInputAction() {
-			RequiresPrompt = PromptRequired.PlayerInput;
+			RequiresPrompt = PromptType.PlayerInput;
 			
 		}
 	}
@@ -80,7 +84,7 @@ namespace DEngine.Actions {
 		public Entity Entity { get; private set; }
 		public abstract int APCost { get; }
 
-		public virtual PromptRequired RequiresPrompt { get { return PromptRequired.None; } }
+		public virtual PromptType RequiresPrompt { get { return PromptType.None; } }
 		
 		protected ActorAction(Entity entity) {
 			Contract.Requires<ArgumentNullException>(entity != null, "entity");			
