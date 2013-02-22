@@ -39,10 +39,6 @@ namespace DEngine.Components {
 	}
 
 	public abstract class AbstractActor {
-		public virtual bool RequiresInput {
-			get { return false; }
-		}
-
 		public virtual void Enqueue(IAction action) {
 			Actions.Enqueue(action);
 		}
