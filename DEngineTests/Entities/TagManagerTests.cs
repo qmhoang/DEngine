@@ -47,9 +47,6 @@ namespace DEngineTests.Entities {
 			var entity1 = manager.Create();
 			Assert.AreNotSame(entity, entity1);
 			Assert.AreNotEqual(entity, entity1);
-
-			Assert.Throws<ArgumentException>(delegate { tagManager["player"] = entity; });
-			Assert.Throws<ArgumentException>(delegate { tagManager.Register(entity, "player1"); });
 		}
 
 		[Test]
