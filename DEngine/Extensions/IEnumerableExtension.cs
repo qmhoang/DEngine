@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using DEngine.Core;
 using DEngine.Entities;
 
 namespace DEngine.Extensions {

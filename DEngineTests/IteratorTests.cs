@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DEngine.Core;
 using DEngine.Extensions;
 using NUnit.Framework;
 

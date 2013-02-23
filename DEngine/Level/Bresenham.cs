@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using DEngine.Core;
 
-namespace DEngine.Core {
+namespace DEngine.Level {
 	public class Bresenham {
 		public static IEnumerable<Point> GeneratePointsFromLine(Point origin, Point end) {
 			Bresenham b = new Bresenham(origin.X, origin.Y, end.X, end.Y);

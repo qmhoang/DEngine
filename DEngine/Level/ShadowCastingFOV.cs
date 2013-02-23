@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-namespace DEngine.Core {
+using DEngine.Core;
+
+namespace DEngine.Level {
 	// This code is taken almost directly from fov_recursive_shadowcasting.c
 	// in libtcod, with formatting changes and a few interface changes
 	// It is excempt from most any code formatting rules, since I try to
