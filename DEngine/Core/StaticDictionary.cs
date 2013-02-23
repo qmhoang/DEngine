@@ -54,7 +54,7 @@ namespace DEngine.Core {
 		/// Construct a StaticDictionary instance given an array of key value pairs.
 		/// </summary>
 		/// <param name="items"></param>
-		public StaticDictionary(KeyValuePair<TKey, TValue>[] items) {
+		public StaticDictionary(IEnumerable<KeyValuePair<TKey, TValue>> items) {
 			dictionary = new Dictionary<TKey, TValue>();
 
 			foreach (var itm in items)

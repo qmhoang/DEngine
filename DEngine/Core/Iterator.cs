@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DEngine.Extensions {
+namespace DEngine.Core {
 	public class NoSuchElementException : Exception {
 		public NoSuchElementException() { }
 		public NoSuchElementException(string message) : base(message) { }

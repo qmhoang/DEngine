@@ -1,6 +1,6 @@
-using System;
+using DEngine.Core;
 
-namespace DEngine.Core {
+namespace DEngine.Level {
 	public sealed class VisionMap : Map {
 		private bool[,] cells;
 	

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 
-namespace DEngine.Core {
+namespace DEngine.Level {
 	// ReSharper disable InconsistentNaming
 	// ReSharper disable FieldCanBeMadeReadOnly.Local
 

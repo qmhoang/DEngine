@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using DEngine.Components;
+using DEngine.Core;
 using DEngine.Entities;
 
-namespace DEngine.Core {
+namespace DEngine.Level {
 	public abstract class AbstractLevel : Map {
 		
 		protected AbstractLevel(Size size) : base(size) { }

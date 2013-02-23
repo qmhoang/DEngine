@@ -1,6 +1,7 @@
 using System.Diagnostics.Contracts;
+using DEngine.Core;
 
-namespace DEngine.Core {
+namespace DEngine.Level {
 	public class Map {
 		private Rectangle map;
 
