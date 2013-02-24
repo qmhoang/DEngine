@@ -9,6 +9,14 @@ using DEngine.Entities;
 
 namespace DEngine.Extensions {
 	public static class EnumerableExtension {
+		public static string GetEnumeratedString<T>(this IEnumerable<T> collection) {
+			return collection.Aggregate("", (current, s) => current + s + ", ", s => s.Substring(0, s.Length - 2));
+		}
+
+		public static string GetEnumeratedString<T>(this IEnumerable<T> collection, Func<T, string> descriptor) {
+			return collection.Aggregate("", (current, s) => current + descriptor(s) + ", ", s => s.Substring(0, s.Length - 2));
+		}
+
 		public static Iterator<T> GetIterator<T>(this IEnumerable<T> collection) {
 			return new Iterator<T>(collection.GetEnumerator());
 		}
