@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using DEngine.Actor;
+using DEngine.Components;
 using DEngine.Core;
 using DEngine.Entities;
 
@@ -17,6 +18,7 @@ namespace DEngine.Actions {
 	public abstract class ActorAction : IAction {
 		public Entity Entity { get; private set; }
 		public abstract int APCost { get; }
+		public string EntityName { get { return Identifier.GetNameOrId(Entity); } }
 	
 		protected ActorAction(Entity entity) {
 			Contract.Requires<ArgumentNullException>(entity != null, "entity");			
