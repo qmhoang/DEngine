@@ -1,5 +1,6 @@
 ﻿namespace DEngine.Core {
 	public enum MessageType {
+		Aborted,
 		Fail,
 		Bad,
 		Normal,
