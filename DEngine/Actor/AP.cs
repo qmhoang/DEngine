@@ -20,7 +20,7 @@ namespace DEngine.Actor {
 
 		public bool Updateable { get { return ActionPoints > 0; } }
 
-		public const int DEFAULT_SPEED = 100;
+		public const int DEFAULT_SPEED = 10;
 
 		public void Gain() {
 			ActionPoints += ActionPointPerTurn;

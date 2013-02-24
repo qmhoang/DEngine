@@ -33,6 +33,10 @@ namespace DEngine.Core {
 			OnLogged(EventArgs.Empty);
 		}
 
+		public void Aborted(string text) {
+			Write(MessageType.Aborted, text);
+		}
+
 		public void Fail(string text) {
 			Write(MessageType.Fail, text);
 		}
