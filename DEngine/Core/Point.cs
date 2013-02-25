@@ -47,7 +47,11 @@ namespace DEngine.Core {
 		}
 		
 		public double Length {
-			get { return DistanceTo(Zero); }
+			get { return Math.Sqrt((X * X) + (Y * Y)); }
+		}
+
+		public double LengthSquared {
+			get { return (X * X) + (Y * Y); }
 		}
 
 		public static double Distance(Point v1, Point v2) {

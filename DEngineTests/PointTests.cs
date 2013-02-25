@@ -109,6 +109,20 @@ namespace DEngineTests {
 			return point.Length;
 		}
 
+		public static IEnumerable LengthSquaredCases {
+			get {
+				yield return new TestCaseData(new Point(3, 4)).Returns(25);
+				yield return new TestCaseData(new Point(3, 6)).Returns(45);
+				yield return new TestCaseData(new Point(5, 10)).Returns(125);
+				yield return new TestCaseData(new Point(1, 10)).Returns(101);
+			}
+		}
+
+		[TestCaseSource("LengthSquaredCases")]
+		public static double TestLengthSquared(Point point) {
+			return point.LengthSquared;
+		}
+
 		public static IEnumerable DistanceToCases {
 			get {
 				yield return new TestCaseData(new Point(3, 4), new Point(0, 0)).Returns(5);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -9,6 +10,10 @@ using DEngine.Entities;
 
 namespace DEngine.Extensions {
 	public static class EnumerableExtension {
+		public static bool IsEmpty(this IEnumerable collection) {
+			return !collection.GetEnumerator().MoveNext();
+		}
+
 		public static string GetEnumeratedString<T>(this IEnumerable<T> collection) {
 			return collection.Aggregate("", (current, s) => current + s + ", ", s => s.Substring(0, s.Length - 2));
 		}
