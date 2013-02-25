@@ -13,6 +13,17 @@ namespace DEngine.Level {
 		public abstract bool IsTransparent(Point v);		
 
 		public abstract IEnumerable<Entity> GetEntitiesAt(Point location);
+		public abstract IEnumerable<Entity> GetEntitiesAt<T>(Point location) where T : Component;
+
+		public abstract IEnumerable<Entity> GetEntitiesAt<T1, T2>(Point location)
+				where T1 : Component
+				where T2 : Component;
+
+		public abstract IEnumerable<Entity> GetEntitiesAt<T1, T2, T3>(Point location)
+				where T1 : Component
+				where T2 : Component
+				where T3 : Component;
+
 		public abstract IEnumerable<Entity> GetEntities();
 	}
 }

@@ -46,6 +46,6 @@ namespace DEngine.Core {
 			Current = enumerator.Current;
 
 			return prev;
-		}
+		}		
 	}
 }

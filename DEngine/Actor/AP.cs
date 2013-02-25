@@ -20,16 +20,14 @@ namespace DEngine.Actor {
 
 		public bool Updateable { get { return ActionPoints > 0; } }
 
-		public const int DEFAULT_SPEED = 10;
-
 		public void Gain() {
 			ActionPoints += ActionPointPerTurn;
 		}
 
-		public AP(int speed = DEFAULT_SPEED, int actionPoints = 0) {
-			Contract.Requires<ArgumentException>(speed > 0);
+		public AP(int apPerTurn, int actionPoints = 0) {
+			Contract.Requires<ArgumentException>(apPerTurn > 0);
 			ActionPoints = actionPoints;
-			ActionPointPerTurn = speed;			
+			ActionPointPerTurn = apPerTurn;			
 		}
 
 		[ContractInvariantMethod]
