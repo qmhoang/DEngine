@@ -135,62 +135,56 @@ namespace DEngine.Core {
 		/// <summary>
 		/// Determines if this rectangle completely contains the specified rectangle
 		/// </summary>
-		/// <param name="rectangle"></param>
+		/// <param name = "rectangle"></param>
 		/// <returns></returns>
 		public bool Contains(Rectangle rectangle) {
 			return Top <= rectangle.Top && Bottom >= rectangle.Bottom &&
-			       Left <= rectangle.Left && Right >= rectangle.Right;
+				   Left <= rectangle.Left && Right >= rectangle.Right;
 		}
 
-//		/// <summary>
-//		/// Determines if this rectangle intersects the specified rectangle
-//		/// </summary>
-//		/// <param name="rectangle"></param>
-//		/// <returns></returns>
-//		public bool Intersects(Rectangle rectangle) {
-//			return Left < rectangle.Right && Right >= rectangle.Left && Top < rectangle.Bottom && Bottom >= rectangle.Top;
-//		}
-
-		#endregion
-
-		#region Static Methods
-
-		public static Rectangle MoveBy(Rectangle rect, Size delta) {
-			Point newTopLeft = new Point(rect.topLeft.X + delta.Width,
-			                             rect.topLeft.Y + delta.Height);
-
-			return new Rectangle(newTopLeft, rect.size);
+		/// <summary>
+		/// Determines if this rectangle intersects the specified rectangle
+		/// </summary>
+		/// <param name="rectangle"></param>
+		/// <returns></returns>
+		public bool Intersects(Rectangle rectangle) {
+			if (rectangle.Width <= 0 || rectangle.Height <= 0 || Width <= 0 || Height <= 0) {
+				return false;
+			}
+			
+			return ((rectangle.Right < rectangle.Left || rectangle.Right > Left) &&
+			        (rectangle.Bottom < rectangle.Top || rectangle.Bottom > Top) &&
+			        (Right < Left || Right > rectangle.Left) &&
+			        (Bottom < Top || Bottom > rectangle.Top));
 		}
 
-		public static Rectangle MoveTo(Rectangle rect, Point topLeft) {
-			return new Rectangle(topLeft, rect.size);
+		
+		public Rectangle MoveBy(Size delta) {
+			Point newTopLeft = new Point(topLeft.X + delta.Width,
+			                             topLeft.Y + delta.Height);
+
+			return new Rectangle(newTopLeft, size);
+		}
+
+		public Rectangle MoveTo(Point newTopLeft) {
+			return new Rectangle(newTopLeft, size);
 		}
 
 		/// <summary>
 		/// Adds dx to left and right, and dy to top and bottom
 		/// New width += dx*2, new height = dy*2
 		/// </summary>
-		/// <param name="source"></param>
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
 		/// <returns></returns>
-		public static Rectangle Inflate(Rectangle source, int dx, int dy) {
-			Rectangle ret;
-			Point newTopLeft;
-			Size newSize;
-
-			newTopLeft = new Point(source.topLeft.X - dx,
-			                       source.topLeft.Y - dy);
-
-			newSize = new Size(source.size.Width + dx * 2, source.size.Height + dy * 2);
-
-			ret = new Rectangle(newTopLeft, newSize);
-
-			return ret;
+		public Rectangle Inflate(int dx, int dy) {
+			return new Rectangle(topLeft.X - dx,
+			                     topLeft.Y - dy, 
+								 size.Width + dx * 2, 
+								 size.Height + dy * 2);
 		}
 
 		#endregion
-
 		#region Overrides
 
 		public override bool Equals(object obj) {
