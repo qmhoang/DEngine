@@ -133,42 +133,42 @@ namespace DEngineTests {
 			Assert.IsFalse(outer.Contains(inner));		// matches java.awt.Rectangle and System.Drawing.Rectangle behavior
 		}
 
-//		[Test]
-//		public static void TestEmptyIntersectsFails() {
-//			var outer = new Rectangle();
-//			var inner = new Rectangle();
-//
-//			Assert.IsFalse(outer.Intersects(inner));	// matches java.awt.Rectangle and System.Drawing.Rectangle behavior
-//		}
-//
-//		[Test]
-//		public static void TestIntersects() {
-//			var r1 = new Rectangle(0, 0, 20, 20);
-//			var r2 = new Rectangle(5, 5, 20, 20);
-//
-//			Assert.IsTrue(r1.Intersects(r2));
-//			Assert.IsTrue(r2.Intersects(r1));
-//
-//
-//			r1 = new Rectangle(0, 0, 5, 5);
-//			r2 = new Rectangle(3, 3, 5, 5);
-//			Assert.IsTrue(r1.Intersects(r2));
-//			Assert.IsTrue(r2.Intersects(r1));		
-//		}
-//
-//		[Test]
-//		public static void TestDoesNotIntersect() {
-//			var r1 = new Rectangle(0, 0, 2, 2);
-//			var r2 = new Rectangle(5, 5, 2, 2);
-//
-//			Assert.IsFalse(r1.Intersects(r2));
-//			Assert.IsFalse(r2.Intersects(r1));
-//
-//			r1 = new Rectangle(0, 0, 2, 2);
-//			r2 = new Rectangle(2, 2, 1, 1);
-//
-//			Assert.IsFalse(r1.Intersects(r2));
-//			Assert.IsFalse(r2.Intersects(r1));
-//		}
+		[Test]
+		public static void TestEmptyIntersectsFails() {
+			var outer = new Rectangle();
+			var inner = new Rectangle();
+
+			Assert.IsFalse(outer.Intersects(inner));	// matches java.awt.Rectangle and System.Drawing.Rectangle behavior
+		}
+
+		[Test]
+		public static void TestIntersects() {
+			var r1 = new Rectangle(0, 0, 20, 20);
+			var r2 = new Rectangle(5, 5, 20, 20);
+
+			Assert.IsTrue(r1.Intersects(r2));
+			Assert.IsTrue(r2.Intersects(r1));
+
+
+			r1 = new Rectangle(0, 0, 5, 5);
+			r2 = new Rectangle(3, 3, 5, 5);
+			Assert.IsTrue(r1.Intersects(r2));
+			Assert.IsTrue(r2.Intersects(r1));		
+		}
+
+		[Test]
+		public static void TestDoesNotIntersect() {
+			var r1 = new Rectangle(0, 0, 2, 2);
+			var r2 = new Rectangle(5, 5, 2, 2);
+
+			Assert.IsFalse(r1.Intersects(r2));
+			Assert.IsFalse(r2.Intersects(r1));
+
+			r1 = new Rectangle(0, 0, 2, 2);
+			r2 = new Rectangle(2, 2, 1, 1);
+
+			Assert.IsFalse(r1.Intersects(r2));
+			Assert.IsFalse(r2.Intersects(r1));
+		}
 	}
 }
