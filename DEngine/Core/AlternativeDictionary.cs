@@ -24,8 +24,7 @@ namespace DEngine.Core {
 	/// </remarks>
 	/// <typeparam name="TKey"></typeparam>
 	/// <typeparam name="TValue"></typeparam>
-	public class AlternativeMap<TKey, TValue> : IStaticDictionary<TKey, TValue>,
-	                                            IEnumerable<KeyValuePair<TKey, TValue>> {
+	public class AlternativeMap<TKey, TValue> : IStaticDictionary<TKey, TValue> {
 		/// <summary>
 		/// Construct an AlternativeMap instance with the specified default items.  This class
 		/// supports a collection initializer to add alternative items during construction.

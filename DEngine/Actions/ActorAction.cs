@@ -11,6 +11,9 @@ using DEngine.Entities;
 
 namespace DEngine.Actions {
 	public interface IAction {
+		/// <summary>
+		/// APCost should be greater than 0.  If you want a timeless action, return ActionResult.SuccessNoTime instead.
+		/// </summary>
 		int APCost { get; }
 		ActionResult OnProcess();
 	}
