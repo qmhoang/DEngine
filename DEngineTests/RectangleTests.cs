@@ -170,5 +170,19 @@ namespace DEngineTests {
 			Assert.IsFalse(r1.Intersects(r2));
 			Assert.IsFalse(r2.Intersects(r1));
 		}
+
+		[Test]
+		public void TestPoints() {
+			var r1 = new Rectangle(1, 1, 6, 6);
+
+			var points = r1.Points;
+
+
+			foreach (var p in points) {
+				Assert.IsTrue(r1.Contains(p));
+			}
+
+			Assert.AreEqual(points.Count(), r1.Width * r1.Height);
+		}
 	}
 }

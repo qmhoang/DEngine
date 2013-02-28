@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace DEngine.Core {
 	/// Size.Width and Size.Height are both positive</remarks>
 	/// </summary>
 	[Serializable]
-	public struct Rectangle : IEquatable<Rectangle> {
+	public struct Rectangle : IEquatable<Rectangle>, IEnumerable<Point> {
 		private readonly Point topLeft;
 		private readonly Size size;
 
@@ -40,6 +41,16 @@ namespace DEngine.Core {
 		#endregion
 
 		#region Properties
+
+		public IEnumerable<Point> Points {
+			get {
+				for (int i = 0; i < Width; i++) {
+					for (int j = 0; j < Height; j++) {
+						yield return new Point(Left + i, Top + j);
+					}
+				}
+			}
+		}
 
 		public int Width {
 			get { return Size.Width; }			
@@ -215,6 +226,14 @@ namespace DEngine.Core {
 			hash = hash * 13 + size.GetHashCode();
 
 			return hash;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
+		}
+
+		public IEnumerator<Point> GetEnumerator() {
+			return Points.GetEnumerator();
 		}
 
 		public override string ToString() {
