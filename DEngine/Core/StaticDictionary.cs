@@ -10,13 +10,14 @@ namespace DEngine.Core {
 	/// </summary>
 	/// <typeparam name="TKey"></typeparam>
 	/// <typeparam name="TValue"></typeparam>
+	[ContractClass(typeof(StaticDictionaryContract))]
 	public interface IStaticDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> {
 		/// <summary>
 		/// Get or set the value of the specified key.
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		TValue this[TKey key] { get; }
+		TValue this[TKey key] { get; set; }
 
 		/// <summary>
 		/// Gets the number of items in this collection.
@@ -33,6 +34,7 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
+		[Pure]
 		bool ContainsKey(TKey key);
 
 		/// <summary>
@@ -40,7 +42,44 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
+		[Pure]
 		bool ContainsValue(TValue value);
+	}
+
+	[ContractClassFor(typeof(IStaticDictionary<object, object>))]
+	abstract class StaticDictionaryContract : IStaticDictionary<object, object> {
+		public object this[object key] {
+			get {
+				Contract.Requires<ArgumentNullException>(key != null, "key");
+				Contract.Requires<ArgumentException>(ContainsKey(key), "Specified key does not exist");
+
+				return default(object);
+			}
+
+			set {
+				Contract.Requires<ArgumentNullException>(key != null, "key");
+				Contract.Requires<ArgumentException>(ContainsKey(key), "Specified key does not exist");
+			}
+		}
+
+		public int Count {
+			get { 
+				Contract.Ensures(Contract.Result<int>() >= 0);
+				return default(int);
+			}
+		}
+
+		public bool ContainsKey(object key) {
+			Contract.Requires<ArgumentNullException>(key != null, "key");
+			return default(bool);
+		}
+
+		public abstract Dictionary<object, object>.KeyCollection Keys { get; }
+		public abstract bool ContainsValue(object value);
+		public abstract IEnumerator<KeyValuePair<object, object>> GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
+		}
 	}
 
 
@@ -74,15 +113,9 @@ namespace DEngine.Core {
 		/// does not exist in the default items.</exception>
 		public TValue this[TKey key] {
 			get {
-				Contract.Requires<ArgumentNullException>(key != null, "key");
-				Contract.Requires<ArgumentException>(ContainsKey(key), "Specified key does not exist");
-				
 				return dictionary[key];
 			}
 			set {
-				Contract.Requires<ArgumentNullException>(key != null, "key");
-				Contract.Requires<ArgumentException>(ContainsKey(key), "Specified key does not exist");
-
 				dictionary[key] = value;
 			}
 		}
@@ -115,9 +148,7 @@ namespace DEngine.Core {
 		/// <returns></returns>
 		/// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/>
 		/// is null.</exception>
-		[Pure]
 		public bool ContainsKey(TKey key) {
-			Contract.Requires<ArgumentNullException>(key != null, "key");
 			return dictionary.ContainsKey(key);
 		}
 
@@ -126,7 +157,6 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		[Pure]
 		public bool ContainsValue(TValue value) {
 			return dictionary.ContainsValue(value);
 		}

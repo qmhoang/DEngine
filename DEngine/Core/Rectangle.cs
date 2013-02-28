@@ -33,9 +33,6 @@ namespace DEngine.Core {
 			                     bottomRight.Y - topLeft.Y);
 		}
 
-//		public Rect(int x1, int y1, int x2, int y2)
-//				: this(new Point(x1, y1), new Point(x2, y2)) {}
-
 		public Rectangle(int x, int y, int width, int height) : this(new Point(x, y), new Size(width, height)) { }
 
 		#endregion
@@ -196,6 +193,31 @@ namespace DEngine.Core {
 		}
 
 		#endregion
+
+		#region Static Methods
+
+		public static Rectangle MoveBy(Rectangle rect, Size delta) {
+			return rect.MoveBy(delta);
+		}
+
+		public static Rectangle MoveTo(Rectangle rect, Point topLeft) {
+			return rect.MoveTo(topLeft);
+		}
+
+		/// <summary>
+		/// Adds dx to left and right, and dy to top and bottom
+		/// New width += dx*2, new height = dy*2
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="dx"></param>
+		/// <param name="dy"></param>
+		/// <returns></returns>
+		public static Rectangle Inflate(Rectangle source, int dx, int dy) {
+			return source.Inflate(dx, dy);
+		}
+
+		#endregion
+		
 		#region Overrides
 
 		public override bool Equals(object obj) {
