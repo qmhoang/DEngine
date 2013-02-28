@@ -12,7 +12,7 @@ using DEngine.Entities;
 namespace DEngine.Actions {
 	public interface IAction {
 		int APCost { get; }
-		ActionResult OnProcess();		
+		ActionResult OnProcess();
 	}
 
 	public abstract class ActorAction : IAction {
@@ -22,7 +22,7 @@ namespace DEngine.Actions {
 	
 		protected ActorAction(Entity entity) {
 			Contract.Requires<ArgumentNullException>(entity != null, "entity");			
-			Contract.Requires<ArgumentException>(entity.Has<Components.ActorComponent>());
+			Contract.Requires<ArgumentException>(entity.Has<ActorComponent>());
 			Entity = entity;			
 		}
 		

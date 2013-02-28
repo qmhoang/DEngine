@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Diagnostics.Contracts;
 
 namespace DEngine.Core {
 	/// <summary>
@@ -73,18 +74,14 @@ namespace DEngine.Core {
 		/// does not exist in the default items.</exception>
 		public TValue this[TKey key] {
 			get {
-				if (!dictionary.ContainsKey(key))
-					throw new ArgumentException("Specified key does not exist");
-				if (key == null)
-					throw new ArgumentNullException("key");
-
+				Contract.Requires<ArgumentNullException>(key != null, "key");
+				Contract.Requires<ArgumentException>(ContainsKey(key), "Specified key does not exist");
+				
 				return dictionary[key];
 			}
 			set {
-				if (!dictionary.ContainsKey(key))
-					throw new ArgumentException("Specified key does not exist");
-				if (key == null)
-					throw new ArgumentNullException("key");
+				Contract.Requires<ArgumentNullException>(key != null, "key");
+				Contract.Requires<ArgumentException>(ContainsKey(key), "Specified key does not exist");
 
 				dictionary[key] = value;
 			}
@@ -118,9 +115,9 @@ namespace DEngine.Core {
 		/// <returns></returns>
 		/// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/>
 		/// is null.</exception>
+		[Pure]
 		public bool ContainsKey(TKey key) {
-			if (key == null)
-				throw new ArgumentNullException("key");
+			Contract.Requires<ArgumentNullException>(key != null, "key");
 			return dictionary.ContainsKey(key);
 		}
 
@@ -129,6 +126,7 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
+		[Pure]
 		public bool ContainsValue(TValue value) {
 			return dictionary.ContainsValue(value);
 		}
