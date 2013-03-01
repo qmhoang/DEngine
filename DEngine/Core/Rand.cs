@@ -22,9 +22,9 @@ namespace DEngine.Core {
 
 			// compile the regex if needed
 			if (parser == null) {
-				const string PATTERN = @"^((?<die>(?<dice>\d+)d(?<sides>\d+))|(?<tri>(?<center>\d+)t(?<range>\d+))|(?<range>(?<min>\d+)-(?<max>\d+))|(?<fixed>(?<value>-?\d+)))|(?<taper>\((?<chance>\d+)\:(?<outof>\d+)\))?$";
+				const string pattern = @"^((?<die>(?<dice>\d+)d(?<sides>\d+))|(?<tri>(?<center>\d+)t(?<range>\d+))|(?<range>(?<min>\d+)-(?<max>\d+))|(?<fixed>(?<value>-?\d+)))|(?<taper>\((?<chance>\d+)\:(?<outof>\d+)\))?$";
 
-				parser = new Regex(PATTERN, RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+				parser = new Regex(pattern, RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 			}
 
 			var rands = text.Split(new char[] {'+'}, StringSplitOptions.RemoveEmptyEntries);

@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using DEngine.Entities;
 
 namespace DEngine.Components {
-	public class Identifier : Component {
+	public sealed class Identifier : Component {
 		public string Name { get; set; }
 		public string Description { get; set; }
 

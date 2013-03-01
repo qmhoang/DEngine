@@ -6,7 +6,7 @@ using DEngine.Actor;
 using DEngine.Entities;
 
 namespace DEngine.Components {
-	public class ActorComponent : Component {
+	public sealed class ActorComponent : Component {
 		public IAction NextAction() {
 			return Controller.NextAction();
 		}
