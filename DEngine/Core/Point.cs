@@ -14,8 +14,6 @@ namespace DEngine.Core {
 		public int X { get; set; }
 		public int Y { get; set; }
 
-		public Point(Point v) : this(v.X, v.Y) {}
-
 		public Point(int x, int y) : this() {
 			X = x;
 			Y = y;
