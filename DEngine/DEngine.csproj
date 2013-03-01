@@ -95,7 +95,6 @@
     <Compile Include="Actor\AP.cs" />
     <Compile Include="Components\Actor.cs" />
     <Compile Include="Actor\Controller.cs" />
-    <Compile Include="Components\Position.cs" />
     <Compile Include="Components\Identifier.cs" />
     <Compile Include="Components\ReferenceId.cs" />
     <Compile Include="Components\Sprite.cs" />

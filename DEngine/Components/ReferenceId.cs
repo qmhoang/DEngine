@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using DEngine.Entities;
 
 namespace DEngine.Components {
-	public class ReferenceId : Component, IEquatable<ReferenceId> {
+	public sealed class ReferenceId : Component, IEquatable<ReferenceId> {
 		public string RefId { get; private set; }
 
 		[ContractInvariantMethod]
