@@ -10,12 +10,25 @@ using DEngine.Core;
 using DEngine.Entities;
 
 namespace DEngine.Actions {
+	[ContractClass(typeof(ActionContract))]
 	public interface IAction {
 		/// <summary>
 		/// APCost should be greater than 0.  If you want a timeless action, return ActionResult.SuccessNoTime instead.
 		/// </summary>
 		int APCost { get; }
 		ActionResult OnProcess();
+	}
+
+	[ContractClassFor(typeof(IAction))]
+	public abstract class ActionContract : IAction {
+		public int APCost {
+			get {
+				Contract.Ensures(Contract.Result<int>() > 0);
+				return default(int);
+			}
+		}
+
+		public abstract ActionResult OnProcess();
 	}
 
 	public abstract class ActorAction : IAction {
