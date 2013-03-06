@@ -53,9 +53,10 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <param name="entityManager"></param>
 		/// <param name="types"></param>
-		internal FilteredCollection(EntityManager entityManager, Type[] types) {
-			entities = entities ?? new SortedSet<Entity>();
-			hashCode = FilteredCollection.GetHashCode(types, null);
+		/// <param name = "comparer"></param>
+		internal FilteredCollection(EntityManager entityManager, Type[] types, IComparer<Entity> comparer = null) {
+			entities = comparer == null ? new SortedSet<Entity>() : new SortedSet<Entity>(comparer);
+			hashCode = FilteredCollection.GetHashCode(types, comparer);
 
 			// Check that all types are really components
 			if (!types.All(t => typeof(Component).IsAssignableFrom(t))) {
@@ -66,11 +67,7 @@ namespace DEngine.Entities {
 			filter = types;
 
 			// Add any existing entities
-			foreach (var entity in manager) {
-				if (MatchesFilter(entity)) {
-					Add(entity);
-				}
-			}
+			manager.Each(e => Add(e));			
 		}
 
 		/// <summary>
@@ -81,18 +78,6 @@ namespace DEngine.Entities {
 		/// <param name="comparer"></param>
 		internal FilteredCollection(EntityManager entityManager, Type[] types, Func<Entity, Entity, int> comparer)
 			: this(entityManager, types, new LambdaComparer<Entity>(comparer)) {}
-
-		/// <summary>
-		/// Constructor with comparer
-		/// </summary>
-		/// <param name="entityManager"></param>
-		/// <param name="types"></param>
-		/// <param name="comparer"></param>
-		internal FilteredCollection(EntityManager entityManager, Type[] types, IComparer<Entity> comparer)
-				: this(entityManager, types) {
-			entities = new SortedSet<Entity>(comparer);
-			hashCode = FilteredCollection.GetHashCode(types, comparer);
-		}
 
 		#endregion
 
@@ -169,18 +154,9 @@ namespace DEngine.Entities {
 		/// Get the hashcode for the type collection and the comparer.  The type collection can be in any order.
 		/// </summary>
 		/// <param name="types"></param>
-		/// <returns></returns>
-		public static int GetHashCode(Type[] types) {
-			return GetHashCode(types, null);
-		}
-
-		/// <summary>
-		/// Get the hashcode for the type collection and the comparer.  The type collection can be in any order.
-		/// </summary>
-		/// <param name="types"></param>
 		/// <param name="comparer"></param>
 		/// <returns></returns>
-		public static int GetHashCode(Type[] types, IComparer<Entity> comparer) {
+		public static int GetHashCode(Type[] types, IComparer<Entity> comparer = null) {
 			var hashCode = 0;
 
 			// Hashcode is build off the filters, independent of their order

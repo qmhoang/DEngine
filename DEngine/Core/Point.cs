@@ -28,7 +28,8 @@ namespace DEngine.Core {
 		}
 
 		public static Point operator *(Point v, int scalar) {
-			return new Point(v.X * scalar, v.Y * scalar);
+			var opMultiply = new Point(v.X * scalar, v.Y * scalar);
+			return opMultiply;
 		}
 
 		public static Point operator /(Point v, int scalar) {
