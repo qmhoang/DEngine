@@ -23,6 +23,33 @@ namespace DEngineTests {
 		}
 
 		[Test]
+		[ExpectedException(typeof(DivideByZeroException))]
+		public static void TestDivideByZero() {
+			var p = new Point(5, 2);
+
+			var result = p / 0;
+		}
+
+		[Test]
+		public void TestMultiplyMaxInt32() {
+			var p = new Point(5, -2);
+			var result = p * int.MaxValue;
+
+			Assert.AreEqual(result.X, 2147483643);	// overflow on 32 bit integer
+			Assert.AreEqual(result.Y, 2);
+		}
+
+		[Test]
+		public void TestStruct() {
+			var i = new Point(0, 0);
+			var j = i;
+
+			j.X++;
+
+			Assert.AreNotEqual(i, j);
+		}
+
+		[Test]
 		public static void TestMinorMathCases() {
 			Point p1 = new Point(111, 222);
 			Point p2 = new Point(333, 444);
@@ -141,6 +168,7 @@ namespace DEngineTests {
 				yield return new TestCaseData(new Point(3, 2), new Point(0, 0), 3).Returns(false);
 				yield return new TestCaseData(new Point(111, 222), new Point(333, 444), 300).Returns(false);
 				yield return new TestCaseData(new Point(111, 222), new Point(333, 444), 543).Returns(true);
+				yield return new TestCaseData(new Point(0, 0), new Point(0, 0), 0).Returns(true);
 			}
 		}
 

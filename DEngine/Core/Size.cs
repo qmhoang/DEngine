@@ -10,10 +10,7 @@ namespace DEngine.Core {
 
 		public bool IsEmpty {
 			get {
-				if (Width == 0 && Height == 0)
-					return true;
-				else
-					return false;
+				return Width == 0 && Height == 0;
 			}
 		}
 

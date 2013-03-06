@@ -9,7 +9,7 @@ namespace DEngineTests {
 	[TestFixture]
 	public class RectangleTests {
 		[Test]
-		public static void TestEmptyConstructor() {
+		public void TestEmptyConstructor() {
 			var r = new Rectangle();
 			Assert.AreEqual(0, r.TopLeft.X);
 			Assert.AreEqual(0, r.TopLeft.Y);
@@ -21,7 +21,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestFilledConstructor() {
+		public void TestFilledConstructor() {
 			var r = new Rectangle(15, 25, 35, 45);
 			Assert.AreEqual(15, r.TopLeft.X);
 			Assert.AreEqual(25, r.TopLeft.Y);
@@ -30,7 +30,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestConstructorEquality() {
+		public void TestConstructorEquality() {
 			var r1 = new Rectangle(0, 0, 2, 2);
 			var r2 = new Rectangle(new Point(0, 0), new Size(2, 2));
 			var r3 = new Rectangle(new Point(0, 0), new Point(2, 2));
@@ -40,7 +40,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestEdges() {
+		public void TestEdges() {
 			var r = new Rectangle(0, 0, 2, 2);
 			Assert.AreEqual(0, r.Top);
 			Assert.AreEqual(0, r.Left);
@@ -49,7 +49,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestEdgesNegative() {
+		public void TestEdgesNegative() {
 			var r = new Rectangle(-15, -15, 30, 30);
 			Assert.AreEqual(-15, r.Top);
 			Assert.AreEqual(-15, r.Left);
@@ -58,14 +58,14 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestCenter() {
+		public void TestCenter() {
 			var r = new Rectangle(-1, -1, 2, 2); // 2x2, centered on 0,0
 			Assert.AreEqual(0, r.Center.X);
 			Assert.AreEqual(0, r.Center.Y);
 		}
 
 		[Test]
-		public static void TestOffCenter() {
+		public void TestOffCenter() {
 			var r = new Rectangle(0, 0, 2, 2);
 			Assert.AreEqual(1, r.Center.X);
 			Assert.AreEqual(1, r.Center.Y);
@@ -76,7 +76,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestContainsRect() {
+		public void TestContainsRect() {
 			var outer = new Rectangle(0, 0, 10, 10);
 			var inner = new Rectangle(5, 5, 2, 2);
 
@@ -84,7 +84,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestEmptyContainsRect() {
+		public void TestEmptyContainsRect() {
 			var outer = new Rectangle(-1, -1, 2, 2);
 			var inner = new Rectangle();
 
@@ -92,7 +92,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestContainsPoint(
+		public void TestContainsPoint(
 									[Random(0, 99, 4)] int px,
 									[Random(0, 99, 4)] int py) {
 			var outer = new Rectangle(0, 0, 100, 100);
@@ -102,7 +102,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestDoesNotContainRect() {
+		public void TestDoesNotContainRect() {
 			var outer = new Rectangle(0, 1, 2, 2);
 			var inner = new Rectangle(0, 0, 2, 2);
 
@@ -110,7 +110,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestDoesNotContainPoint() {
+		public void TestDoesNotContainPoint() {
 			var outer = new Rectangle(0, 0, 1, 1);
 			var inner = new Point(5, 5);
 
@@ -118,7 +118,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestEmptyDoesNotContainPoint() {
+		public void TestEmptyDoesNotContainPoint() {
 			var outer = new Rectangle();
 			var inner = new Point(5, 5);
 
@@ -126,7 +126,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestEmptyDoesNotContainOrigin() {
+		public void TestEmptyDoesNotContainOrigin() {
 			var outer = new Rectangle();
 			var inner = new Point();
 
@@ -134,7 +134,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestEmptyIntersectsFails() {
+		public void TestEmptyIntersectsFails() {
 			var outer = new Rectangle();
 			var inner = new Rectangle();
 
@@ -142,7 +142,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestIntersects() {
+		public void TestIntersects() {
 			var r1 = new Rectangle(0, 0, 20, 20);
 			var r2 = new Rectangle(5, 5, 20, 20);
 
@@ -157,7 +157,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public static void TestDoesNotIntersect() {
+		public void TestDoesNotIntersect() {
 			var r1 = new Rectangle(0, 0, 2, 2);
 			var r2 = new Rectangle(5, 5, 2, 2);
 
@@ -183,6 +183,43 @@ namespace DEngineTests {
 			}
 
 			Assert.AreEqual(points.Count(), r1.Width * r1.Height);
+
+			var r2 = new Rectangle(0, 0, 0, 0);
+
+			var points2 = r2.Points;
+
+			Assert.AreEqual(points2.Count(), 0);
+		}
+
+		[Test]
+		public void TestInflate() {
+			var r = new Rectangle(0, 0, 6, 6);
+			var inflatedRect = r.Inflate(3, 3);
+
+			Assert.AreEqual(inflatedRect.X, -3);
+			Assert.AreEqual(inflatedRect.Y, -3);
+
+			Assert.AreEqual(inflatedRect.Width, 12);
+			Assert.AreEqual(inflatedRect.Height, 12);
+
+			var reducedRect = r.Inflate(-2, -2);
+
+			Assert.AreEqual(reducedRect.X, 2);
+			Assert.AreEqual(reducedRect.Y, 2);
+
+			Assert.AreEqual(reducedRect.Width, 2);
+			Assert.AreEqual(reducedRect.Height, 2);
+		}
+
+		[Test]
+		public void TestLargeNegativeInflation() {
+			var r = new Rectangle(0, 0, 6, 6);
+			var deflated = r.Inflate(-6, -6);
+
+			Assert.AreEqual(deflated.Width, -6);
+			Assert.AreEqual(deflated.Height, -6);
+			Assert.AreEqual(deflated.Top, 6);
+			Assert.AreEqual(deflated.Bottom, 0);
 		}
 	}
 }

@@ -112,10 +112,10 @@
     <Compile Include="Entities\EventSubsystem.cs" />
     <Compile Include="Entities\GroupManager.cs" />
     <Compile Include="Entities\TagManager.cs" />
-    <Compile Include="Extensions\IEnumerableExtension.cs" />
+    <Compile Include="Extensions\EnumerableExtension.cs" />
     <Compile Include="Core\AlternativeDictionary.cs" />
     <Compile Include="Core\Factory.cs" />
-    <Compile Include="Core\Gaussian.cs" />
+    <Compile Include="Core\GaussianDistribution.cs" />
     <Compile Include="Core\StaticDictionary.cs" />
     <Compile Include="Core\Rng.cs" />
     <Compile Include="Core\EventArgs.cs" />

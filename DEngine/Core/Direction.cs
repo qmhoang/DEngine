@@ -78,12 +78,13 @@ namespace DEngine.Core {
 		/// <summary>
 		/// Enumerates the four main compass directions.
 		/// </summary>
-		public static IList<Direction> NsewList {
+		public static IList<Direction> CardinalDirections {
 			get { return new List<Direction> { N, S, E, W }; }
 		}
 
 		/// <summary>
-		/// Gets a Direction heading from the origin towards the given position.
+		/// Gets a Direction heading from the origin towards the given position by
+		/// reducing the magnitude of the vector (represented in the point) to 1.
 		/// </summary>
 		/// <param name="pos"></param>
 		/// <returns></returns>

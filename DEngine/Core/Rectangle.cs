@@ -66,6 +66,20 @@ namespace DEngine.Core {
 		}
 
 		/// <summary>
+		/// Gets the x-coordinate of the top-left of the rectangle
+		/// </summary>
+		public int X {
+			get { return topLeft.X; }
+		}
+
+		/// <summary>
+		/// Gets the y-coordinate of the top-left edge of the rectangle
+		/// </summary>
+		public int Y {
+			get { return topLeft.Y; }
+		}
+
+		/// <summary>
 		/// Gets the y-coordinate of the top edge of the rectangle
 		/// </summary>
 		public int Top {
@@ -130,11 +144,21 @@ namespace DEngine.Core {
 		#endregion
 
 		#region Public Methods
-
+		/// <summary>
+		/// Does the rectangle contain the point.
+		/// </summary>
+		/// <param name="point"></param>
+		/// <returns></returns>
 		public bool Contains(Point point) {
 			return Contains(point.X, point.Y);
 		}
 
+		/// <summary>
+		/// Does the rectangle contain the position at X and Y
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
 		public bool Contains(int x, int y) {
 			return (x >= Left) && (y >= Top) &&
 			       (x < Right) && (y < Bottom);
@@ -166,7 +190,11 @@ namespace DEngine.Core {
 			        (Bottom < Top || Bottom > rectangle.Top));
 		}
 
-		
+		/// <summary>
+		/// Returns a Rectangle that added the delta to the top-left position.  Width and Height remain the same.
+		/// </summary>
+		/// <param name="delta"></param>
+		/// <returns>The new Rectangle</returns>
 		public Rectangle MoveBy(Size delta) {
 			Point newTopLeft = new Point(topLeft.X + delta.Width,
 			                             topLeft.Y + delta.Height);
@@ -174,12 +202,17 @@ namespace DEngine.Core {
 			return new Rectangle(newTopLeft, size);
 		}
 
+		/// <summary>
+		/// Returns a new Rectangle with topLeft position.  Width and Height remain the same.
+		/// </summary>
+		/// <param name="newTopLeft"></param>
+		/// <returns></returns>
 		public Rectangle MoveTo(Point newTopLeft) {
 			return new Rectangle(newTopLeft, size);
 		}
 
 		/// <summary>
-		/// Adds dx to left and right, and dy to top and bottom
+		/// Returns a new rectangled that adds dx to left and right, and dy to top and bottom
 		/// New width += dx*2, new height = dy*2
 		/// </summary>
 		/// <param name="dx"></param>
@@ -195,11 +228,22 @@ namespace DEngine.Core {
 		#endregion
 
 		#region Static Methods
-
+		/// <summary>
+		/// Returns a Rectangle that added the delta to the top-left position.  Width and Height remain the same.
+		/// </summary>
+		/// <param name="rect"></param>
+		/// <param name="delta"></param>
+		/// <returns></returns>
 		public static Rectangle MoveBy(Rectangle rect, Size delta) {
 			return rect.MoveBy(delta);
 		}
 
+		/// <summary>
+		/// Returns a new Rectangle with topLeft position.  Width and Height remain the same.
+		/// </summary>
+		/// <param name="rect"></param>
+		/// <param name="topLeft"></param>
+		/// <returns></returns>
 		public static Rectangle MoveTo(Rectangle rect, Point topLeft) {
 			return rect.MoveTo(topLeft);
 		}
