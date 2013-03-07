@@ -98,6 +98,7 @@
     <Compile Include="Components\Identifier.cs" />
     <Compile Include="Components\ReferenceId.cs" />
     <Compile Include="Components\Sprite.cs" />
+    <Compile Include="Core\Circle.cs" />
     <Compile Include="Level\Bresenham.cs" />
     <Compile Include="Level\AStarPathFinder.cs" />
     <Compile Include="Core\Direction.cs" />

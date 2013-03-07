@@ -23,7 +23,7 @@ namespace DEngine.Core {
 		}
 
 		/// <summary>
-		/// Creates a Rectangle using the specificed location for the top-left and bottom-right (INCLUSIVE).
+		/// Creates a Rectangle using the specificed location for the top-left and bottom-right (EXLUSIVE).
 		/// </summary>
 		/// <param name="topLeft"></param>
 		/// <param name="bottomRight"></param>
