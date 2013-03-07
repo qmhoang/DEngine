@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CircleTests.cs" />
     <Compile Include="DirectionTests.cs" />
     <Compile Include="EntityFactoryTests.cs" />
     <Compile Include="Entities\GroupManagerTests.cs" />

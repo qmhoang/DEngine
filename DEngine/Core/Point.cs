@@ -72,24 +72,6 @@ namespace DEngine.Core {
 			return new Point(X + dx, Y + dy);
 		}
 
-		/// <summary>
-		/// Is current point within the circle
-		/// </summary>
-		/// <param name="centerOfCircle"></param>
-		/// <param name="r"></param>
-		/// <returns></returns>
-		public bool IsInCircle(Point centerOfCircle, double r) {
-			return IsInCircle(centerOfCircle.X, centerOfCircle.Y, r);
-		}
-
-		public bool IsInCircle(int x, int y, double r) {
-			if (this.X < x - r || this.X > x + r)
-				return false;
-			if (this.Y < y - r || this.Y > y + r)
-				return false;
-			return (this.X - x) * (this.X - x) + (this.Y - y) * (this.Y - y) <= r * r;
-		}
-
 		// override object.Equals
 		public override bool Equals(object obj) {
 			if (ReferenceEquals(null, obj))
