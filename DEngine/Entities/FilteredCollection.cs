@@ -76,7 +76,7 @@ namespace DEngine.Entities {
 		/// <param name="entityManager"></param>
 		/// <param name="types"></param>
 		/// <param name="comparer"></param>
-		internal FilteredCollection(EntityManager entityManager, Type[] types, Func<Entity, Entity, int> comparer)
+		internal FilteredCollection(EntityManager entityManager, Type[] types, Comparison<Entity> comparer)
 			: this(entityManager, types, new LambdaComparer<Entity>(comparer)) {}
 
 		#endregion

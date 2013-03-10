@@ -127,7 +127,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public FilteredCollection Get<T>(Func<Entity, Entity, int> comparer) where T : Component {
+		public FilteredCollection Get<T>(Comparison<Entity> comparer) where T : Component {
 			return Get(comparer, new[] { typeof(T) });
 		}
 
@@ -170,7 +170,7 @@ namespace DEngine.Entities {
 		/// <param name="componentTypes"></param>
 		/// <param name="comparer"></param>
 		/// <returns></returns>
-		public FilteredCollection Get(Func<Entity, Entity, int> comparer, params Type[] componentTypes) {
+		public FilteredCollection Get(Comparison<Entity> comparer, params Type[] componentTypes) {
 			return Get(new LambdaComparer<Entity>(comparer), componentTypes);
 		}
 
