@@ -5,7 +5,7 @@ using System.Diagnostics.Contracts;
 
 namespace DEngine.Extensions {
 	public class LambdaComparer<T> : IComparer<T> {
-		readonly Func<T, T, int> comparer;
+		readonly Comparison<T> comparer;
 
 		[ContractInvariantMethod]
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
@@ -13,7 +13,7 @@ namespace DEngine.Extensions {
 			Contract.Invariant(comparer != null);
 		}
 
-		public LambdaComparer(Func<T, T, int> comparer) {
+		public LambdaComparer(Comparison<T> comparer) {
 			this.comparer = comparer;
 		}
 
