@@ -46,7 +46,7 @@ namespace DEngine.Core {
 		}
 		
 		public double Length {
-			get { return Math.Sqrt((X * X) + (Y * Y)); }
+			get { return Math.Sqrt(LengthSquared); }
 		}
 
 		public double LengthSquared {
@@ -61,6 +61,15 @@ namespace DEngine.Core {
 			return Distance(this, p);
 		}
 
+		public bool IsAdjacentTo(Point other) {
+			// not adjacent to the exact same position
+			if (this == other) return false;
+
+			Point offset = this - other;
+
+			return (Math.Abs(offset.X) <= 1) && (Math.Abs(offset.Y) <= 1);
+		}
+
 		/// <summary>
 		/// Returns a new Point instance by adding dx to this.X and dy to this.Y.  This method
 		/// does not modify this Point instance.
@@ -70,6 +79,26 @@ namespace DEngine.Core {
 		/// <returns></returns>
 		public Point Shift(int dx, int dy) {
 			return new Point(X + dx, Y + dy);
+		}
+
+		/// <summary>
+		/// Returns a new Point whose coordinates are the coordinates of this Point
+		/// with the given value added to the X coordinate. This method does not modify this Point instance.
+		/// </summary>
+		/// <param name="offset">Distance to offset the X coordinate.</param>
+		/// <returns>A new Point offset by the given X coordinate.</returns>
+		public Point ShiftX(int offset) {
+			return new Point(X + offset, Y);
+		}
+
+		/// <summary>
+		/// Returns a new Point whose coordinates are the coordinates of this Point
+		/// with the given value added to the Y coordinate. This method does not modify this Point instance.
+		/// </summary>
+		/// <param name="offset">Distance to offset the Y coordinate.</param>
+		/// <returns>A new Point offset by the given Y coordinate.</returns>
+		public Point ShiftY(int offset) {
+			return new Point(X, Y + offset);
 		}
 
 		// override object.Equals

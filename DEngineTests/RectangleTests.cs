@@ -175,20 +175,16 @@ namespace DEngineTests {
 		public void TestPoints() {
 			var r1 = new Rectangle(1, 1, 6, 6);
 
-			var points = r1.Points;
-
-
-			foreach (var p in points) {
+			
+			foreach (var p in r1) {
 				Assert.IsTrue(r1.Contains(p));
 			}
 
-			Assert.AreEqual(points.Count(), r1.Width * r1.Height);
+			Assert.AreEqual(r1.Count(), r1.Width * r1.Height);
 
 			var r2 = new Rectangle(0, 0, 0, 0);
 
-			var points2 = r2.Points;
-
-			Assert.AreEqual(points2.Count(), 0);
+			Assert.AreEqual(r2.Count(), 0);
 		}
 
 		[Test]
@@ -221,5 +217,205 @@ namespace DEngineTests {
 			Assert.AreEqual(deflated.Top, 6);
 			Assert.AreEqual(deflated.Bottom, 0);
 		}
+
+		#region Public static properties
+
+		[Test]
+		public void TestEmpty()
+		{
+			Rectangle r = Rectangle.Empty;
+
+			Assert.AreEqual(0, r.X);
+			Assert.AreEqual(0, r.Y);
+			Assert.AreEqual(0, r.Size.Width);
+			Assert.AreEqual(0, r.Size.Height);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		[Test]
+		public void TestConstructorDefault()
+		{
+			Rectangle r = new Rectangle();
+
+			Assert.AreEqual(0, r.X);
+			Assert.AreEqual(0, r.Y);
+			Assert.AreEqual(0, r.Size.Width);
+			Assert.AreEqual(0, r.Size.Height);
+		}
+
+		[Test]
+		public void TestConstructorSizeSize()
+		{
+			Rectangle r = new Rectangle(new Size(3, 5));
+
+			Assert.AreEqual(0, r.X);
+			Assert.AreEqual(0, r.Y);
+			Assert.AreEqual(3, r.Size.Width);
+			Assert.AreEqual(5, r.Size.Height);
+		}
+
+		[Test]
+		public void TestConstructorPositionPointSizeSize()
+		{
+			Rectangle r = new Rectangle(new Point(2, 4), new Size(3, 5));
+
+			Assert.AreEqual(2, r.X);
+			Assert.AreEqual(4, r.Y);
+			Assert.AreEqual(3, r.Size.Width);
+			Assert.AreEqual(5, r.Size.Height);
+		}
+
+		[Test]
+		public void TestConstructorPositionIntSizeInt()
+		{
+			Rectangle r = new Rectangle(2, 4, 3, 5);
+
+			Assert.AreEqual(2, r.X);
+			Assert.AreEqual(4, r.Y);
+			Assert.AreEqual(3, r.Size.Width);
+			Assert.AreEqual(5, r.Size.Height);
+		}
+
+		[Test]
+		public void TestConstructorPositionPointSizeInt()
+		{
+			Rectangle r = new Rectangle(new Point(2, 4), 3, 5);
+
+			Assert.AreEqual(2, r.X);
+			Assert.AreEqual(4, r.Y);
+			Assert.AreEqual(3, r.Size.Width);
+			Assert.AreEqual(5, r.Size.Height);
+		}
+
+		[Test]
+		public void TestConstructorPositionIntSizeSize()
+		{
+			Rectangle r = new Rectangle(2, 4, new Size(3, 5));
+
+			Assert.AreEqual(2, r.X);
+			Assert.AreEqual(4, r.Y);
+			Assert.AreEqual(3, r.Size.Width);
+			Assert.AreEqual(5, r.Size.Height);
+		}
+
+		#endregion
+
+		#region Enumeration
+		[Test]
+		public void TestEnumerateEmpty()
+		{
+			TestEnumeration(Rectangle.Empty);
+		}
+
+		[Test]
+		public void TestEnumerateZeroWidth()
+		{
+			TestEnumeration(new Rectangle(-3, 2, 0, 10));
+		}
+
+		[Test]
+		public void TestEnumerateZeroHeight()
+		{
+			TestEnumeration(new Rectangle(3, -2, 10, 0));
+		}
+
+		[Test]
+		public void TestEnumerate()
+		{
+			TestEnumeration(new Rectangle(4, 5, 3, 2),
+				new Point(4, 5),
+				new Point(5, 5),
+				new Point(6, 5),
+				new Point(4, 6),
+				new Point(5, 6),
+				new Point(6, 6));
+		}
+
+		#endregion
+
+		[Test]
+		public void Contains()
+		{
+			// identical Rectangle is inside
+			Assert.IsTrue(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(0, 0, 3, 4)));
+
+			// zero size Rectangle can still be inside
+			Assert.IsTrue(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(1, 2, 0, 0)));
+
+			// outer corners of Rectangle are included
+			Assert.IsTrue(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(0, 0, 0, 0)));
+			Assert.IsTrue(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(3, 4, 0, 0)));
+
+			// point must be in
+			Assert.IsFalse(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(-1, 0, 0, 0)));
+
+			// off left side
+			Assert.IsFalse(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(-1, 1, 2, 2)));
+
+			// off right side
+			Assert.IsFalse(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(5, 1, 2, 2)));
+
+			// off top side
+			Assert.IsFalse(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(1, -3, 2, 2)));
+
+			// off bottom side
+			Assert.IsFalse(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(1, 5, 2, 2)));
+
+			// completely surrounded
+			Assert.IsFalse(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(-1, -1, 5, 6)));
+
+			// off two sides
+			Assert.IsFalse(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(-1, 1, 6, 2)));
+		}
+
+		[Test]
+		public void TestCoordinates()
+		{
+			Rectangle rect = new Rectangle(1, 2, 3, 4);
+
+			// x, y
+			Assert.AreEqual(1, rect.X);
+			Assert.AreEqual(2, rect.Y);
+
+			// size
+			Assert.AreEqual(3, rect.Width);
+			Assert.AreEqual(4, rect.Height);
+
+			// ltrb
+			Assert.AreEqual(1, rect.Left);
+			Assert.AreEqual(2, rect.Top);
+			Assert.AreEqual(1 + 3, rect.Right);
+			Assert.AreEqual(2 + 4, rect.Bottom);
+
+			// ltrb vecs
+			Assert.AreEqual(new Point(1, 2), rect.TopLeft);
+			Assert.AreEqual(new Point(1 + 3, 2), rect.TopRight);
+			Assert.AreEqual(new Point(1, 2 + 4), rect.BottomLeft);
+			Assert.AreEqual(new Point(1 + 3, 2 + 4), rect.BottomRight);
+		}
+
+		private void TestEnumeration(IEnumerable<Point> enumerable, params Point[] expected)
+		{
+			// build the queue of expected vectors
+			List<Point> list = new List<Point>();
+			foreach (Point pos in expected)
+			{
+				list.Add(pos);
+			}
+
+			// enumerate and compare
+			foreach (Point pos in enumerable)
+			{
+				CollectionAssert.Contains(list, pos);
+				list.Remove(pos);				
+			}
+
+			// make sure we got as many as expected
+			Assert.AreEqual(0, list.Count);
+		}
+	
 	}
 }

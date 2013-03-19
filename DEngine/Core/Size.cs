@@ -13,8 +13,7 @@ namespace DEngine.Core {
 				return Width == 0 && Height == 0;
 			}
 		}
-
-
+		
 		public Size(int width, int height) : this() {
 			Width = width;
 			Height = height;
@@ -46,6 +45,11 @@ namespace DEngine.Core {
 
 			return hash;
 		}
+
+		/// <summary>
+		/// Gets the area of a rectangle with opposite corners at (0, 0) and this Vec.
+		/// </summary>
+		public int Area { get { return Width * Height; } }
 
 		public override string ToString() {
 			return string.Format("(Width={0}, Height={1})", Width, Height);

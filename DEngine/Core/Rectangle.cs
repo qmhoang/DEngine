@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 
@@ -12,10 +13,17 @@ namespace DEngine.Core {
 	/// </summary>
 	[Serializable]
 	public struct Rectangle : IEquatable<Rectangle>, IEnumerable<Point> {
+		/// <summary>
+		/// Gets the empty rectangle.
+		/// </summary>
+		public readonly static Rectangle Empty = new Rectangle();
+
 		private readonly Point topLeft;
 		private readonly Size size;
 
 		#region Constructors
+
+		public Rectangle(Size size) : this(Point.Zero, size) { }
 
 		public Rectangle(Point topLeft, Size size) {
 			this.topLeft = topLeft;
@@ -33,21 +41,17 @@ namespace DEngine.Core {
 			                     bottomRight.Y - topLeft.Y);
 		}
 
+		public Rectangle(int width, int height) : this(new Size(width, height)) { }
+
+		public Rectangle(int x, int y, Size size) : this(new Point(x, y), size) { }
+
+		public Rectangle(Point pos, int width, int height) : this(pos, new Size(width, height)) { }
+
 		public Rectangle(int x, int y, int width, int height) : this(new Point(x, y), new Size(width, height)) { }
 
 		#endregion
 
 		#region Properties
-
-		public IEnumerable<Point> Points {
-			get {
-				for (int i = 0; i < Width; i++) {
-					for (int j = 0; j < Height; j++) {
-						yield return new Point(Left + i, Top + j);
-					}
-				}
-			}
-		}
 
 		public int Width {
 			get { return Size.Width; }			
@@ -299,7 +303,14 @@ namespace DEngine.Core {
 		}
 
 		public IEnumerator<Point> GetEnumerator() {
-			return Points.GetEnumerator();
+			Contract.Requires<ArgumentOutOfRangeException>(size.Width >= 0);
+			Contract.Requires<ArgumentOutOfRangeException>(size.Height >= 0);
+
+			for (int i = 0; i < Width; i++) {
+				for (int j = 0; j < Height; j++) {
+					yield return new Point(Left + i, Top + j);
+				}
+			}
 		}
 
 		public override string ToString() {
