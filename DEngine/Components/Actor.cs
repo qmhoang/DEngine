@@ -6,6 +6,9 @@ using DEngine.Actor;
 using DEngine.Entities;
 
 namespace DEngine.Components {
+	/// <summary>
+	/// Component that controls the emission of actions.  It is basically a wrapper around the Controller (since Components cannot be inherited from) and AP.
+	/// </summary>
 	public sealed class ActorComponent : Component {
 		public IAction NextAction() {
 			return Controller.NextAction();

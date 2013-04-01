@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace DEngine.Core {
-	public struct Circle {
+	public struct Circle : IEquatable<Circle> {
 		private readonly Point origin;
 		private readonly int radius;
 
@@ -58,6 +58,34 @@ namespace DEngine.Core {
 			if (y < this.Y - radius || y > this.Y + radius)
 				return false;
 			return (x - this.X) * (x - this.X) + (y - this.Y) * (y - this.Y) <= radius * radius;
+		}
+		#endregion
+
+		#region Equals
+		public bool Equals(Circle other) {
+			return other.origin.Equals(origin) && other.radius == radius;
+		}
+
+		public override bool Equals(object obj) {
+			if (ReferenceEquals(null, obj))
+				return false;
+			if (obj.GetType() != typeof(Circle))
+				return false;
+			return Equals((Circle) obj);
+		}
+
+		public override int GetHashCode() {
+			unchecked {
+				return (origin.GetHashCode() * 397) ^ radius;
+			}
+		}
+
+		public static bool operator ==(Circle left, Circle right) {
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(Circle left, Circle right) {
+			return !left.Equals(right);
 		}
 		#endregion
 	}

@@ -3,27 +3,22 @@ using DEngine.Actions;
 using DEngine.Components;
 
 namespace DEngine.Actor {
+	/// <summary>
+	/// This is the abstract class in which all controllers inherit from.  This is done because components cannot be inherited from.
+	/// A controller basically "controls" an entity.  Emitting actions on which the entity executes.
+	/// </summary>
 	public abstract class Controller {
-		public virtual void Enqueue(IAction action) {
-			Actions.Enqueue(action);
-		}
-
 		public abstract IAction NextAction();
 
-		public virtual void Disturb() { }
+		public virtual bool HasActionsQueued {
+			get { return false; }
+		}
 
+		public virtual void Enqueue(IAction action) { }
+		public virtual void Disturb() { }
 		public virtual void Cancel() { }
 
 		public ActorComponent Holder { get; protected internal set; }
-		public Queue<IAction> Actions { get; private set; }
-
-		protected Controller() {
-			Actions = new Queue<IAction>();
-		}
-
-		protected Controller(Queue<IAction> actions) {
-			Actions = actions;
-		}
 
 		public abstract Controller Copy();
 	}

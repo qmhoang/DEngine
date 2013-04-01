@@ -269,17 +269,15 @@ namespace DEngine.Core {
 		#region Overrides
 
 		public override bool Equals(object obj) {
-			if (obj == null)
+			if (ReferenceEquals(null, obj))
 				return false;
-
-			if (this.GetType() != obj.GetType())
+			if (obj.GetType() != typeof(Rectangle))
 				return false;
-
 			return Equals((Rectangle) obj);
 		}
 
 		public bool Equals(Rectangle rect) {
-			return (this.topLeft == rect.topLeft && this.size == rect.size);
+			return rect.topLeft.Equals(topLeft) && rect.size.Equals(size);
 		}
 
 		public static bool operator ==(Rectangle left, Rectangle right) {
@@ -289,26 +287,23 @@ namespace DEngine.Core {
 		public static bool operator !=(Rectangle left, Rectangle right) {
 			return !left.Equals(right);
 		}
-
-		public override int GetHashCode() {
-			int hash = 7;
-			hash = hash * 13 + topLeft.GetHashCode();
-			hash = hash * 13 + size.GetHashCode();
-
-			return hash;
-		}
-
+		
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
 		}
 
 		public IEnumerator<Point> GetEnumerator() {
-			Contract.Requires<ArgumentOutOfRangeException>(size.Width >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(size.Height >= 0);
+			return Points;
+		}
 
-			for (int i = 0; i < Width; i++) {
-				for (int j = 0; j < Height; j++) {
-					yield return new Point(Left + i, Top + j);
+		public IEnumerator<Point> Points {
+			get {
+				Contract.Requires<ArgumentOutOfRangeException>(size.Width >= 0);
+				Contract.Requires<ArgumentOutOfRangeException>(size.Height >= 0);
+
+				for (int i = 0; i < Width; i++) {
+					for (int j = 0; j < Height; j++)
+						yield return new Point(Left + i, Top + j);
 				}
 			}
 		}
@@ -318,5 +313,11 @@ namespace DEngine.Core {
 		}
 
 		#endregion
+
+		public override int GetHashCode() {
+			unchecked {
+				return (topLeft.GetHashCode() * 397) ^ size.GetHashCode();
+			}
+		}
 	}
 }
