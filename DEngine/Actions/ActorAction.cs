@@ -31,10 +31,16 @@ namespace DEngine.Actions {
 		public abstract ActionResult OnProcess();
 	}
 
+	/// <summary>
+	/// Action with originating actor.
+	/// </summary>
 	public abstract class ActorAction : IAction {
+		/// <summary>
+		/// Actor which generated action.
+		/// </summary>
 		public Entity Entity { get; private set; }
-		public abstract int APCost { get; }
 		public string EntityName { get { return Identifier.GetNameOrId(Entity); } }
+		public abstract int APCost { get; }
 	
 		protected ActorAction(Entity entity) {
 			Contract.Requires<ArgumentNullException>(entity != null, "entity");			

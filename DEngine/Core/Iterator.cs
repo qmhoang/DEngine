@@ -35,7 +35,6 @@ namespace DEngine.Core {
 		/// Move the iterator to the next element, returning the element it previously pointed to.
 		/// </summary>
 		/// <returns>the element it previously pointed to.</returns>
-		/// <exception cref=""></exception>
 		public T Next() {
 			var prev = Current;
 

@@ -30,9 +30,7 @@ namespace DEngine.Level {
 		}
 
 		public VisionMap Copy() {
-			var visionMap = new VisionMap(Size);
-			visionMap.cells = (bool[,]) cells.Clone();
-			return visionMap;
+			return new VisionMap(Size) {cells = (bool[,]) cells.Clone()};
 		}
 	}
 }

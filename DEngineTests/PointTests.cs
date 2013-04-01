@@ -167,6 +167,7 @@ namespace DEngineTests {
 				yield return new TestCaseData(new Point(3, 6)).Returns(6.7082039324993690892275210061938);
 				yield return new TestCaseData(new Point(5, 10)).Returns(11.180339887498948482045868343656);
 				yield return new TestCaseData(new Point(1, 10)).Returns(10.04987562112089027021926491276);
+
 				yield return new TestCaseData(new Point(0, 0)).Returns(0);
 				yield return new TestCaseData(new Point(1, 0)).Returns(1);
 				yield return new TestCaseData(new Point(0, -1)).Returns(1);
@@ -185,6 +186,7 @@ namespace DEngineTests {
 				yield return new TestCaseData(new Point(3, 6)).Returns(45);
 				yield return new TestCaseData(new Point(5, 10)).Returns(125);
 				yield return new TestCaseData(new Point(1, 10)).Returns(101);
+
 				yield return new TestCaseData(new Point(0, 0)).Returns(0);
 				yield return new TestCaseData(new Point(1, 0)).Returns(1);
 				yield return new TestCaseData(new Point(0, -1)).Returns(1);
@@ -227,8 +229,35 @@ namespace DEngineTests {
 			Assert.AreEqual(true, new Point(3, 4) != null);
 			Assert.AreEqual(true, null != new Point(3, 4));
 		}
+
+		[Test]
+		public void TestEquals() {
+			Point v1 = new Point(3, 5);
+			Point v2 = new Point(3, 5);
+			Point v3 = new Point(4, 5);
+			Point v4 = new Point(0, 0);
+			Point v5 = Point.Zero;
+
+			object obj2 = v2;
+
+			// typed Equals
+			Assert.IsTrue(v1.Equals(v1));
+			Assert.IsTrue(v1.Equals(v2));
+			Assert.IsFalse(v1.Equals(v3));
+			Assert.IsFalse(v3.Equals(v4));
+			Assert.IsTrue(v4.Equals(v5));
+
+			// object Equals
+			Assert.IsTrue(v1.Equals(obj2));
+			Assert.IsTrue(obj2.Equals(v1));
+			Assert.IsFalse(v3.Equals(obj2));
+
+			// null
+			Assert.IsFalse(v1.Equals(null));
+		}
 		
 		#endregion
+
 		[TestCaseSource( "DistanceToCases")]
 		public static double TestDistanceTo(Point p1, Point p2) {
 			return p1.DistanceTo(p2);
@@ -265,32 +294,6 @@ namespace DEngineTests {
 			Assert.AreEqual("(X=0, Y=1)", new Point(0, 1).ToString());
 			Assert.AreEqual("(X=17, Y=5)", new Point(17, 5).ToString());
 			Assert.AreEqual("(X=38274, Y=-4273)", new Point(38274, -4273).ToString());
-		}
-
-		[Test]
-		public void TestEquals() {
-			Point v1 = new Point(3, 5);
-			Point v2 = new Point(3, 5);
-			Point v3 = new Point(4, 5);
-			Point v4 = new Point(0, 0);
-			Point v5 = Point.Zero;
-
-			object obj2 = v2;
-
-			// typed Equals
-			Assert.IsTrue(v1.Equals(v1));
-			Assert.IsTrue(v1.Equals(v2));
-			Assert.IsFalse(v1.Equals(v3));
-			Assert.IsFalse(v3.Equals(v4));
-			Assert.IsTrue(v4.Equals(v5));
-
-			// object Equals
-			Assert.IsTrue(v1.Equals(obj2));
-			Assert.IsTrue(obj2.Equals(v1));
-			Assert.IsFalse(v3.Equals(obj2));
-
-			// null
-			Assert.IsFalse(v1.Equals(null));
 		}
 
 		[Test]
