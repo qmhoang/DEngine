@@ -8,7 +8,7 @@ namespace DEngine.Extensions {
 	/// Extension methods on <c>string</c>.
 	/// </summary>
 	public static class StringExtensions {
-		public static string FormatNames(this string format, IDictionary<string, object> properties) {
+		public static string FormatNames(this string format, IEnumerable<KeyValuePair<string, object>> properties) {
 			string result = format;
 
 			foreach (KeyValuePair<string, object> pair in properties) {

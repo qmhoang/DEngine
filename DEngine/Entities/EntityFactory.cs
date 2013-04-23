@@ -19,10 +19,10 @@ namespace DEngine.Entities {
 
 	public class EntityFactory {
 		public class Template : IEnumerable<Component> {
-			private readonly Dictionary<Type, Component> components;
+			private readonly Dictionary<Type, Component> _components;
 
 			public Template() {
-				components = new Dictionary<Type, Component>();
+				_components = new Dictionary<Type, Component>();
 			}
 
 			public Template(IEnumerable<Component> components)
@@ -41,10 +41,10 @@ namespace DEngine.Entities {
 			/// </summary>
 			/// <param name="component"></param>
 			public Template Add(Component component) {
-				if (components.ContainsKey(component.GetType())) {
-					components[component.GetType()] = component;
+				if (_components.ContainsKey(component.GetType())) {
+					_components[component.GetType()] = component;
 				} else {
-					components.Add(component.GetType(), component);
+					_components.Add(component.GetType(), component);
 				}
 				return this;
 			}
@@ -77,7 +77,7 @@ namespace DEngine.Entities {
 			[Pure]
 			public T Get<T>() where T : Component {
 				Component o;
-				components.TryGetValue(typeof(T), out o);
+				_components.TryGetValue(typeof(T), out o);
 				return (T)o;
 			}
 
@@ -88,13 +88,13 @@ namespace DEngine.Entities {
 			/// <returns></returns>
 			[Pure]
 			public bool Has<T>() where T : Component {
-				return components.ContainsKey(typeof(T));
+				return _components.ContainsKey(typeof(T));
 			}
 
 			#region IEnumerable
 
 			public IEnumerator<Component> GetEnumerator() {
-				return components.Values.GetEnumerator();
+				return _components.Values.GetEnumerator();
 			}
 
 			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {

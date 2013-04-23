@@ -45,7 +45,7 @@ namespace DEngineTests {
 			Assert.AreEqual(0, r.Top);
 			Assert.AreEqual(0, r.Left);
 			Assert.AreEqual(2, r.Right);
-			Assert.AreEqual(2, r.Bottom);			
+			Assert.AreEqual(2, r.Bottom);
 		}
 
 		[Test]
@@ -93,8 +93,8 @@ namespace DEngineTests {
 
 		[Test]
 		public void TestContainsPoint(
-									[Random(0, 99, 4)] int px,
-									[Random(0, 99, 4)] int py) {
+				[Random(0, 99, 4)] int px,
+				[Random(0, 99, 4)] int py) {
 			var outer = new Rectangle(0, 0, 100, 100);
 			var point = new Point(px, py);
 
@@ -130,7 +130,7 @@ namespace DEngineTests {
 			var outer = new Rectangle();
 			var inner = new Point();
 
-			Assert.IsFalse(outer.Contains(inner));		// matches java.awt.Rectangle and System.Drawing.Rectangle behavior
+			Assert.IsFalse(outer.Contains(inner)); // matches java.awt.Rectangle and System.Drawing.Rectangle behavior
 		}
 
 		[Test]
@@ -138,7 +138,7 @@ namespace DEngineTests {
 			var outer = new Rectangle();
 			var inner = new Rectangle();
 
-			Assert.IsFalse(outer.Intersects(inner));	// matches java.awt.Rectangle and System.Drawing.Rectangle behavior
+			Assert.IsFalse(outer.Intersects(inner)); // matches java.awt.Rectangle and System.Drawing.Rectangle behavior
 		}
 
 		[Test]
@@ -153,7 +153,7 @@ namespace DEngineTests {
 			r1 = new Rectangle(0, 0, 5, 5);
 			r2 = new Rectangle(3, 3, 5, 5);
 			Assert.IsTrue(r1.Intersects(r2));
-			Assert.IsTrue(r2.Intersects(r1));		
+			Assert.IsTrue(r2.Intersects(r1));
 		}
 
 		[Test]
@@ -175,7 +175,7 @@ namespace DEngineTests {
 		public void TestPoints() {
 			var r1 = new Rectangle(1, 1, 6, 6);
 
-			
+
 			foreach (var p in r1) {
 				Assert.IsTrue(r1.Contains(p));
 			}
@@ -221,8 +221,7 @@ namespace DEngineTests {
 		#region Public static properties
 
 		[Test]
-		public void TestEmpty()
-		{
+		public void TestEmpty() {
 			Rectangle r = Rectangle.Empty;
 
 			Assert.AreEqual(0, r.X);
@@ -236,8 +235,7 @@ namespace DEngineTests {
 		#region Constructors
 
 		[Test]
-		public void TestConstructorDefault()
-		{
+		public void TestConstructorDefault() {
 			Rectangle r = new Rectangle();
 
 			Assert.AreEqual(0, r.X);
@@ -247,8 +245,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void TestConstructorSizeSize()
-		{
+		public void TestConstructorSizeSize() {
 			Rectangle r = new Rectangle(new Size(3, 5));
 
 			Assert.AreEqual(0, r.X);
@@ -258,8 +255,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void TestConstructorPositionPointSizeSize()
-		{
+		public void TestConstructorPositionPointSizeSize() {
 			Rectangle r = new Rectangle(new Point(2, 4), new Size(3, 5));
 
 			Assert.AreEqual(2, r.X);
@@ -269,8 +265,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void TestConstructorPositionIntSizeInt()
-		{
+		public void TestConstructorPositionIntSizeInt() {
 			Rectangle r = new Rectangle(2, 4, 3, 5);
 
 			Assert.AreEqual(2, r.X);
@@ -280,8 +275,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void TestConstructorPositionPointSizeInt()
-		{
+		public void TestConstructorPositionPointSizeInt() {
 			Rectangle r = new Rectangle(new Point(2, 4), 3, 5);
 
 			Assert.AreEqual(2, r.X);
@@ -291,8 +285,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void TestConstructorPositionIntSizeSize()
-		{
+		public void TestConstructorPositionIntSizeSize() {
 			Rectangle r = new Rectangle(2, 4, new Size(3, 5));
 
 			Assert.AreEqual(2, r.X);
@@ -304,41 +297,37 @@ namespace DEngineTests {
 		#endregion
 
 		#region Enumeration
+
 		[Test]
-		public void TestEnumerateEmpty()
-		{
+		public void TestEnumerateEmpty() {
 			TestEnumeration(Rectangle.Empty);
 		}
 
 		[Test]
-		public void TestEnumerateZeroWidth()
-		{
+		public void TestEnumerateZeroWidth() {
 			TestEnumeration(new Rectangle(-3, 2, 0, 10));
 		}
 
 		[Test]
-		public void TestEnumerateZeroHeight()
-		{
+		public void TestEnumerateZeroHeight() {
 			TestEnumeration(new Rectangle(3, -2, 10, 0));
 		}
 
 		[Test]
-		public void TestEnumerate()
-		{
+		public void TestEnumerate() {
 			TestEnumeration(new Rectangle(4, 5, 3, 2),
-				new Point(4, 5),
-				new Point(5, 5),
-				new Point(6, 5),
-				new Point(4, 6),
-				new Point(5, 6),
-				new Point(6, 6));
+			                new Point(4, 5),
+			                new Point(5, 5),
+			                new Point(6, 5),
+			                new Point(4, 6),
+			                new Point(5, 6),
+			                new Point(6, 6));
 		}
 
 		#endregion
 
 		[Test]
-		public void Contains()
-		{
+		public void Contains() {
 			// identical Rectangle is inside
 			Assert.IsTrue(new Rectangle(0, 0, 3, 4).Contains(new Rectangle(0, 0, 3, 4)));
 
@@ -372,8 +361,7 @@ namespace DEngineTests {
 		}
 
 		[Test]
-		public void TestCoordinates()
-		{
+		public void TestCoordinates() {
 			Rectangle rect = new Rectangle(1, 2, 3, 4);
 
 			// x, y
@@ -397,25 +385,18 @@ namespace DEngineTests {
 			Assert.AreEqual(new Point(1 + 3, 2 + 4), rect.BottomRight);
 		}
 
-		private void TestEnumeration(IEnumerable<Point> enumerable, params Point[] expected)
-		{
+		private void TestEnumeration(IEnumerable<Point> enumerable, params Point[] expected) {
 			// build the queue of expected vectors
-			List<Point> list = new List<Point>();
-			foreach (Point pos in expected)
-			{
-				list.Add(pos);
-			}
+			List<Point> list = expected.ToList();
 
 			// enumerate and compare
-			foreach (Point pos in enumerable)
-			{
+			foreach (Point pos in enumerable) {
 				CollectionAssert.Contains(list, pos);
-				list.Remove(pos);				
+				list.Remove(pos);
 			}
 
 			// make sure we got as many as expected
 			Assert.AreEqual(0, list.Count);
 		}
-	
 	}
 }

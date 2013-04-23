@@ -13,68 +13,68 @@ namespace DEngine.Level {
 		}
 
 		private Bresenham(int xFrom, int yFrom, int xTo, int yTo) {
-			origx = xFrom;
-			origy = yFrom;
-			destx = xTo;
-			desty = yTo;
-			deltax = xTo - xFrom;
-			deltay = yTo - yFrom;
-			if (deltax > 0)
-				stepx = 1;
-			else if (deltax < 0)
-				stepx = -1;
+			_origx = xFrom;
+			_origy = yFrom;
+			_destx = xTo;
+			_desty = yTo;
+			_deltax = xTo - xFrom;
+			_deltay = yTo - yFrom;
+			if (_deltax > 0)
+				_stepx = 1;
+			else if (_deltax < 0)
+				_stepx = -1;
 			else
-				stepx = 0;
-			if (deltay > 0)
-				stepy = 1;
-			else if (deltay < 0)
-				stepy = -1;
+				_stepx = 0;
+			if (_deltay > 0)
+				_stepy = 1;
+			else if (_deltay < 0)
+				_stepy = -1;
 			else
-				stepy = 0;
-			if (stepx * deltax > stepy * deltay) {
-				e = stepx * deltax;
-				deltax *= 2;
-				deltay *= 2;
+				_stepy = 0;
+			if (_stepx * _deltax > _stepy * _deltay) {
+				_e = _stepx * _deltax;
+				_deltax *= 2;
+				_deltay *= 2;
 			} else {
-				e = stepy * deltay;
-				deltax *= 2;
-				deltay *= 2;
+				_e = _stepy * _deltay;
+				_deltax *= 2;
+				_deltay *= 2;
 			}
 		}
 
 		private bool Step(ref int xCur, ref int yCur) {
-			if (stepx * deltax > stepy * deltay) {
-				if (origx == destx)
+			if (_stepx * _deltax > _stepy * _deltay) {
+				if (_origx == _destx)
 					return true;
-				origx += stepx;
-				e -= stepy * deltay;
-				if (e < 0) {
-					origy += stepy;
-					e += stepx * deltax;
+				_origx += _stepx;
+				_e -= _stepy * _deltay;
+				if (_e < 0) {
+					_origy += _stepy;
+					_e += _stepx * _deltax;
 				}
 			} else {
-				if (origy == desty)
+				if (_origy == _desty)
 					return true;
-				origy += stepy;
-				e -= stepx * deltax;
-				if (e < 0) {
-					origx += stepx;
-					e += stepy * deltay;
+				_origy += _stepy;
+				_e -= _stepx * _deltax;
+				if (_e < 0) {
+					_origx += _stepx;
+					_e += _stepy * _deltay;
 				}
 			}
-			xCur = origx;
-			yCur = origy;
+			xCur = _origx;
+			yCur = _origy;
 			return false;
 		}
 
-		private int stepx;
-		private int stepy;
-		private int e;
-		private int deltax;
-		private int deltay;
-		private int origx;
-		private int origy;
-		private int destx;
-		private int desty;
+		private int _stepx;
+		private int _stepy;
+		private int _e;
+		private int _deltax;
+		private int _deltay;
+		private int _origx;
+		private int _origy;
+		private int _destx;
+		private int _desty;
 	}
 }

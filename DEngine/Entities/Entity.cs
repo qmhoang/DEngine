@@ -13,21 +13,21 @@ namespace DEngine.Entities {
 	///  - This provides an interface to interact with an individual entity
 	/// </summary>
 	public sealed class Entity : IEquatable<Entity>, IComparable<Entity> {
-		readonly UniqueId id;
-		readonly EntityManager manager;
-		bool isActive = true;
+		readonly UniqueId _id;
+		readonly EntityManager _manager;
+		bool _isActive = true;
 
 		/// <summary>
 		/// Sets and toggles the entity as active or not
 		/// </summary>
 		public bool IsActive {
 			get {
-				return isActive;
+				return _isActive;
 			}
 			set {
 				// Only fire events if value is changing
-				if (isActive != value) {
-					isActive = value;
+				if (_isActive != value) {
+					_isActive = value;
 
 					if (value && OnEntityActivate != null) {
 						OnEntityActivate(this);
@@ -36,7 +36,7 @@ namespace DEngine.Entities {
 					}
 				}
 
-				isActive = value;
+				_isActive = value;
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		public UniqueId Id {
 			get {
-				return id;
+				return _id;
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace DEngine.Entities {
 		[ContractInvariantMethod]
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
 		private void ObjectInvariant() {
-			Contract.Invariant(manager != null);
+			Contract.Invariant(_manager != null);
 			Contract.Invariant(Id != null);
 		}
 
@@ -74,9 +74,9 @@ namespace DEngine.Entities {
 		/// <param name="id"></param>
 		public Entity(EntityManager manager, UniqueId id) {
 			Contract.Requires<ArgumentNullException>(manager != null, "manager");
-			manager.entities.Add(id, this);
-			this.id = id;
-			this.manager = manager;			
+			manager.Entities.Add(id, this);
+			this._id = id;
+			this._manager = manager;			
 		}
 
 		/// <summary>
@@ -90,7 +90,7 @@ namespace DEngine.Entities {
 			Contract.Requires<ArgumentNullException>(components != null, "components");
 			Contract.Requires<ArgumentNullException>(manager != null, "manager");
 			Contract.Requires<ArgumentNullException>(id != null, "id");
-			this.manager.Components.Add(this, components);
+			this._manager.Components.Add(this, components);
 		}
 
 		#region Add/Remove Components
@@ -103,18 +103,18 @@ namespace DEngine.Entities {
 		/// <returns></returns>
 		public Entity Add<T>(T component) where T : Component {
 			Contract.Requires<ArgumentNullException>(component != null, "component");
-			manager.Components.Add(this, component);
+			_manager.Components.Add(this, component);
 			
 			// Add any updated entity to any filtered collections
-			manager.FilteredCollections.Each(c => c.Add(this));
+			_manager.FilteredCollections.Each(c => c.Add(this));
 			return this;
 		}
 
 		public Entity Add(IEnumerable<Component> components) {
 			Contract.Requires<ArgumentNullException>(components != null, "components");
-			manager.Components.Add(this, components);
+			_manager.Components.Add(this, components);
 
-			manager.FilteredCollections.Each(c => c.Add(this));
+			_manager.FilteredCollections.Each(c => c.Add(this));
 			return this;
 		}
 
@@ -127,7 +127,7 @@ namespace DEngine.Entities {
 			// Remove Order - Filtered Collections, ComponentManager
 
 			// Remove this from any filtered collections that it no longer matches
-			manager.FilteredCollections.Each(c =>
+			_manager.FilteredCollections.Each(c =>
 			{
 				if (c.ContainsType(typeof(T))) {
 					c.Remove(this);
@@ -135,7 +135,7 @@ namespace DEngine.Entities {
 			});
 			
 			// Remove from the component manager
-			manager.Components.Remove<T>(this);
+			_manager.Components.Remove<T>(this);
 			return this;
 		}
 
@@ -149,7 +149,7 @@ namespace DEngine.Entities {
 		[Pure] 
 		public T Get<T>() where T : Component {
 			Contract.Ensures(Contract.Result<T>() != null);
-			return manager.Components.Get<T>(this);
+			return _manager.Components.Get<T>(this);
 		}
 
 		/// <summary>
@@ -170,7 +170,7 @@ namespace DEngine.Entities {
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		internal bool Has(Type t) {
-			return manager.Components.Contains(this, t);
+			return _manager.Components.Contains(this, t);
 		}
 
 		/// <summary>
@@ -180,7 +180,7 @@ namespace DEngine.Entities {
 		/// <returns></returns>
 		public IEnumerable<Component> Components {
 			get {
-				return manager.All(Id);
+				return _manager.All(Id);
 			}
 		}
 
@@ -215,7 +215,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <returns></returns>
 		public Entity Copy() {
-			var entity = new Entity(manager, new UniqueId());
+			var entity = new Entity(_manager, new UniqueId());
 
 			if (Components != null) {
 				foreach (var component in Components) {

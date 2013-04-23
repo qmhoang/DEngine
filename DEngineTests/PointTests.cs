@@ -160,6 +160,36 @@ namespace DEngineTests {
 		public void TestOperatorPointDividedByZeroThrows() {
 			Point dummy = new Point(1, 3) / 0;
 		}
+
+		public static IEnumerable NegationCases {
+			get {
+				yield return new TestCaseData(new Point(5, 2)).Returns(new Point(-5, -2));
+				yield return new TestCaseData(new Point(5, -2)).Returns(new Point(-5, 2));
+				yield return new TestCaseData(new Point(-5, -2)).Returns(new Point(5, 2));
+				yield return new TestCaseData(new Point(-5, 2)).Returns(new Point(5, -2));
+				yield return new TestCaseData(new Point(-0, 0)).Returns(new Point(-0, -0));
+			}
+		}
+
+		[Test, TestCaseSource("NegationCases")]
+		public static Point TestNegation(Point p) {
+			return -p;
+		}
+
+		public static IEnumerable DoubleNegationCases {
+			get {
+				yield return new TestCaseData(new Point(5, 2)).Returns(true);
+				yield return new TestCaseData(new Point(5, -2)).Returns(true);
+				yield return new TestCaseData(new Point(-5, -2)).Returns(true);
+				yield return new TestCaseData(new Point(-5, 2)).Returns(true);
+				yield return new TestCaseData(new Point(-0, 0)).Returns(true);
+			}
+		}
+
+		[Test, TestCaseSource("DoubleNegationCases")]
+		public static bool TestDoubleNegation(Point p) {
+			return p == -(-p);			
+		}
 		
 		public static IEnumerable LengthCases {
 			get {

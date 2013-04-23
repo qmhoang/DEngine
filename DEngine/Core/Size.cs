@@ -8,6 +8,9 @@ namespace DEngine.Core {
 		public int Width { get; set; }
 		public int Height { get; set; }
 
+		/// <summary>
+		/// Returns true if width and height are equal to zero.
+		/// </summary>
 		public bool IsEmpty {
 			get {
 				return Width == 0 && Height == 0;
@@ -47,7 +50,7 @@ namespace DEngine.Core {
 		}
 
 		/// <summary>
-		/// Gets the area of a rectangle with opposite corners at (0, 0) and this Vec.
+		/// Returns the area (width * height).
 		/// </summary>
 		public int Area { get { return Width * Height; } }
 

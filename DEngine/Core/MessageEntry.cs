@@ -1,19 +1,10 @@
 ﻿namespace DEngine.Core {
-	public enum MessageType {
-		Aborted,
-		Fail,
-		Bad,
-		Normal,
-		Good,
-		Special,
-	}
-
-	public class MessageEntry {
+	public class MessageEntry<T> {
 		public string Text { get; set; }
-		public MessageType Type { get; set; }
+		public T Type { get; set; }
 		public int Count { get; set; }
 
-		public MessageEntry(string text, MessageType type) {
+		public MessageEntry(string text, T type) {
 			Text = text;
 			Type = type;
 			Count = 1;

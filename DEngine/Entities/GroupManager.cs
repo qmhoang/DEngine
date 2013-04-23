@@ -15,19 +15,19 @@ namespace DEngine.Entities {
 	/// A entity can only belong to one group at a time.
 	/// </summary>
 	public sealed class GroupManager<T> where T : IEquatable<T> {
-		private readonly Dictionary<UniqueId, T> IdToGroupLUT;
-		private readonly Dictionary<T, HashSet<Entity>> entitiesByGroup;
+		private readonly Dictionary<UniqueId, T> _tagById;
+		private readonly Dictionary<T, HashSet<Entity>> _entitiesByGroup;
 
 		public GroupManager() {
-			IdToGroupLUT = new Dictionary<UniqueId, T>();
-			entitiesByGroup = new Dictionary<T, HashSet<Entity>>();
+			_tagById = new Dictionary<UniqueId, T>();
+			_entitiesByGroup = new Dictionary<T, HashSet<Entity>>();
 		}
 
 		[ContractInvariantMethod]
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
 		private void ObjectInvariant() {
-			Contract.Invariant(entitiesByGroup != null);
-			Contract.Invariant(IdToGroupLUT != null);			
+			Contract.Invariant(_entitiesByGroup != null);
+			Contract.Invariant(_tagById != null);			
 		}
 
 		/// <summary>
@@ -40,12 +40,12 @@ namespace DEngine.Entities {
 		
 			Remove(e);
 
-			if (!entitiesByGroup.ContainsKey(group)) {
-				entitiesByGroup.Add(group, new HashSet<Entity>());
+			if (!_entitiesByGroup.ContainsKey(group)) {
+				_entitiesByGroup.Add(group, new HashSet<Entity>());
 			}
-			Contract.Assume(entitiesByGroup.ContainsKey(group));
-			entitiesByGroup[group].Add(e);
-			IdToGroupLUT.Add(e.Id, group);
+			Contract.Assume(_entitiesByGroup.ContainsKey(group));
+			_entitiesByGroup[group].Add(e);
+			_tagById.Add(e.Id, group);
 		}
 
 		/// <summary>
@@ -54,8 +54,8 @@ namespace DEngine.Entities {
 		/// <param name="group"></param>
 		/// <returns></returns>
 		public IEnumerable<Entity> GetEntities(T group) {
-			if (entitiesByGroup.ContainsKey(group))
-				return entitiesByGroup[group];
+			if (_entitiesByGroup.ContainsKey(group))
+				return _entitiesByGroup[group];
 			else
 				return new List<Entity>();
 		}
@@ -67,11 +67,11 @@ namespace DEngine.Entities {
 		public void Remove(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
 
-			if (IdToGroupLUT.ContainsKey(e.Id)) {
-				T group = IdToGroupLUT[e.Id];
+			if (_tagById.ContainsKey(e.Id)) {
+				T group = _tagById[e.Id];
 
-				entitiesByGroup.Remove(group);				
-				IdToGroupLUT.Remove(e.Id);				
+				_entitiesByGroup.Remove(group);				
+				_tagById.Remove(e.Id);				
 			}
 		}
 
@@ -84,7 +84,7 @@ namespace DEngine.Entities {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
 			
 //			if (IdToGroupLUT.ContainsKey(e.Id))
-				return IdToGroupLUT[e.Id];			
+				return _tagById[e.Id];			
 		}
 
 		/// <summary>
@@ -95,11 +95,11 @@ namespace DEngine.Entities {
 		public bool IsGrouped(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
 
-			return IdToGroupLUT.ContainsKey(e.Id);			
+			return _tagById.ContainsKey(e.Id);			
 		}
 
 		public bool IsValidGroup(T group) {
-			return entitiesByGroup.ContainsKey(group);
+			return _entitiesByGroup.ContainsKey(group);
 		}
 	}
 }

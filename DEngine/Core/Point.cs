@@ -28,13 +28,17 @@ namespace DEngine.Core {
 		}
 
 		public static Point operator *(Point v, int scalar) {
-			var opMultiply = new Point(v.X * scalar, v.Y * scalar);
-			return opMultiply;
+			return new Point(v.X * scalar, v.Y * scalar);
 		}
 
 		public static Point operator /(Point v, int scalar) {
 			Contract.Requires<DivideByZeroException>(scalar != 0);
 			return new Point(v.X / scalar, v.Y / scalar);
+		}
+
+		// unary negation
+		public static Point operator -(Point v) {
+			return new Point(-v.X, -v.Y);
 		}
 
 		public static bool operator ==(Point left, Point right) {

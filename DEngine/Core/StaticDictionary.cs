@@ -95,10 +95,10 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <param name="items"></param>
 		public StaticDictionary(IEnumerable<KeyValuePair<TKey, TValue>> items) {
-			dictionary = new Dictionary<TKey, TValue>();
+			_dictionary = new Dictionary<TKey, TValue>();
 
 			foreach (var itm in items)
-				dictionary.Add(itm.Key, itm.Value);
+				_dictionary.Add(itm.Key, itm.Value);
 		}
 
 		/// <summary>
@@ -113,10 +113,10 @@ namespace DEngine.Core {
 		/// does not exist in the default items.</exception>
 		public TValue this[TKey key] {
 			get {
-				return dictionary[key];
+				return _dictionary[key];
 			}
 			set {
-				dictionary[key] = value;
+				_dictionary[key] = value;
 			}
 		}
 
@@ -124,21 +124,21 @@ namespace DEngine.Core {
 		/// Gets the number of items contained in this StaticDictionary
 		/// </summary>
 		public int Count {
-			get { return dictionary.Count; }
+			get { return _dictionary.Count; }
 		}
 
 		/// <summary>
 		/// Gets a collection containing the keys.
 		/// </summary>
 		public Dictionary<TKey, TValue>.KeyCollection Keys {
-			get { return dictionary.Keys; }
+			get { return _dictionary.Keys; }
 		}
 
 		/// <summary>
 		/// Gets a collection containing the values.
 		/// </summary>
 		public Dictionary<TKey, TValue>.ValueCollection Values {
-			get { return dictionary.Values; }
+			get { return _dictionary.Values; }
 		}
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace DEngine.Core {
 		/// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/>
 		/// is null.</exception>
 		public bool ContainsKey(TKey key) {
-			return dictionary.ContainsKey(key);
+			return _dictionary.ContainsKey(key);
 		}
 
 		/// <summary>
@@ -158,7 +158,7 @@ namespace DEngine.Core {
 		/// <param name="value"></param>
 		/// <returns></returns>
 		public bool ContainsValue(TValue value) {
-			return dictionary.ContainsValue(value);
+			return _dictionary.ContainsValue(value);
 		}
 
 		/// <summary>
@@ -166,7 +166,7 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString() {
-			return dictionary.ToString();
+			return _dictionary.ToString();
 		}
 
 		/// <summary>
@@ -174,7 +174,7 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <returns></returns>
 		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
-			return dictionary.GetEnumerator();
+			return _dictionary.GetEnumerator();
 		}
 
 		/// <summary>
@@ -185,7 +185,7 @@ namespace DEngine.Core {
 			return GetEnumerator();
 		}
 
-		private Dictionary<TKey, TValue> dictionary;
+		private readonly Dictionary<TKey, TValue> _dictionary;
 
 	}
 

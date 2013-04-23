@@ -85,6 +85,7 @@
     <Compile Include="Entities\TagManagerTests.cs" />
     <Compile Include="Entities\EntityTests.cs" />
     <Compile Include="Extensions\EnumerableExtensionTests.cs" />
+    <Compile Include="Extensions\StringExtensionTests.cs" />
     <Compile Include="Random\GaussianDistributionTests.cs" />
     <Compile Include="PointTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

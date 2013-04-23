@@ -12,19 +12,19 @@ namespace DEngine.Entities {
 	/// externally.  New entities that match the collection filter are automatically added.
 	/// </summary>
 	public sealed class FilteredCollection : IEnumerable<Entity> {
-		readonly Type[] filter;
-		readonly EntityManager manager;
+		readonly Type[] _filter;
+		readonly EntityManager _manager;
 
 		/// <summary>
 		/// Sorted entities for iteration
 		/// </summary>
-		readonly SortedSet<Entity> entities;
+		readonly SortedSet<Entity> _entities;
 
 		/// <summary>
 		/// Filter hash code - computed against filters individually
 		/// so that order doesn't matter.  Plus the comparer hashcode.
 		/// </summary>
-		readonly int hashCode;
+		readonly int _hashCode;
 
 		/// <summary>
 		/// Event for EntitySystems to run on adding an entity
@@ -41,7 +41,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		public int Count {
 			get {
-				return entities.Count;
+				return _entities.Count;
 			}
 		}
 
@@ -55,19 +55,19 @@ namespace DEngine.Entities {
 		/// <param name="types"></param>
 		/// <param name = "comparer"></param>
 		internal FilteredCollection(EntityManager entityManager, Type[] types, IComparer<Entity> comparer = null) {
-			entities = comparer == null ? new SortedSet<Entity>() : new SortedSet<Entity>(comparer);
-			hashCode = FilteredCollection.GetHashCode(types, comparer);
+			_entities = comparer == null ? new SortedSet<Entity>() : new SortedSet<Entity>(comparer);
+			_hashCode = FilteredCollection.GetHashCode(types, comparer);
 
 			// Check that all types are really components
 			if (!types.All(t => typeof(Component).IsAssignableFrom(t))) {
 				throw new Exception("Type is not of IComponent - cannot filter.");
 			}
 
-			manager = entityManager;
-			filter = types;
+			_manager = entityManager;
+			_filter = types;
 
 			// Add any existing entities
-			manager.Each(e => Add(e));			
+			_manager.Each(e => Add(e));			
 		}
 
 		/// <summary>
@@ -86,7 +86,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <param name="entity"></param>
 		internal bool MatchesFilter(Entity entity) {
-			return filter.All(entity.Has);
+			return _filter.All(entity.Has);
 		}
 
 		/// <summary>
@@ -97,7 +97,7 @@ namespace DEngine.Entities {
 		internal bool ContainsType(Type t) {
 			// We just use .Contains because collections shouldn't ever contain
 			// that many elements so speed isn't a huge ordeal
-			return filter.Contains(t);
+			return _filter.Contains(t);
 		}
 
 		#region Internal Add/Remove
@@ -112,7 +112,7 @@ namespace DEngine.Entities {
 			if (!MatchesFilter(entity))
 				return false;
 
-			entities.Add(entity);
+			_entities.Add(entity);
 
 			// Notify any listeners that a new entity was added
 			if (OnEntityAdd != null && MatchesFilter(entity)) {
@@ -133,7 +133,7 @@ namespace DEngine.Entities {
 				OnEntityRemove(entity);
 			}
 
-			entities.Remove(entity);
+			_entities.Remove(entity);
 		}
 
 		#endregion
@@ -147,7 +147,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <returns></returns>
 		public override int GetHashCode() {
-			return hashCode;
+			return _hashCode;
 		}
 
 		/// <summary>
@@ -175,7 +175,7 @@ namespace DEngine.Entities {
 		#region IEnumerable
 
 		public IEnumerator<Entity> GetEnumerator() {
-			return entities.GetEnumerator();
+			return _entities.GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {

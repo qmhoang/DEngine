@@ -26,24 +26,24 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// All loaded entities
 		/// </summary>
-		internal readonly Dictionary<UniqueId, Entity> entities;
+		internal readonly Dictionary<UniqueId, Entity> Entities;
 
 		/// <summary>
 		/// Filtered entity collections
 		/// </summary>
-		readonly Dictionary<int, FilteredCollection> filteredCollections;
+		readonly Dictionary<int, FilteredCollection> _filteredCollections;
 
 		/// <summary>
 		/// Store of all loaded components, indexed by type and entity id
 		/// </summary>
-		readonly IComponentManager components;
+		readonly IComponentManager _components;
 
 		/// <summary>
 		/// Store of all loaded components, indexed by type and entity id
 		/// </summary>
 		internal IComponentManager Components {
 			get {
-				return components;
+				return _components;
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		internal IEnumerable<FilteredCollection> FilteredCollections {
 			get {
-				return filteredCollections.Values;
+				return _filteredCollections.Values;
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace DEngine.Entities {
 		/// <returns></returns>
 		public Entity this[UniqueId index] {
 			get {
-				return entities[index];
+				return Entities[index];
 			}
 		}
 
@@ -95,9 +95,9 @@ namespace DEngine.Entities {
 			: this(new ComponentManager()) { }
 
 		public EntityManager(IComponentManager componentManager) {
-			entities = new Dictionary<UniqueId, Entity>();
-			filteredCollections = new Dictionary<int, FilteredCollection>();
-			components = componentManager;
+			Entities = new Dictionary<UniqueId, Entity>();
+			_filteredCollections = new Dictionary<int, FilteredCollection>();
+			_components = componentManager;
 		}
 
 		#endregion
@@ -139,11 +139,11 @@ namespace DEngine.Entities {
 		public FilteredCollection Get(params Type[] componentTypes) {
 			var hashCode = FilteredCollection.GetHashCode(componentTypes);
 
-			if (!filteredCollections.ContainsKey(hashCode)) {
-				filteredCollections.Add(hashCode, new FilteredCollection(this, componentTypes));
+			if (!_filteredCollections.ContainsKey(hashCode)) {
+				_filteredCollections.Add(hashCode, new FilteredCollection(this, componentTypes));
 			}
 
-			return filteredCollections[hashCode];
+			return _filteredCollections[hashCode];
 		}
 
 		/// <summary>
@@ -156,11 +156,11 @@ namespace DEngine.Entities {
 		public FilteredCollection Get(IComparer<Entity> comparer, params Type[] componentTypes) {
 			var hashCode = FilteredCollection.GetHashCode(componentTypes, comparer);
 
-			if (!filteredCollections.ContainsKey(hashCode)) {
-				filteredCollections.Add(hashCode, new FilteredCollection(this, componentTypes, comparer));
+			if (!_filteredCollections.ContainsKey(hashCode)) {
+				_filteredCollections.Add(hashCode, new FilteredCollection(this, componentTypes, comparer));
 			}
 
-			return filteredCollections[hashCode];
+			return _filteredCollections[hashCode];
 		}
 
 		/// <summary>
@@ -186,7 +186,7 @@ namespace DEngine.Entities {
 			var nextId = new UniqueId();
 
 			// Ensure that the next available id is, in fact, available
-			while (entities.ContainsKey(nextId)) {
+			while (Entities.ContainsKey(nextId)) {
 				nextId = new UniqueId();
 			}
 
@@ -202,7 +202,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <param name="id"></param>
 		public void Remove(UniqueId id) {
-			Remove(entities[id]);
+			Remove(Entities[id]);
 		}
 
 		/// <summary>
@@ -212,7 +212,7 @@ namespace DEngine.Entities {
 		public void Remove(Entity entity) {			
 			FilteredCollections.Each(c => c.Remove(entity));    // Remove from filtered collections
 			Components.Remove(entity);                       // Remove components
-			entities.Remove(entity.Id);                        // Remove from entity dictionary
+			Entities.Remove(entity.Id);                        // Remove from entity dictionary
 			OnEntityRemoved(entity);
 		}
 
@@ -221,7 +221,7 @@ namespace DEngine.Entities {
 		#region IEnumerable
 
 		public IEnumerator<Entity> GetEnumerator() {
-			return entities.Values.GetEnumerator();
+			return Entities.Values.GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {

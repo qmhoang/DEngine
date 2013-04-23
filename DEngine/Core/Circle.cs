@@ -1,28 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace DEngine.Core {
-	public struct Circle : IEquatable<Circle> {
-		private readonly Point origin;
-		private readonly int radius;
+	public struct Circle : IEquatable<Circle>, IEnumerable<Point> {
+		private readonly Point _origin;
+		private readonly int _radius;
 
 		public Circle(int x, int y, int radius) : this(new Point(x, y), radius) { }
 
 		public Circle(Point origin, int radius) {
-			this.origin = origin;
-			this.radius = radius;
+			this._origin = origin;
+			this._radius = radius;
 		}
 
 		#region Properties
 
 		public Point Origin {
-			get { return origin; }
+			get { return _origin; }
 		}
 
 		public int Radius {
-			get { return radius; }
+			get { return _radius; }
 		}
 
 		/// <summary>
@@ -53,17 +54,27 @@ namespace DEngine.Core {
 		}
 
 		public bool Contains(int x, int y) {
-			if (x < this.X - radius || x > this.X + radius)
+			if (x < this.X - _radius || x > this.X + _radius)
 				return false;
-			if (y < this.Y - radius || y > this.Y + radius)
+			if (y < this.Y - _radius || y > this.Y + _radius)
 				return false;
-			return (x - this.X) * (x - this.X) + (y - this.Y) * (y - this.Y) <= radius * radius;
+			return (x - this.X) * (x - this.X) + (y - this.Y) * (y - this.Y) <= _radius * _radius;
 		}
 		#endregion
 
 		#region Equals
 		public bool Equals(Circle other) {
-			return other.origin.Equals(origin) && other.radius == radius;
+			return other._origin.Equals(_origin) && other._radius == _radius;
+		}
+
+		public IEnumerator<Point> GetEnumerator() {
+			Rectangle bounds = new Rectangle(new Point(-Radius, -Radius), Point.One * (Radius + Radius + 1));
+
+			foreach (Point pos in bounds) {
+				if (pos.LengthSquared <= Radius * Radius) {
+					yield return pos + Origin;
+				}
+			}
 		}
 
 		public override bool Equals(object obj) {
@@ -76,8 +87,12 @@ namespace DEngine.Core {
 
 		public override int GetHashCode() {
 			unchecked {
-				return (origin.GetHashCode() * 397) ^ radius;
+				return (_origin.GetHashCode() * 397) ^ _radius;
 			}
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
 		}
 
 		public static bool operator ==(Circle left, Circle right) {
