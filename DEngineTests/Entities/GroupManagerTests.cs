@@ -6,86 +6,86 @@ using NUnit.Framework;
 namespace DEngineTests.Entities {
 	[TestFixture]
 	public class GroupManagerTests {
-		private EntityManager manager;
-		private GroupManager<string> groupManager;
+		private EntityManager _manager;
+		private GroupManager<string> _groupManager;
 
 		[SetUp]
 		public void SetUp() {
-			manager = new EntityManager();
-			groupManager = new GroupManager<string>();
+			_manager = new EntityManager();
+			_groupManager = new GroupManager<string>();
 		}
 
 		[Test]
 		public void TestSets() {
-			var entity = manager.Create();
-			Assert.IsFalse(groupManager.IsGrouped(entity));
+			var entity = _manager.Create();
+			Assert.IsFalse(_groupManager.IsGrouped(entity));
 
-			groupManager.Set("group", entity);
-			Assert.IsTrue(groupManager.IsGrouped(entity));
-			CollectionAssert.Contains(groupManager.GetEntities("group"), entity);
+			_groupManager.Set("group", entity);
+			Assert.IsTrue(_groupManager.IsGrouped(entity));
+			CollectionAssert.Contains(_groupManager.GetEntities("group"), entity);
 
-			groupManager.Set("", entity);
-			Assert.IsTrue(groupManager.IsGrouped(entity));
-			CollectionAssert.Contains(groupManager.GetEntities(""), entity);
+			_groupManager.Set("", entity);
+			Assert.IsTrue(_groupManager.IsGrouped(entity));
+			CollectionAssert.Contains(_groupManager.GetEntities(""), entity);
 			
-			Assert.Throws<ArgumentNullException>(() => groupManager.Set("1", null));
+			Assert.Throws<ArgumentNullException>(() => _groupManager.Set("1", null));
 		}
 
 		[Test]
 		public void TestRemove() {
-			var entity = manager.Create();
-			groupManager.Set("group", entity);
-			Assert.IsTrue(groupManager.IsGrouped(entity));
+			var entity = _manager.Create();
+			_groupManager.Set("group", entity);
+			Assert.IsTrue(_groupManager.IsGrouped(entity));
 
-			groupManager.Remove(entity);
-			Assert.IsFalse(groupManager.IsGrouped(entity));
+			_groupManager.Remove(entity);
+			Assert.IsFalse(_groupManager.IsGrouped(entity));
 
-			Assert.Throws<ArgumentNullException>(() => groupManager.Remove(null));
+			Assert.Throws<ArgumentNullException>(() => _groupManager.Remove(null));
 		}
 
 		[Test]
 		public void TestGetters() {
-			var entity = manager.Create();
+			var entity = _manager.Create();
 
-			Assert.IsFalse(groupManager.IsValidGroup("group"));
-			groupManager.Set("group", entity);
-			Assert.IsTrue(groupManager.IsValidGroup("group"));
+			Assert.IsFalse(_groupManager.IsValidGroup("group"));
+			_groupManager.Set("group", entity);
+			Assert.IsTrue(_groupManager.IsValidGroup("group"));
 
-			Assert.AreEqual(groupManager.GetGroupOf(entity), "group");
-			Assert.AreNotEqual(groupManager.GetGroupOf(entity), "group2");
+			Assert.AreEqual(_groupManager.GetGroupOf(entity), "group");
+			Assert.AreNotEqual(_groupManager.GetGroupOf(entity), "group2");
 
-			Assert.IsTrue(groupManager.IsValidGroup("group"));			
-			groupManager.Set("group2", entity);
-			Assert.IsFalse(groupManager.IsValidGroup("group"));
+			Assert.IsTrue(_groupManager.IsValidGroup("group"));			
+			_groupManager.Set("group2", entity);
+			Assert.IsFalse(_groupManager.IsValidGroup("group"));
 
-			Assert.AreNotEqual(groupManager.GetGroupOf(entity), "group");
-			Assert.AreEqual(groupManager.GetGroupOf(entity), "group2");
+			Assert.AreNotEqual(_groupManager.GetGroupOf(entity), "group");
+			Assert.AreEqual(_groupManager.GetGroupOf(entity), "group2");
 
-			Assert.Throws<ArgumentNullException>(() => groupManager.GetGroupOf(null));
+			Assert.Throws<ArgumentNullException>(() => _groupManager.GetGroupOf(null));
 			
 			//test failures
-			groupManager.Remove(entity);
-			Assert.Throws<KeyNotFoundException>(delegate { var g = groupManager.GetGroupOf(entity); });			
+			_groupManager.Remove(entity);
+			Assert.Throws<KeyNotFoundException>(delegate { var g = _groupManager.GetGroupOf(entity); });			
 		}
 
 		[Test]
 		public void TestGetEntities() {
 			var list = new List<DEngine.Entities.Entity>();
 
-			list.Add(manager.Create());
-			list.Add(manager.Create());
-			list.Add(manager.Create());
-			list.Add(manager.Create());
+			list.Add(_manager.Create());
+			list.Add(_manager.Create());
+			list.Add(_manager.Create());
+			list.Add(_manager.Create());
 
 
 			foreach (var entity in list) {
-				groupManager.Set("group", entity);
+				_groupManager.Set("group", entity);
 			}
 
-			CollectionAssert.AreEqual(groupManager.GetEntities("group"), list);
-			CollectionAssert.IsEmpty(groupManager.GetEntities("nogroup"));
+			CollectionAssert.AreEqual(_groupManager.GetEntities("group"), list);
+			CollectionAssert.IsEmpty(_groupManager.GetEntities("nogroup"));
 
-			CollectionAssert.DoesNotContain(groupManager.GetEntities("group"), manager.Create());
+			CollectionAssert.DoesNotContain(_groupManager.GetEntities("group"), _manager.Create());
 		}
 	}
 }
