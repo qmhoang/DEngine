@@ -40,6 +40,10 @@ namespace DEngine.Core {
 			get { return Origin.Y; }
 		}
 
+		public double Area {
+			get { return Radius * Radius * Math.PI; }
+		}
+
 		#endregion
 
 		#region Public Methods
@@ -47,12 +51,17 @@ namespace DEngine.Core {
 		/// Is current point within the circle
 		/// </summary>
 		/// <param name="centerOfCircle"></param>
-		/// <param name="r"></param>
 		/// <returns></returns>
 		public bool Contains(Point centerOfCircle) {
 			return Contains(centerOfCircle.X, centerOfCircle.Y);
 		}
 
+		/// <summary>
+		/// Is current point within the circle
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
 		public bool Contains(int x, int y) {
 			if (x < this.X - _radius || x > this.X + _radius)
 				return false;

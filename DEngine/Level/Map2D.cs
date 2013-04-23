@@ -4,19 +4,19 @@ using DEngine.Core;
 
 namespace DEngine.Level {
 	public class Map2D {
-		private Rectangle map;
+		private Rectangle _map;
 
 		public Map2D(Size size) {
-			this.map = new Rectangle(new Point(0, 0), size);
+			this._map = new Rectangle(new Point(0, 0), size);
 		}
 
-		public int Width { get { return map.Width; } }
-		public int Height { get { return map.Height; } }
-		public Size Size { get { return map.Size; } }
+		public int Width { get { return _map.Width; } }
+		public int Height { get { return _map.Height; } }
+		public Size Size { get { return _map.Size; } }
 
 		[Pure]
 		public bool IsInBounds(Point v) {
-			return map.Contains(v);
+			return _map.Contains(v);
 		}
 
 		[Pure]
@@ -26,7 +26,7 @@ namespace DEngine.Level {
 
 		[Pure]
 		public bool IsInBounds(int x, int y) {
-			return map.Contains(x, y);
+			return _map.Contains(x, y);
 		}
 
 		[Pure]

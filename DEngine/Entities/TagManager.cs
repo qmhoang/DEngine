@@ -6,6 +6,12 @@ using System.Linq;
 using System.Text;
 
 namespace DEngine.Entities {
+	/// <summary>
+	/// If you need to tag any entity, use this. A typical usage would be to tag entities such as "PLAYER".
+	/// 
+	/// Entities can have many tags, but each tag matches exactly to one entity.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public sealed class TagManager<T> {
 		private readonly Dictionary<T, Entity> _entityLUT;
 		private readonly Dictionary<Entity, List<T>> _tags;
@@ -22,7 +28,7 @@ namespace DEngine.Entities {
 			_tags = new Dictionary<Entity, List<T>>();
 		}
 
-		public void Register(Entity e, T tag) {
+		public void Register(T tag, Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null);
 
 			if (_entityLUT.ContainsKey(tag))
@@ -79,7 +85,7 @@ namespace DEngine.Entities {
 			}
 			set {
 				Contract.Requires<ArgumentNullException>(value != null, "value");
-				Register(value, tag);
+				Register(tag, value);
 			}
 		}
 	}
