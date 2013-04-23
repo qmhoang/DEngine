@@ -52,7 +52,7 @@ namespace DEngine.Core {
 		/// <summary>
 		/// Returns the area (width * height).
 		/// </summary>
-		public int Area { get { return Width * Height; } }
+		public int Area { get { return Math.Abs(Width * Height); } }
 
 		public override string ToString() {
 			return string.Format("(Width={0}, Height={1})", Width, Height);
