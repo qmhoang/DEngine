@@ -13,10 +13,10 @@ namespace DEngine.Core {
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public class Iterator<T> {
-		private readonly IEnumerator<T> enumerator;
+		private readonly IEnumerator<T> _enumerator;
 
 		public Iterator(IEnumerator<T> enumerator) {
-			this.enumerator = enumerator;
+			this._enumerator = enumerator;
 			HasNext = enumerator.MoveNext();
 			Current = enumerator.Current;
 		}
@@ -41,8 +41,8 @@ namespace DEngine.Core {
 			if (!HasNext)
 				throw new NoSuchElementException();
 
-			HasNext = enumerator.MoveNext();
-			Current = enumerator.Current;
+			HasNext = _enumerator.MoveNext();
+			Current = _enumerator.Current;
 
 			return prev;
 		}		

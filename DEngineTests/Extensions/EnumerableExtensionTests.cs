@@ -12,7 +12,7 @@ namespace DEngineTests.Extensions {
 		public IEnumerable EmptyCases {
 			get {
 				yield return new TestCaseData(new decimal[] {}).Returns(true);
-				yield return new TestCaseData(new int[] {0}).Returns(false);
+				yield return new TestCaseData(new int[] {0, 1, 3}).Returns(false);
 				yield return new TestCaseData(new double[] {}).Returns(true);
 				yield return new TestCaseData(new bool[] {false}).Returns(false);
 				yield return new TestCaseData(new List<decimal>()).Returns(true);

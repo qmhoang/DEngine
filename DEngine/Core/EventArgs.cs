@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace DEngine.Core {
-	public delegate void EventHandler<TSender, TEventArgs>(TSender sender, TEventArgs e) where TEventArgs : EventArgs;
+	public delegate void ComplexEventHandler<TSender, TEventArgs>(TSender sender, TEventArgs e) where TEventArgs : EventArgs;
 
 	/// <summary>
 	/// Generic event args that contain a single generic data

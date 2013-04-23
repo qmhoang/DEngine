@@ -1,5 +1,6 @@
 using System;
 using DEngine.Core;
+using DEngine.Random;
 using NUnit.Framework;
 
 namespace DEngineTests.Random {

@@ -5,12 +5,12 @@ namespace DEngine.Actor {
 	/// Global unique id for every game element in the universe
 	/// </summary>
 	public class UniqueId : IEquatable<UniqueId>, IComparable<UniqueId> {
-		private static ulong nextId = 0;
+		private static ulong _nextId = 0;
 
-		private readonly ulong id;
+		private readonly ulong _id;
 
 		public UniqueId() {
-			id = nextId++;
+			_id = _nextId++;
 		}
 
 		public override bool Equals(object obj) {
@@ -24,15 +24,15 @@ namespace DEngine.Actor {
 		}
 
 		public override int GetHashCode() {
-			return id.GetHashCode();
+			return _id.GetHashCode();
 		}
 
 		public int CompareTo(UniqueId other) {
-			return id.CompareTo(other.id);
+			return _id.CompareTo(other._id);
 		}
 
 		public override string ToString() {
-			return string.Format("Id: {0}", id);
+			return string.Format("Id: {0}", _id);
 		}
 
 		public bool Equals(UniqueId other) {
@@ -40,7 +40,7 @@ namespace DEngine.Actor {
 				return false;
 			if (ReferenceEquals(this, other))
 				return true;
-			return other.id == id;
+			return other._id == _id;
 		}
 	}
 }

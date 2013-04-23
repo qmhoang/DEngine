@@ -36,8 +36,8 @@ namespace DEngine.Core {
 			if (defaults == null)
 				throw new ArgumentNullException("defaults");
 
-			this.defaults = defaults;
-			alternatives = new Dictionary<TKey, TValue>();
+			this._defaults = defaults;
+			_alternatives = new Dictionary<TKey, TValue>();
 		}
 
 		public AlternativeMap(IStaticDictionary<TKey, TValue> defaults,
@@ -48,11 +48,11 @@ namespace DEngine.Core {
 			if (alternatives == null)
 				throw new ArgumentNullException("alternatives");
 
-			this.defaults = defaults;
-			this.alternatives = new Dictionary<TKey, TValue>();
+			this._defaults = defaults;
+			this._alternatives = new Dictionary<TKey, TValue>();
 
 			foreach (var itm in alternatives)
-				this.alternatives.Add(itm.Key, itm.Value);
+				this._alternatives.Add(itm.Key, itm.Value);
 		}
 
 		/// <summary>
@@ -69,9 +69,9 @@ namespace DEngine.Core {
 		public void Add(TKey key, TValue value) {
 			if (key == null)
 				throw new ArgumentNullException("key");
-			if (!defaults.ContainsKey(key))
+			if (!_defaults.ContainsKey(key))
 				throw new ArgumentException("Specified key does not exist in default items");
-			alternatives.Add(key, value);
+			_alternatives.Add(key, value);
 		}
 
 		/// <summary>
@@ -86,14 +86,14 @@ namespace DEngine.Core {
 		public bool RemoveAlternative(TKey key) {
 			if (key == null)
 				throw new ArgumentNullException("key");
-			return alternatives.Remove(key);
+			return _alternatives.Remove(key);
 		}
 
 		/// <summary>
 		/// Removes all of the alternatives, exposing the defaults for retrieval.
 		/// </summary>
 		public void RemoveAllAlternatives() {
-			alternatives.Clear();
+			_alternatives.Clear();
 		}
 
 		/// <summary>
@@ -110,46 +110,46 @@ namespace DEngine.Core {
 		/// does not exist in the default items.</exception>
 		public TValue this[TKey key] {
 			get {
-				if (!defaults.ContainsKey(key))
+				if (!_defaults.ContainsKey(key))
 					throw new ArgumentException("Specified key does not exist");
 				if (key == null)
 					throw new ArgumentNullException("key");
 
-				if (alternatives.ContainsKey(key))
-					return alternatives[key];
+				if (_alternatives.ContainsKey(key))
+					return _alternatives[key];
 				else
-					return defaults[key];
+					return _defaults[key];
 			}
 			set {
-				if (!defaults.ContainsKey(key))
+				if (!_defaults.ContainsKey(key))
 					throw new ArgumentException("Specified key does not exist");
 				if (key == null)
 					throw new ArgumentNullException("key");
 
-				alternatives[key] = value;
+				_alternatives[key] = value;
 			}
 		}
 
 		public int Count {
-			get { return defaults.Count; }
+			get { return _defaults.Count; }
 		}
 
 		public bool ContainsKey(TKey key) {
-			return defaults.ContainsKey(key);
+			return _defaults.ContainsKey(key);
 		}
 
 		public bool ContainsValue(TValue value) {
-			if (defaults.ContainsValue(value))
+			if (_defaults.ContainsValue(value))
 				return true;
 
-			if (alternatives.ContainsValue(value))
+			if (_alternatives.ContainsValue(value))
 				return true;
 
 			return false;
 		}
 
 		public Dictionary<TKey, TValue>.KeyCollection Keys {
-			get { return defaults.Keys; }
+			get { return _defaults.Keys; }
 		}
 
 		#region IEnumerable
@@ -159,9 +159,9 @@ namespace DEngine.Core {
 		/// </summary>
 		/// <returns></returns>
 		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
-			foreach (var v in defaults)
-				if (alternatives.ContainsKey(v.Key))
-					yield return new KeyValuePair<TKey, TValue>(v.Key, alternatives[v.Key]);
+			foreach (var v in _defaults)
+				if (_alternatives.ContainsKey(v.Key))
+					yield return new KeyValuePair<TKey, TValue>(v.Key, _alternatives[v.Key]);
 				else
 					yield return new KeyValuePair<TKey, TValue>(v.Key, v.Value);
 		}
@@ -176,7 +176,7 @@ namespace DEngine.Core {
 
 		#endregion
 
-		private IStaticDictionary<TKey, TValue> defaults;
-		private Dictionary<TKey, TValue> alternatives;
-	                                            }
+		private readonly IStaticDictionary<TKey, TValue> _defaults;
+		private readonly Dictionary<TKey, TValue> _alternatives;
+	}
 }

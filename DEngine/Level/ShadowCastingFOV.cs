@@ -11,10 +11,10 @@ namespace DEngine.Level {
 	// ReSharper disable InconsistentNaming
 	public static class ShadowCastingFOV
 	{
-		private static int [,] mult = new int[4,8] {{1,0,0,-1,-1,0,0,1},
-													{0,1,-1,0,0,-1,1,0},
-													{0,1,1,0,0,-1,-1,0},
-													{1,0,0,1,-1,0,0,-1}};
+		private static readonly int [,] mult = new int[4,8] {{1,0,0,-1,-1,0,0,1},
+															{0,1,-1,0,0,-1,1,0},
+															{0,1,1,0,0,-1,-1,0},
+															{1,0,0,1,-1,0,0,-1}};
 
 		private static void CastLight(VisionMap vision, AbstractLevel level, int cx, int cy, int row, float start, float end, int radius, int r2, int xx, int xy, int yx, int yy, int id, bool light_walls) 
 		{

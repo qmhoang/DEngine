@@ -19,24 +19,24 @@ namespace DEngine.Entities {
 	/// according to the owning entity
 	/// </summary>
 	public abstract class Component {
-		private Entity entity;
+		private Entity _entity;
 		public Entity Entity {
-			get { return entity; }
+			get { return _entity; }
 			set { 				
 				// Ensure that the owner has not been set, and that it is being set to something valid
-				if (entity == null && value != null) {
-					entity = value;
+				if (_entity == null && value != null) {
+					_entity = value;
 				} else {
 					throw new FieldAccessException("Cannot reset component to different entity.");
 				}
 
-				OnSetOwner(entity);
+				OnSetOwner(_entity);
 			}
 		}
 
 		[XmlIgnore]
 		public virtual UniqueId OwnerUId {
-			get { return entity.Id; }			
+			get { return _entity.Id; }			
 		}
 
 		/// <summary>

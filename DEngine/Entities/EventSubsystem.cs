@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DEngine.Entities {
 	public abstract class EventSubsystem {
-		protected FilteredCollection Collection;
+		protected readonly FilteredCollection Collection;
 		
 		public Entity GetEntity(Component c) {
 			Contract.Requires<ArgumentNullException>(c != null, "c");			

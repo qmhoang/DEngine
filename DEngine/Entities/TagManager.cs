@@ -7,70 +7,70 @@ using System.Text;
 
 namespace DEngine.Entities {
 	public sealed class TagManager<T> {
-		private readonly Dictionary<T, Entity> entityLUT;
-		private readonly Dictionary<Entity, List<T>> tags;
+		private readonly Dictionary<T, Entity> _entityLUT;
+		private readonly Dictionary<Entity, List<T>> _tags;
 
 		[ContractInvariantMethod]
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
 		private void ObjectInvariant() {
-			Contract.Invariant(entityLUT != null);
-			Contract.Invariant(tags != null);
+			Contract.Invariant(_entityLUT != null);
+			Contract.Invariant(_tags != null);
 		}
 
 		public TagManager() {
-			entityLUT = new Dictionary<T, Entity>();
-			tags = new Dictionary<Entity, List<T>>();
+			_entityLUT = new Dictionary<T, Entity>();
+			_tags = new Dictionary<Entity, List<T>>();
 		}
 
 		public void Register(Entity e, T tag) {
 			Contract.Requires<ArgumentNullException>(e != null);
 
-			if (entityLUT.ContainsKey(tag))
-				entityLUT[tag] = e;
+			if (_entityLUT.ContainsKey(tag))
+				_entityLUT[tag] = e;
 			else
-				entityLUT.Add(tag, e);
+				_entityLUT.Add(tag, e);
 
-			if (!tags.ContainsKey(e)) {
-				tags.Add(e, new List<T>());
+			if (!_tags.ContainsKey(e)) {
+				_tags.Add(e, new List<T>());
 			}
-			Contract.Assume(tags.ContainsKey(e));
-			tags[e].Add(tag);
+			Contract.Assume(_tags.ContainsKey(e));
+			_tags[e].Add(tag);
 		}
 
 		public void Unregister(T tag) {
-			if (entityLUT.ContainsKey(tag)) {
-				tags[entityLUT[tag]].Remove(tag);
-				entityLUT.Remove(tag);
+			if (_entityLUT.ContainsKey(tag)) {
+				_tags[_entityLUT[tag]].Remove(tag);
+				_entityLUT.Remove(tag);
 			}
 		}
 
 		public bool IsRegistered(T tag) {
-			return entityLUT.ContainsKey(tag);
+			return _entityLUT.ContainsKey(tag);
 		}
 
 		public Entity GetEntity(T tag) {
-			return entityLUT[tag];
+			return _entityLUT[tag];
 		}
 
 		public void Remove(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
 
-			if (tags.ContainsKey(e)) {
-				foreach (var tag in tags[e]) {
-					entityLUT.Remove(tag);
+			if (_tags.ContainsKey(e)) {
+				foreach (var tag in _tags[e]) {
+					_entityLUT.Remove(tag);
 				}
-				tags.Remove(e);
+				_tags.Remove(e);
 			}
 		}
 
 		public IEnumerable<T> GetTags(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
-			return tags[e];
+			return _tags[e];
 		}
 
 		public bool HasTags(Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null, "e");
-			return tags.ContainsKey(e);
+			return _tags.ContainsKey(e);
 		}
 
 		public Entity this[T tag] {

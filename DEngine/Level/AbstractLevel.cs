@@ -3,7 +3,7 @@ using DEngine.Core;
 using DEngine.Entities;
 
 namespace DEngine.Level {
-	public abstract class AbstractLevel : Map {
+	public abstract class AbstractLevel : Map2D {
 		protected AbstractLevel(Size size) : base(size) { }
 
 		public abstract bool IsTransparent(int x, int y);

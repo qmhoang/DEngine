@@ -15,33 +15,33 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// Collection of all components, separated by type.
 		/// </summary>
-		Dictionary<Type, Dictionary<UniqueId, Component>> components;
+		readonly Dictionary<Type, Dictionary<UniqueId, Component>> _components;
 
 		private Dictionary<UniqueId, Component> this[Type t] {
 			get {
 				Contract.Ensures(Contract.Result<Dictionary<UniqueId, Component>>() != null);
 				// Ensure that the manager has a dictionary ready for the component type
-				if (!components.ContainsKey(t)) {
+				if (!_components.ContainsKey(t)) {
 					// Check that our type is valid
 					if (!typeof(Component).IsAssignableFrom(t))
 						throw new ArgumentException("Type does not implement EntityComponent", "t");
 
-					components.Add(t, new Dictionary<UniqueId, Component>());
+					_components.Add(t, new Dictionary<UniqueId, Component>());
 				}
 
-				return components[t];
+				return _components[t];
 			}
 		}
 
 		[ContractInvariantMethod]
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
 		private void ObjectInvariant() {
-			Contract.Invariant(components != null);
+			Contract.Invariant(_components != null);
 		}
 
 
 		internal ComponentManager() {
-			components = new Dictionary<Type, Dictionary<UniqueId, Component>>();
+			_components = new Dictionary<Type, Dictionary<UniqueId, Component>>();
 		}
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace DEngine.Entities {
 		/// </summary>
 		/// <param name="e"></param>
 		public void Remove(Entity e) {
-			foreach (var c in components.Values) {
+			foreach (var c in _components.Values) {
 				c.Remove(e.Id);
 			}
 		}
@@ -108,7 +108,7 @@ namespace DEngine.Entities {
 		#region IEnumerable
 
 		public IEnumerator<Type> GetEnumerator() {
-			return components.Keys.GetEnumerator();
+			return _components.Keys.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() {
@@ -120,7 +120,7 @@ namespace DEngine.Entities {
 		public IEnumerable<Component> All(UniqueId id) {
 			var list = new List<Component>();
 
-			foreach (var collection in components) {
+			foreach (var collection in _components) {
 				if (collection.Value.ContainsKey(id)) {
 					list.Add(collection.Value[id]);
 				}

@@ -18,16 +18,16 @@ namespace DEngine.Core {
 		/// </summary>
 		public readonly static Rectangle Empty = new Rectangle();
 
-		private readonly Point topLeft;
-		private readonly Size size;
+		private readonly Point _topLeft;
+		private readonly Size _size;
 
 		#region Constructors
 
 		public Rectangle(Size size) : this(Point.Zero, size) { }
 
 		public Rectangle(Point topLeft, Size size) {
-			this.topLeft = topLeft;
-			this.size = size;
+			this._topLeft = topLeft;
+			this._size = size;
 		}
 
 		/// <summary>
@@ -36,8 +36,8 @@ namespace DEngine.Core {
 		/// <param name="topLeft"></param>
 		/// <param name="bottomRight"></param>
 		public Rectangle(Point topLeft, Point bottomRight) {
-			this.topLeft = topLeft;
-			this.size = new Size(bottomRight.X - topLeft.X,
+			this._topLeft = topLeft;
+			this._size = new Size(bottomRight.X - topLeft.X,
 			                     bottomRight.Y - topLeft.Y);
 		}
 
@@ -62,53 +62,53 @@ namespace DEngine.Core {
 		}
 
 		public Size Size {
-			get { return size; }
+			get { return _size; }
 		}
 
 		public Point TopLeft {
-			get { return topLeft; }
+			get { return _topLeft; }
 		}
 
 		/// <summary>
 		/// Gets the x-coordinate of the top-left of the rectangle
 		/// </summary>
 		public int X {
-			get { return topLeft.X; }
+			get { return _topLeft.X; }
 		}
 
 		/// <summary>
 		/// Gets the y-coordinate of the top-left edge of the rectangle
 		/// </summary>
 		public int Y {
-			get { return topLeft.Y; }
+			get { return _topLeft.Y; }
 		}
 
 		/// <summary>
 		/// Gets the y-coordinate of the top edge of the rectangle
 		/// </summary>
 		public int Top {
-			get { return topLeft.Y; }
+			get { return _topLeft.Y; }
 		}
 
 		/// <summary>
 		/// Gets the x-coordinate of the left edge of the rectangle
 		/// </summary>
 		public int Left {
-			get { return topLeft.X; }
+			get { return _topLeft.X; }
 		}
 
 		/// <summary>
 		/// Gets the y-coordinate of the bottom edge (top + height) of the rectangle
 		/// </summary>
 		public int Bottom {
-			get { return topLeft.Y + size.Height; }
+			get { return _topLeft.Y + _size.Height; }
 		}
 
 		/// <summary>
 		/// Gets the x-coordinate of the right edge (left + width) of the rectangle
 		/// </summary>
 		public int Right {
-			get { return topLeft.X + size.Width; }
+			get { return _topLeft.X + _size.Width; }
 		}
 
 		public Point BottomRight {
@@ -200,10 +200,10 @@ namespace DEngine.Core {
 		/// <param name="delta"></param>
 		/// <returns>The new Rectangle</returns>
 		public Rectangle MoveBy(Size delta) {
-			Point newTopLeft = new Point(topLeft.X + delta.Width,
-			                             topLeft.Y + delta.Height);
+			Point newTopLeft = new Point(_topLeft.X + delta.Width,
+			                             _topLeft.Y + delta.Height);
 
-			return new Rectangle(newTopLeft, size);
+			return new Rectangle(newTopLeft, _size);
 		}
 
 		/// <summary>
@@ -212,7 +212,7 @@ namespace DEngine.Core {
 		/// <param name="newTopLeft"></param>
 		/// <returns></returns>
 		public Rectangle MoveTo(Point newTopLeft) {
-			return new Rectangle(newTopLeft, size);
+			return new Rectangle(newTopLeft, _size);
 		}
 
 		/// <summary>
@@ -223,10 +223,10 @@ namespace DEngine.Core {
 		/// <param name="dy"></param>
 		/// <returns></returns>
 		public Rectangle Inflate(int dx, int dy) {
-			return new Rectangle(topLeft.X - dx,
-			                     topLeft.Y - dy, 
-								 size.Width + dx * 2, 
-								 size.Height + dy * 2);
+			return new Rectangle(_topLeft.X - dx,
+			                     _topLeft.Y - dy, 
+								 _size.Width + dx * 2, 
+								 _size.Height + dy * 2);
 		}
 
 		#endregion
@@ -277,7 +277,7 @@ namespace DEngine.Core {
 		}
 
 		public bool Equals(Rectangle rect) {
-			return rect.topLeft.Equals(topLeft) && rect.size.Equals(size);
+			return rect._topLeft.Equals(_topLeft) && rect._size.Equals(_size);
 		}
 
 		public static bool operator ==(Rectangle left, Rectangle right) {
@@ -298,8 +298,8 @@ namespace DEngine.Core {
 
 		public IEnumerator<Point> Points {
 			get {
-				Contract.Requires<ArgumentOutOfRangeException>(size.Width >= 0);
-				Contract.Requires<ArgumentOutOfRangeException>(size.Height >= 0);
+				Contract.Requires<ArgumentOutOfRangeException>(_size.Width >= 0);
+				Contract.Requires<ArgumentOutOfRangeException>(_size.Height >= 0);
 
 				for (int i = 0; i < Width; i++) {
 					for (int j = 0; j < Height; j++)
@@ -309,14 +309,14 @@ namespace DEngine.Core {
 		}
 
 		public override string ToString() {
-			return string.Format("{0}, {1}", topLeft, size);
+			return string.Format("{0}, {1}", _topLeft, _size);
 		}
 
 		#endregion
 
 		public override int GetHashCode() {
 			unchecked {
-				return (topLeft.GetHashCode() * 397) ^ size.GetHashCode();
+				return (_topLeft.GetHashCode() * 397) ^ _size.GetHashCode();
 			}
 		}
 	}
