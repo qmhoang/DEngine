@@ -6,23 +6,23 @@ using NUnit.Framework;
 namespace DEngineTests {
 	[TestFixture]
 	public class EntityFactoryTests {
-		private EntityFactory ef;
-		private EntityManager em;
+		private EntityFactory _ef;
+		private EntityManager _em;
 
 		[SetUp]
 		public void SetUp() {
-			ef = new EntityFactory();
-			em = new EntityManager();
+			_ef = new EntityFactory();
+			_em = new EntityManager();
 
-			ef.Add("base", new Identifier("Item"), new Sprite("base", 1));
-			ef.Add("item", new Identifier("Item"), new Sprite("item", 1));
-			ef.Inherits("inherited", "base", new Sprite("inherited", 2));
-			ef.Compile();
+			_ef.Add("base", new Identifier("Item"), new Sprite("base", 1));
+			_ef.Add("item", new Identifier("Item"), new Sprite("item", 1));
+			_ef.Inherits("inherited", "base", new Sprite("inherited", 2));
+			_ef.Compile();
 		}
 
 		[Test]
 		public void TestAdd() {
-			var anObject = ef.Create("base", em);
+			var anObject = _ef.Create("base", _em);
 			Assert.NotNull(anObject);
 			Assert.IsTrue(anObject.Has<ReferenceId>());
 			Assert.AreEqual(anObject.Get<ReferenceId>().RefId, "base");
@@ -33,7 +33,7 @@ namespace DEngineTests {
 		[Test]
 		public void TestInheritance() {
 			// should not modify base
-			var anObject = ef.Create("base", em);
+			var anObject = _ef.Create("base", _em);
 			Assert.NotNull(anObject);
 			Assert.IsTrue(anObject.Has<ReferenceId>());
 			Assert.AreEqual(anObject.Get<ReferenceId>().RefId, "base");
@@ -41,7 +41,7 @@ namespace DEngineTests {
 			Assert.AreEqual(anObject.Get<Sprite>().Asset, "base");
 
 
-			var anotherObject = ef.Create("inherited", em);
+			var anotherObject = _ef.Create("inherited", _em);
 			Assert.NotNull(anotherObject);
 			Assert.IsTrue(anotherObject.Has<ReferenceId>());
 			Assert.AreEqual(anotherObject.Get<ReferenceId>().RefId, "inherited");
@@ -51,8 +51,8 @@ namespace DEngineTests {
 
 		[Test]
 		public void TestIdentity() {
-			var i1 = ef.Create("item", em);
-			var i2 = ef.Create("item", em);
+			var i1 = _ef.Create("item", _em);
+			var i2 = _ef.Create("item", _em);
 
 			Assert.AreNotSame(i1, i2);
 		}

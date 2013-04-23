@@ -6,87 +6,87 @@ using NUnit.Framework;
 namespace DEngineTests.Entities {
 	[TestFixture]
 	public class TagManagerTests {
-		private EntityManager manager;
-		private TagManager<string> tagManager;
+		private EntityManager _manager;
+		private TagManager<string> _tagManager;
 
 		[SetUp]
 		public void SetUp() {
-			manager = new EntityManager();
-			tagManager = new TagManager<string>();
+			_manager = new EntityManager();
+			_tagManager = new TagManager<string>();
 		}
 
 		[Test]
 		public void TestGettersAndIndexers() {
-			var entity = manager.Create();
-			tagManager.Register(entity, "player");
-			tagManager.Register(entity, "player1");
+			var entity = _manager.Create();
+			_tagManager.Register("player", entity);
+			_tagManager.Register("player1", entity);
 
-			Assert.AreEqual(entity, tagManager.GetEntity("player"));
-			Assert.AreEqual(entity, tagManager.GetEntity("player1"));
+			Assert.AreEqual(entity, _tagManager.GetEntity("player"));
+			Assert.AreEqual(entity, _tagManager.GetEntity("player1"));
 
-			Assert.AreEqual(entity, tagManager["player"]);
-			Assert.AreEqual(entity, tagManager["player1"]);
+			Assert.AreEqual(entity, _tagManager["player"]);
+			Assert.AreEqual(entity, _tagManager["player1"]);
 
 			//test failures
-			Assert.Throws<KeyNotFoundException>(delegate { var e = tagManager["fail"]; });
-			Assert.Throws<KeyNotFoundException>(delegate { var e = tagManager.GetEntity("fail"); });
+			Assert.Throws<KeyNotFoundException>(delegate { var e = _tagManager["fail"]; });
+			Assert.Throws<KeyNotFoundException>(delegate { var e = _tagManager.GetEntity("fail"); });
 		}
 
 		[Test]
 		public void TestRegister() {
-			var entity = manager.Create();
-			tagManager.Register(entity, "player");
-			tagManager.Register(entity, "player1");			
+			var entity = _manager.Create();
+			_tagManager.Register("player", entity);
+			_tagManager.Register("player1", entity);			
 
-			Assert.IsTrue(tagManager.IsRegistered("player"));
-			Assert.IsTrue(tagManager.IsRegistered("player1"));
+			Assert.IsTrue(_tagManager.IsRegistered("player"));
+			Assert.IsTrue(_tagManager.IsRegistered("player1"));
 
 			//test failures
-			Assert.IsFalse(tagManager.IsRegistered("fail"));
+			Assert.IsFalse(_tagManager.IsRegistered("fail"));
 
-			var entity1 = manager.Create();
+			var entity1 = _manager.Create();
 			Assert.AreNotSame(entity, entity1);
 			Assert.AreNotEqual(entity, entity1);
 		}
 
 		[Test]
 		public void TestReregister() {
-			var e1 = manager.Create();
-			var e2 = manager.Create();
-			tagManager.Register(e1, "player");
+			var e1 = _manager.Create();
+			var e2 = _manager.Create();
+			_tagManager.Register("player", e1);
 
-			Assert.AreSame(tagManager["player"], e1);
+			Assert.AreSame(_tagManager["player"], e1);
 
-			tagManager.Register(e2, "player");
+			_tagManager.Register("player", e2);
 
-			Assert.AreSame(tagManager["player"], e2);
+			Assert.AreSame(_tagManager["player"], e2);
 
 		}
 
 		[Test]
 		public void TestHasTags() {
-			var e1 = manager.Create();
-			var e2 = manager.Create();
+			var e1 = _manager.Create();
+			var e2 = _manager.Create();
 
-			tagManager.Register(e1, "tagged");
+			_tagManager.Register("tagged", e1);
 
-			Assert.IsTrue(tagManager.IsRegistered("tagged"));
-			Assert.IsTrue(tagManager.HasTags(e1));
-			Assert.IsFalse(tagManager.HasTags(e2));
+			Assert.IsTrue(_tagManager.IsRegistered("tagged"));
+			Assert.IsTrue(_tagManager.HasTags(e1));
+			Assert.IsFalse(_tagManager.HasTags(e2));
 		}
 
 		[Test]
 		public void TestUnregister() {
-			var entity = manager.Create();
-			tagManager.Register(entity, "player");
+			var entity = _manager.Create();
+			_tagManager.Register("player", entity);
 
-			Assert.IsTrue(tagManager.IsRegistered("player"));
+			Assert.IsTrue(_tagManager.IsRegistered("player"));
 
-			tagManager.Unregister("player");
+			_tagManager.Unregister("player");
 
-			Assert.IsFalse(tagManager.IsRegistered("player"));
+			Assert.IsFalse(_tagManager.IsRegistered("player"));
 
-			Assert.DoesNotThrow(delegate { tagManager.Unregister("fail"); });
+			Assert.DoesNotThrow(delegate { _tagManager.Unregister("fail"); });
 		}
 	}
 

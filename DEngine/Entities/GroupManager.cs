@@ -33,9 +33,9 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// Set the entity's group, resets any previous entity's group
 		/// </summary>
-		/// <param name="e"></param>
 		/// <param name="group"></param>
-		public void Set(Entity e, T @group) {
+		/// <param name="e"></param>
+		public void Set(T @group, Entity e) {
 			Contract.Requires<ArgumentNullException>(e != null);
 		
 			Remove(e);
@@ -76,7 +76,7 @@ namespace DEngine.Entities {
 		}
 
 		/// <summary>
-		/// the name of the group that this entity belongs to.
+		/// Name of the group that this entity belongs to.
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns></returns>
@@ -98,6 +98,11 @@ namespace DEngine.Entities {
 			return _tagById.ContainsKey(e.Id);			
 		}
 
+		/// <summary>
+		/// Check if any entities belongs to the group
+		/// </summary>
+		/// <param name="group"></param>
+		/// <returns>True if there are entities that is grouped into that group, false if no entities exist in group</returns>
 		public bool IsValidGroup(T group) {
 			return _entitiesByGroup.ContainsKey(group);
 		}

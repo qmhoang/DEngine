@@ -19,6 +19,7 @@ namespace DEngine.Core {
 			Y = y;
 		}
 
+		#region Overloaded Operators
 		public static Point operator +(Point v1, Point v2) {
 			return new Point(v1.X + v2.X, v1.Y + v2.Y);
 		}
@@ -40,7 +41,9 @@ namespace DEngine.Core {
 		public static Point operator -(Point v) {
 			return new Point(-v.X, -v.Y);
 		}
+		#endregion
 
+		#region Overloaded Equality
 		public static bool operator ==(Point left, Point right) {
 			return left.Equals(right);
 		}
@@ -48,7 +51,8 @@ namespace DEngine.Core {
 		public static bool operator !=(Point left, Point right) {
 			return !left.Equals(right);
 		}
-		
+		#endregion
+
 		public double Length {
 			get { return Math.Sqrt(LengthSquared); }
 		}
