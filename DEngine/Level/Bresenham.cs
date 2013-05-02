@@ -3,13 +3,20 @@ using DEngine.Core;
 
 namespace DEngine.Level {
 	public class Bresenham {
-		public static IEnumerable<Point> GeneratePointsFromLine(Point origin, Point end) {
+		public static IEnumerable<Point> GeneratePointsFromLine(Point origin, Point end, bool includeOrigin = true) {
 			Bresenham b = new Bresenham(origin.X, origin.Y, end.X, end.Y);
 
 			int x = origin.X;
 			int y = origin.Y;
-			while (!b.Step(ref x, ref y))
-				yield return new Point(x, y);
+			if (includeOrigin) {
+				do {
+					yield return new Point(x, y);
+				} while ((!b.Step(ref x, ref y)));
+			} else {
+				while (!b.Step(ref x, ref y)) {
+					yield return new Point(x, y);
+				}
+			}
 		}
 
 		private Bresenham(int xFrom, int yFrom, int xTo, int yTo) {

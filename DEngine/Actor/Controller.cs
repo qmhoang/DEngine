@@ -18,7 +18,7 @@ namespace DEngine.Actor {
 		public virtual void Disturb() { }
 		public virtual void Cancel() { }
 
-		public ActorComponent Holder { get; protected internal set; }
+		public ControllerComponent Holder { get; protected internal set; }
 
 		public abstract Controller Copy();
 	}
