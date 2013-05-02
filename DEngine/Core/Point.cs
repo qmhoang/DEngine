@@ -28,13 +28,13 @@ namespace DEngine.Core {
 			return new Point(v1.X - v2.X, v1.Y - v2.Y);
 		}
 
-		public static Point operator *(Point v, int scalar) {
-			return new Point(v.X * scalar, v.Y * scalar);
+		public static Point operator *(Point v, double scalar) {
+			return new Point((int) Math.Round(v.X * scalar), (int) Math.Round(v.Y * scalar));
 		}
 
-		public static Point operator /(Point v, int scalar) {
-			Contract.Requires<DivideByZeroException>(scalar != 0);
-			return new Point(v.X / scalar, v.Y / scalar);
+		public static Point operator /(Point v, double scalar) {
+			Contract.Requires<DivideByZeroException>(Math.Abs(scalar - 0) > Double.Epsilon);
+			return new Point((int) Math.Round(v.X / scalar), (int) Math.Round(v.Y / scalar));
 		}
 
 		// unary negation

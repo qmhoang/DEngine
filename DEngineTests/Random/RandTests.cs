@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DEngine.Core;
 using DEngine.Random;
+using DEngineTests.Util;
 using NUnit.Framework;
 
 namespace DEngineTests.Random {

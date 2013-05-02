@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 
 namespace DEngine.Core {
 	/// <summary>
@@ -79,6 +80,7 @@ namespace DEngine.Core {
 		}
 
 		public static Size operator /(Size s, double scalar) {
+			Contract.Requires<DivideByZeroException>(Math.Abs(scalar - 0) > Double.Epsilon);
 			return new Size((int) (s.Width / scalar), (int) (s.Height / scalar));
 		}
 	}

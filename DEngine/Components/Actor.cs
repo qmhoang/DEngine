@@ -9,7 +9,7 @@ namespace DEngine.Components {
 	/// <summary>
 	/// Component that controls the emission of actions.  It is basically a wrapper around the Controller (since Components cannot be inherited from) and AP.
 	/// </summary>
-	public sealed class ActorComponent : Component {
+	public sealed class ControllerComponent : Component {
 		public IAction NextAction() {
 			return Controller.NextAction();
 		}
@@ -25,7 +25,7 @@ namespace DEngine.Components {
 		public Controller Controller { get; private set; }
 		public AP AP { get; private set; }
 
-		public ActorComponent(Controller controller, AP ap) {
+		public ControllerComponent(Controller controller, AP ap) {
 			Controller = controller;
 			AP = ap;
 			Controller.Holder = this;
@@ -36,7 +36,7 @@ namespace DEngine.Components {
 		}
 
 		public override Component Copy() {
-			return new ActorComponent(Controller.Copy(), new AP(AP.ActionPointPerTurn, AP.ActionPoints));
+			return new ControllerComponent(Controller.Copy(), new AP(AP.ActionPointPerTurn, AP.ActionPoints));
 		}
 	}
 }

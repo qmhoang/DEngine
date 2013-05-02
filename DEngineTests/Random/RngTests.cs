@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using DEngine.Core;
 using DEngine.Random;
+using DEngineTests.Util;
 using NUnit.Framework;
 
 namespace DEngineTests.Random {

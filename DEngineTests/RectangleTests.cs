@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DEngine.Core;
+using DEngineTests.Util;
 using NUnit.Framework;
 
 namespace DEngineTests {
@@ -300,28 +301,28 @@ namespace DEngineTests {
 
 		[Test]
 		public void TestEnumerateEmpty() {
-			TestEnumeration(Rectangle.Empty);
+			Enumeration.TestEnumeration(Rectangle.Empty);
 		}
 
 		[Test]
 		public void TestEnumerateZeroWidth() {
-			TestEnumeration(new Rectangle(-3, 2, 0, 10));
+			Enumeration.TestEnumeration(new Rectangle(-3, 2, 0, 10));
 		}
 
 		[Test]
 		public void TestEnumerateZeroHeight() {
-			TestEnumeration(new Rectangle(3, -2, 10, 0));
+			Enumeration.TestEnumeration(new Rectangle(3, -2, 10, 0));
 		}
 
 		[Test]
 		public void TestEnumerate() {
-			TestEnumeration(new Rectangle(4, 5, 3, 2),
-			                new Point(4, 5),
-			                new Point(5, 5),
-			                new Point(6, 5),
-			                new Point(4, 6),
-			                new Point(5, 6),
-			                new Point(6, 6));
+			Enumeration.TestEnumeration(new Rectangle(4, 5, 3, 2),
+			                            new Point(4, 5),
+			                            new Point(5, 5),
+			                            new Point(6, 5),
+			                            new Point(4, 6),
+			                            new Point(5, 6),
+			                            new Point(6, 6));
 		}
 
 		#endregion
@@ -383,20 +384,6 @@ namespace DEngineTests {
 			Assert.AreEqual(new Point(1 + 3, 2), rect.TopRight);
 			Assert.AreEqual(new Point(1, 2 + 4), rect.BottomLeft);
 			Assert.AreEqual(new Point(1 + 3, 2 + 4), rect.BottomRight);
-		}
-
-		private void TestEnumeration(IEnumerable<Point> enumerable, params Point[] expected) {
-			// build the queue of expected vectors
-			List<Point> list = expected.ToList();
-
-			// enumerate and compare
-			foreach (Point pos in enumerable) {
-				CollectionAssert.Contains(list, pos);
-				list.Remove(pos);
-			}
-
-			// make sure we got as many as expected
-			Assert.AreEqual(0, list.Count);
 		}
 	}
 }

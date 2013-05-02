@@ -44,7 +44,7 @@ namespace DEngine.Actions {
 	
 		protected ActorAction(Entity entity) {
 			Contract.Requires<ArgumentNullException>(entity != null, "entity");			
-			Contract.Requires<ArgumentException>(entity.Has<ActorComponent>());
+			Contract.Requires<ArgumentException>(entity.Has<ControllerComponent>());
 			Entity = entity;			
 		}
 		
