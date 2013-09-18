@@ -2,6 +2,13 @@
 using DEngine.Core;
 
 namespace DEngine.Level {
+	/// <summary>
+	/// Credit to https://code.google.com/p/magecrawl/source/browse/Trunk/Utilities/BresenhamLine.cs
+	/// 
+	/// This code was taken from bresenham_c.c from libtcod
+	/// This code is except from many of the normal coding conversions
+	/// as it is a port of C code
+	/// </summary>
 	public class Bresenham {
 		public static IEnumerable<Point> GeneratePointsFromLine(Point origin, Point end, bool includeOrigin = true) {
 			Bresenham b = new Bresenham(origin.X, origin.Y, end.X, end.Y);

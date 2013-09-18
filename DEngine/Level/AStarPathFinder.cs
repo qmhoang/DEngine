@@ -8,10 +8,12 @@ namespace DEngine.Level {
 	// ReSharper disable InconsistentNaming
 	// ReSharper disable FieldCanBeMadeReadOnly.Local
 
-	// This code is taken almost directly from path_c.c
-	// in libtcod, with formatting changes and a few interface changes
-	// It is excempt from most any code formatting rules, since I try to
-	// keep the internals as close to C as possible to make porting changes easy
+	/// Credit to https://code.google.com/p/magecrawl/source/browse/Trunk/GameEngine/Physics/AStarPathFinder.cs
+	/// 
+	/// This code is taken almost directly from path_c.c
+	/// in libtcod, with formatting changes and a few interface changes
+	/// It is excempt from most any code formatting rules, since I try to
+	/// keep the internals as close to C as possible to make porting changes easy
 	public class AStarPathFinder {
 		private enum PathFindingDirection {
 			NORTH_WEST,

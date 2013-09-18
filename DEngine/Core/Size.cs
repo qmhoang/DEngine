@@ -51,7 +51,7 @@ namespace DEngine.Core {
 		}
 
 		/// <summary>
-		/// Returns the area (width * height).
+		/// Returns the area (width * height).  Will never be negative (even if width and/or height is negative)
 		/// </summary>
 		public int Area { get { return Math.Abs(Width * Height); } }
 

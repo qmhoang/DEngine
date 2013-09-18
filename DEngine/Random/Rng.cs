@@ -1,14 +1,18 @@
+using DEngine.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using DEngine.Core;
 
 namespace DEngine.Random {
+
 	/// <summary>
 	/// The Random Number God.
+	/// 
+	/// Credit to https://bitbucket.org/munificent/amaranth/src/b6be068243e45e514de9259ab6105da3e9681e11/Amaranth.Engine/Classes/Rng.cs?at=default
 	/// </summary>
 	public static class Rng {
+
 		/// <summary>
 		/// Resets the seed used to generate the random numbers to a time-dependent one.
 		/// </summary>
@@ -66,7 +70,7 @@ namespace DEngine.Random {
 		/// </summary>
 		public static double Double(double max = 1.0) {
 			Contract.Requires<ArgumentOutOfRangeException>(max >= 0.0f, "The max must be zero or greater.");
-			
+
 			return _random.NextDouble() * max;
 		}
 
@@ -187,7 +191,7 @@ namespace DEngine.Random {
 		/// and then calculating the x coordinate of that point. It works like this:
 		///
 		/// Consider Center 4, Range 3:
-		/// 
+		///
 		///         *
 		///       * | *
 		///     * | | | *
@@ -195,10 +199,10 @@ namespace DEngine.Random {
 		/// --+-----+-----+--
 		/// 0 1 2 3 4 5 6 7 8
 		///  -r     c     r
-		/// 
+		///
 		/// Now flip the left half of the triangle (from 1 to 3) vertically and move it
 		/// over to the right so that we have a square.
-		/// 
+		///
 		///     +-------+
 		///     |       V
 		///     |
@@ -208,7 +212,7 @@ namespace DEngine.Random {
 		///   . . . R R R R
 		/// --+-----+-----+--
 		/// 0 1 2 3 4 5 6 7 8
-		/// 
+		///
 		/// Choose a point in that square. Figure out which half of the triangle the
 		/// point is in, and then remap the point back out to the original triangle.
 		/// The result is the x coordinate of the point in the original triangle.
@@ -222,27 +226,27 @@ namespace DEngine.Random {
 
 			// figure out which triangle we are in
 			if (x <= y)
-					// larger triangle
+				// larger triangle
 				return center + x;
 			else
-					// smaller triangle
+				// smaller triangle
 				return center - range - 1 + x;
 		}
 
 		/// <summary>
 		/// Gets a random number centered around "center" with range "range" (inclusive)
 		/// using a gaussian/standard distribution. For example GaussianInt(8, 4, 3) will return values
-		/// between 4 and 12 (inclusive) with greater distribution towards 8.  Standard deviation will 
+		/// between 4 and 12 (inclusive) with greater distribution towards 8.  Standard deviation will
 		/// cause the distribution to vary its weights
 		/// </summary>
 		/// <param name="center">mean</param>
 		/// <param name="range">inclusive range, <b>this can alter the distribution curve greatly is range is too small compared to std dev</b></param>
 		/// <param name="stddev">standard deviation</param>
-		/// <returns></returns>        
+		/// <returns></returns>
 		public static int GaussianInt(int center, int range, int stddev) {
 			Contract.Requires<ArgumentOutOfRangeException>(range >= 0, "The argument \"range\" must be zero or greater.");
 
-			return (int) Math.Round(GaussianDouble(center, range, stddev));
+			return (int)Math.Round(GaussianDouble(center, range, stddev));
 		}
 
 		public static double GaussianDouble(double center, double range, double stddev) {

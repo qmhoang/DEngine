@@ -66,7 +66,6 @@ namespace DEngine.Entities {
 			Contract.Invariant(Id != null);
 		}
 
-
 		/// <summary>
 		/// Construct empty entity
 		/// </summary>
@@ -167,7 +166,6 @@ namespace DEngine.Entities {
 		///  - Marked as internal - the generic version puts the type control
 		///  up front here rather than down in the ComponentManager
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		internal bool Has(Type t) {
 			return _manager.Components.Contains(this, t);
@@ -176,7 +174,6 @@ namespace DEngine.Entities {
 		/// <summary>
 		/// Return all components belonging to this entity
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		public IEnumerable<Component> Components {
 			get {

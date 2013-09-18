@@ -38,7 +38,7 @@ namespace DEngine.Core {
 		public Rectangle(Point topLeft, Point bottomRight) {
 			this._topLeft = topLeft;
 			this._size = new Size(bottomRight.X - topLeft.X,
-			                     bottomRight.Y - topLeft.Y);
+								 bottomRight.Y - topLeft.Y);
 		}
 
 		public Rectangle(int width, int height) : this(new Size(width, height)) { }
@@ -165,7 +165,7 @@ namespace DEngine.Core {
 		/// <returns></returns>
 		public bool Contains(int x, int y) {
 			return (x >= Left) && (y >= Top) &&
-			       (x < Right) && (y < Bottom);
+				   (x < Right) && (y < Bottom);
 		}
 
 		/// <summary>
@@ -189,9 +189,9 @@ namespace DEngine.Core {
 			}
 			
 			return ((rectangle.Right < rectangle.Left || rectangle.Right > Left) &&
-			        (rectangle.Bottom < rectangle.Top || rectangle.Bottom > Top) &&
-			        (Right < Left || Right > rectangle.Left) &&
-			        (Bottom < Top || Bottom > rectangle.Top));
+					(rectangle.Bottom < rectangle.Top || rectangle.Bottom > Top) &&
+					(Right < Left || Right > rectangle.Left) &&
+					(Bottom < Top || Bottom > rectangle.Top));
 		}
 
 		/// <summary>
@@ -201,7 +201,7 @@ namespace DEngine.Core {
 		/// <returns>The new Rectangle</returns>
 		public Rectangle MoveBy(Size delta) {
 			Point newTopLeft = new Point(_topLeft.X + delta.Width,
-			                             _topLeft.Y + delta.Height);
+										 _topLeft.Y + delta.Height);
 
 			return new Rectangle(newTopLeft, _size);
 		}
@@ -224,7 +224,7 @@ namespace DEngine.Core {
 		/// <returns></returns>
 		public Rectangle Inflate(int dx, int dy) {
 			return new Rectangle(_topLeft.X - dx,
-			                     _topLeft.Y - dy, 
+								 _topLeft.Y - dy, 
 								 _size.Width + dx * 2, 
 								 _size.Height + dy * 2);
 		}
@@ -298,9 +298,9 @@ namespace DEngine.Core {
 
 		public IEnumerator<Point> Points {
 			get {
-				Contract.Requires<ArgumentOutOfRangeException>(_size.Width >= 0);
-				Contract.Requires<ArgumentOutOfRangeException>(_size.Height >= 0);
-
+//				Contract.Requires<ArgumentOutOfRangeException>(Width >= 0);
+//				Contract.Requires<ArgumentOutOfRangeException>(Height >= 0);
+//
 				for (int i = 0; i < Width; i++) {
 					for (int j = 0; j < Height; j++)
 						yield return new Point(Left + i, Top + j);

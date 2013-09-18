@@ -2,6 +2,9 @@
 using System.Diagnostics.Contracts;
 
 namespace DEngine.Random {
+	/// <summary>
+	/// Credit to https://github.com/moserware/Skills/blob/master/Skills/Numerics/GaussianDistribution.cs
+	/// </summary>
 	public class GaussianDistribution {
 		// Intentionally, we're not going to derive related things, but set them all at once
 		// to get around some NaN issues
@@ -139,12 +142,9 @@ namespace DEngine.Random {
 			return result;
 		}
 
-		public static double CumulativeTo(double x, double mean, double standardDeviation) {
+		// Moserware's version didn't take account mean or stddev, this one does
+		public static double CumulativeTo(double x, double mean = 0, double standardDeviation = 1) {
 			return 0.5 * ErrorFunctionCumulativeTo((-x + mean) / (Math.Sqrt(2) * standardDeviation));
-		}
-
-		public static double CumulativeTo(double x) {
-			return CumulativeTo(x, 0, 1);
 		}
 
 		private static double ErrorFunctionCumulativeTo(double x) {
@@ -200,13 +200,9 @@ namespace DEngine.Random {
 			return p < 1.0 ? x : -x;
 		}
 
-		public static double InverseCumulativeTo(double x, double mean, double standardDeviation) {
+		public static double InverseCumulativeTo(double x, double mean = 0, double standardDeviation = 1) {
 			// From numerical recipes, page 320
 			return mean - Math.Sqrt(2) * standardDeviation * InverseErrorFunctionCumulativeTo(2 * x);
-		}
-
-		public static double InverseCumulativeTo(double x) {
-			return InverseCumulativeTo(x, 0, 1);
 		}
 
 

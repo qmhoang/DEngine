@@ -7,6 +7,8 @@ namespace DEngine.Random {
 	/// <summary>
 	/// Rolls random numbers with certain parameters. It encapsulates a call
 	/// to one of the Rng functions, and the parameters passed in.
+	/// 
+	/// Credit to https://bitbucket.org/munificent/amaranth/src/b6be068243e45e514de9259ab6105da3e9681e11/Amaranth.Engine/Classes/Roller.cs?at=default
 	/// </summary>
 	[Serializable]
 	public class Rand {
@@ -82,6 +84,7 @@ namespace DEngine.Random {
 
 		public static Rand Range(int min, int max) {
 			Contract.Requires<ArgumentOutOfRangeException>(min <= max);
+
 			return new Rand(
 					() => Rng.IntInclusive(min, max),
 					min, (min + max) / 2.0f, max, string.Format("{0}-{1}", min, max));
@@ -90,6 +93,7 @@ namespace DEngine.Random {
 		public static Rand Dice(int dice, int sides) {
 			Contract.Requires<ArgumentOutOfRangeException>(dice > 0, "The argument \"dice\" must be greater than zero.");
 			Contract.Requires<ArgumentOutOfRangeException>(sides > 0, "The argument \"sides\" must be greater than zero.");
+
 			return new Rand(
 					() => Rng.Roll(dice, sides),
 					dice, dice * ((1 + sides) / 2.0f), dice * sides + 1, string.Format("{0}d{1}", dice, sides));
@@ -97,6 +101,7 @@ namespace DEngine.Random {
 
 		public static Rand Triangle(int center, int range) {
 			Contract.Requires<ArgumentOutOfRangeException>(range >= 0, "The argument \"range\" must be zero or greater.");
+
 			return new Rand(
 					() => Rng.TriangleInt(center, range),
 					center - range, center, center + range + 1, string.Format("{0}t{1}", center, range));
@@ -106,6 +111,7 @@ namespace DEngine.Random {
 			Contract.Requires<ArgumentOutOfRangeException>(chance > 0, "The chance must be greater than zero.");
 			Contract.Requires<ArgumentOutOfRangeException>(chance < outOf, "The chance must be less than the range.");
 			Contract.Requires<ArgumentOutOfRangeException>(outOf > 0, "The range must be positive.");
+
 			return new Rand(
 					() => Rng.Taper(0, 1, chance, outOf),
 					Int32.MinValue,
