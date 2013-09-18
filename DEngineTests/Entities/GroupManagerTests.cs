@@ -70,7 +70,7 @@ namespace DEngineTests.Entities {
 
 		[Test]
 		public void TestGetEntities() {
-			var list = new List<DEngine.Entities.Entity>();
+			var list = new List<Entity>();
 
 			list.Add(_manager.Create());
 			list.Add(_manager.Create());

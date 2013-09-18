@@ -51,8 +51,8 @@ namespace DEngineTests {
 			var p = new Point(5, -2);
 			var result = p * int.MaxValue;
 
-			Assert.AreEqual(result.X, 2147483643);	// overflow on 32 bit integer
-			Assert.AreEqual(result.Y, 2);
+			Assert.AreEqual(result.X, -2147483648);	// overflow on 32 bit integer
+			Assert.AreEqual(result.Y, -2147483648);
 		}
 
 		[Test]

@@ -3,10 +3,12 @@ using System.Diagnostics.Contracts;
 using DEngine.Core;
 
 namespace DEngine.Level {
-	// This code is taken almost directly from fov_recursive_shadowcasting.c
-	// in libtcod, with formatting changes and a few interface changes
-	// It is excempt from most any code formatting rules, since I try to
-	// keep the internals as close to C as possible to make porting changes easy
+	/// Credit to https://code.google.com/p/magecrawl/source/browse/Trunk/GameEngine/Physics/ShadowCastingFOV.cs
+	/// 
+	/// This code is taken almost directly from fov_recursive_shadowcasting.c
+	/// in libtcod, with formatting changes and a few interface changes
+	/// It is excempt from most any code formatting rules, since I try to
+	/// keep the internals as close to C as possible to make porting changes easy
 
 	// ReSharper disable InconsistentNaming
 	public static class ShadowCastingFOV

@@ -104,54 +104,54 @@ namespace DEngine.Entities {
 			#endregion
 		}
 
-		private readonly Dictionary<string, Template> compiledTemplates;
-		private readonly Dictionary<string, Tuple<string, Template>> inheritanceTemplates;
+		private readonly Dictionary<string, Template> _compiledTemplates;
+		private readonly Dictionary<string, Tuple<string, Template>> _inheritanceTemplates;
 		private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 		public EntityFactory() {
-			compiledTemplates = new Dictionary<string, Template>();
-			inheritanceTemplates = new Dictionary<string, Tuple<string, Template>>();
+			_compiledTemplates = new Dictionary<string, Template>();
+			_inheritanceTemplates = new Dictionary<string, Tuple<string, Template>>();
 		}
 
 		public void Compile() {
-			foreach (var t in inheritanceTemplates) {
-				if (!(inheritanceTemplates.ContainsKey(t.Value.Item1) || compiledTemplates.ContainsKey(t.Value.Item1))) {
+			foreach (var t in _inheritanceTemplates) {
+				if (!(_inheritanceTemplates.ContainsKey(t.Value.Item1) || _compiledTemplates.ContainsKey(t.Value.Item1))) {
 					throw new IllegalInheritanceException(t.Value.Item1, t.Key);
 				}
 			}
 
 			Queue<string> queues = new Queue<string>();
-			foreach (var t in inheritanceTemplates) {
+			foreach (var t in _inheritanceTemplates) {
 				queues.Enqueue(t.Key);
 			}
 
 			while (queues.Count > 0) {
 				string id = queues.Dequeue();
-				var baseId = inheritanceTemplates[id].Item1;
+				var baseId = _inheritanceTemplates[id].Item1;
 
 				Logger.DebugFormat("Dequequeing {0}{1}.", id, String.IsNullOrEmpty(baseId) ? "" : string.Format(" which inherits from {0}", baseId));
 
 				if (String.IsNullOrEmpty(baseId)) {
 					Logger.DebugFormat("No inheritance, compiling {0}", id);
-					compiledTemplates.Add(id, inheritanceTemplates[id].Item2);
-				} else if (compiledTemplates.ContainsKey(baseId)) {
+					_compiledTemplates.Add(id, _inheritanceTemplates[id].Item2);
+				} else if (_compiledTemplates.ContainsKey(baseId)) {
 					Logger.DebugFormat("Inherited class found, compiling {0}", id);
-					Template template = new Template(compiledTemplates[baseId]);
-					template.Add(inheritanceTemplates[id].Item2);
+					Template template = new Template(_compiledTemplates[baseId]);
+					template.Add(_inheritanceTemplates[id].Item2);
 
-					compiledTemplates.Add(id, template);
+					_compiledTemplates.Add(id, template);
 				} else {
 					Logger.DebugFormat("No inherited class found, requequeing {0}", id);
 					queues.Enqueue(id);
 				}
 			}
 
-			inheritanceTemplates.Clear();
+			_inheritanceTemplates.Clear();
 		}
 
 		public IEnumerable<Component> Get(string id) {
 			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(id));
-			return compiledTemplates[id].Select(c => c.Copy());
+			return _compiledTemplates[id].Select(c => c.Copy());
 		}
 
 		public void Add(string refId, params Component[] comps) {
@@ -165,7 +165,7 @@ namespace DEngine.Entities {
 			Contract.Requires<ArgumentException>(template.Has<ReferenceId>());
 			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(template.Get<ReferenceId>().RefId));
 
-			compiledTemplates.Add(template.Get<ReferenceId>().RefId, template);
+			_compiledTemplates.Add(template.Get<ReferenceId>().RefId, template);
 		}
 
 		public void Inherits(string refId, string baseEntity, params Component[] comps) {
@@ -182,7 +182,7 @@ namespace DEngine.Entities {
 			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(template.Get<ReferenceId>().RefId));
 			Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(baseEntity));
 
-			inheritanceTemplates.Add(template.Get<ReferenceId>().RefId, new Tuple<string, Template>(baseEntity, template));
+			_inheritanceTemplates.Add(template.Get<ReferenceId>().RefId, new Tuple<string, Template>(baseEntity, template));
 		}
 
 		public Entity Create(string refId, EntityManager em) {
